@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<h1>Bienvenidos a Veotest+</h1>
+  <titulo></titulo>
+<!-- Links de navegación-->
+<nav>
+  <a [routerLink]="['/' ]"  >Home</a>
+  &nbsp;
+  <a [routerLink]="['/iniciarsesion' ]" [routerLinkActive]="['active']" >Iniciar sesión</a>
+  &nbsp;
+  <a [routerLink]="['/registro' ]" [routerLinkActive]="['active']" >Registrarse</a>
+  &nbsp;
+  <a [routerLink]="['/externo' ]" [routerLinkActive]="['active']" >Externo</a>
+</nav>
+<hr>
+<router-outlet></router-outlet>
