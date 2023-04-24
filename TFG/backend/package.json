@@ -1,0 +1,28 @@
+{
+  "name": "apirest",
+  "version": "1.0.0",
+  "description": "apirest de veotest+",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sabino Quispe",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.3.0",
+    "connect-multiparty": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "mocha": "^10.2.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "node-mocks-http": "^1.12.2",
+    "nodemon": "^2.0.22",
+    "should": "^13.2.3"
+  }
+}

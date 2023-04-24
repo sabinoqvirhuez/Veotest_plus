@@ -1,0 +1,23 @@
+<div class ="container">
+  <h2>{{title}}</h2>
+
+  <form #usuarioForm="ngForm" (ngSubmit)="onSubmit(usuarioForm)">
+    <p>
+      <label for ="name">Nombre</label>
+      <input type ="text" name="name" #name="ngModel" [(ngModel)]="usuario.name" required/>
+    </p>
+    <p>
+      <label for ="surname">Apellido</label>
+      <input type ="text" name="surname" #name="ngModel" [(ngModel)]="usuario.surname " required/>
+    </p>
+    <p>
+      <label for ="email">E-mail</label>
+      <input type ="text" name="email" #name="ngModel" [(ngModel)]="usuario.email" required/>
+    </p>
+    <p>
+      <label for ="Administrador">Tipo de usuario</label>
+      <input type ="text" name="Administrador" #name="ngModel" [(ngModel)]="usuario.administrador" required/>
+    </p>
+    <input type="submit" value ="Enviar"/>
+  </form>
+</div>
