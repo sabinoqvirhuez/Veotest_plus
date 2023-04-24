@@ -1,8 +1,9 @@
+const{ json,response} = require('express');
+
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
 
 const DBERROR = "Database Server Error";
-
 function checkUserExists(prodId,conn){
   const NOPROD = "non existent user id";
   var sql;
@@ -30,18 +31,18 @@ function listUsers(req,res){
   'use strict';
   var mycon = db.doConnection();
   var sql = "Select Userid, Nombre, Apellido, Email, Administrador FROM usuarios";
-  // console.log("Product global search");
+  console.log("User global search");
   mycon.query(sql,function(err,result){
     if(err){
-      //console.log (err);
+      console.log (err);
       res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
 
     }
     else{
       res.status(httpCodes.codes.OK).json(result);
-      db.closeConnection(mycon);
-    }
 
+    }
+    db.closeConnection(mycon);
 
   });
 }
@@ -161,9 +162,8 @@ function deleteUser(req,res){
     });
 
 }
-
-//Declaración de las funciones que se exportan
 exports.listUsers=listUsers;
 exports.deleteUser=deleteUser;
 exports.updateUser=updateUser;
 exports.createNewUser=createNewUser;
+

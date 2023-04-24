@@ -13,12 +13,17 @@ exports.doConnection=function(){
 
   });
 
-  con.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-  });
-}
+  con.on('error',function(err){
+    console.log(DBERROR);
+  })
+  return con;
 
+
+}
+exports.closeConnection = function (con){
+  con.end(function(err){});
+  //console.log("Database connection closed");
+}
 
 
 
