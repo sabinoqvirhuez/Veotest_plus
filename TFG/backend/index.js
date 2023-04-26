@@ -21,14 +21,7 @@ app.listen(PORT,function(){
   console.log("Node Server at http://localhost:"+PORT);
 });
 
-//Utilización del bodyParses para decodificar los datos en el cuerpo
-/*
-app.use(bodyParser.urlencoded({
-  extended:true,
-}));
 
-app.use(bodyParser.json());
-*/
 //manejo de rutas por express: Rest ==> CRUD
 app.get('/prueba',(req,res)=>{
   res.status(200).send({
@@ -39,6 +32,7 @@ app.get('/usuario',usuario.listUsers);
 app.post('/usuario',usuario.createNewUser);
 //app.get('/usuario',usuario.listUsers);
 app.delete('/usuario',usuario.deleteUser);
+app.post('/iniciarSesion',usuario.findUser);
 
 
 app.get('/',function(req,res){

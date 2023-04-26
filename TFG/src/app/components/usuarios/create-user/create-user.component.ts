@@ -11,31 +11,34 @@ import {UserService} from '../../../services/user.service';
 export class CreateUserComponent implements OnInit{
   public title: string;
   public usuario: User;
+  public status: string;
 
   constructor(
     private userService: UserService
   ) {
-    this.title = 'Crear Usuario';
-    this.usuario = new User('','','','');
-/*
-    private name: string,
-    private surname: string,
-    private email: string,
-    private administrador: number
-*/
+    this.title = 'Registrarse';
+    this.usuario = new User('','','',0,'');
+    this.status ='';
+
   }
   ngOnInit(){
 
   }
-  onSubmit(form:any){
+
+  addUser(form:any){
     console.log(this.usuario);
     this.userService.saveUser(this.usuario).subscribe(
-      response =>{
+      response  =>{
         console.log(response);
+            form.reset();
+            this.status='success';
+
       },error => {
         console.log(<any>error);
+        this.status='failed';
+
       }
-    )
+    );
   }
 
 

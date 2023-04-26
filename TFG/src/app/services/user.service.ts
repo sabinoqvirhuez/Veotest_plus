@@ -12,12 +12,15 @@ export class UserService{
   ) {
     this.url=Global.url;
   }
-  testService(){
-    return 'Probando el servicio de angular';
-  }
   saveUser(user:User){
+
+    let headers = new HttpHeaders().set('Content-type','application/json');
+    return this._http.post(this.url+'/usuario',user,{headers:headers});
+    /*
     let params = JSON.stringify(user);
-    let headers = new HttpHeaders().set('Content type','application/json');
+    let headers = new HttpHeaders().set('Content-type','application/json');
     return this._http.post(this.url+'/usuario',params,{headers:headers});
+    */
+
   }
 }

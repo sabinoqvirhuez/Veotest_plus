@@ -7,11 +7,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {TituloComponent} from "./titulo/titulo.component";
-import { ExternoComponent } from './externo/externo.component';
-import {PeticionesService} from "./services/peticiones.service";
 import { HomeComponent } from './components/home/home.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { RegisterComponent } from './components/register/register.component';
 import { ErrorComponent } from './components/error/error.component';
 import { CreateUserComponent } from './components/usuarios/create-user/create-user.component';
 
@@ -20,10 +17,8 @@ import { CreateUserComponent } from './components/usuarios/create-user/create-us
   declarations: [
     AppComponent,
     TituloComponent,
-    ExternoComponent,
     HomeComponent,
     UsuariosComponent,
-    RegisterComponent,
     ErrorComponent,
     CreateUserComponent
   ],
@@ -36,7 +31,6 @@ import { CreateUserComponent } from './components/usuarios/create-user/create-us
   ],
   providers: [
     appRoutingProviders,
-    PeticionesService
   ],
   bootstrap: [AppComponent]
 })

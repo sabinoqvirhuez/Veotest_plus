@@ -1,17 +1,18 @@
-const{ json,response} = require('express');
+const{response} = require('express');
 
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
 
 const DBERROR = "Database Server Error";
-function checkUserExists(prodId,conn){
-  const NOPROD = "non existent user id";
+function checkUserExists(email,conn){
+  const NOPROD = "non existent user";
   var sql;
-  sql = "SELECT Userid, Nombre, Apellido, Email, Administrador FROM  usuarios WHERE Userid ='"+Userid+"'";
+  sql = "SELECT * FROM  usuarios WHERE Email ='"+email+"'";
 
   let laPromesa = new Promise (function(resolve,reject){
-    conn.query(sql,function(resolve,reject){
+    conn.query(sql,function(err,result){
       if (err){
+        console.log("Error,email duplicado")
         reject (DBERROR);
       }
       else {
@@ -30,8 +31,8 @@ function checkUserExists(prodId,conn){
 function listUsers(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select Userid, Nombre, Apellido, Email, Administrador FROM usuarios";
-  console.log("User global search");
+  var sql = "Select Userid, Nombre, Apellido, Email, Administrador, Contraseña FROM usuarios";
+  //console.log("User global search");
   mycon.query(sql,function(err,result){
     if(err){
       console.log (err);
@@ -50,48 +51,38 @@ function listUsers(req,res){
 function createNewUser(req,res){
   'use strict'
   var mycon= db.doConnection();
-  var userId= req.body.userId,
-    name= req.body.name,
+  var name= req.body.name,
     lastname=req.body.surname,
     email = req.body.email,
     administrador = req.body.administrador,
+    password = req.body.password,
     sql;
   //Si al introducir un nuevo usuario falta algún campo, se lanzará un mensaje de error
   //y se cerrará la conexión la base de datos
-  if(!userId){
-    res.status(httpCode.codes.BADREQUEST).json("no user id")
-    db.closeConnection(mycon);
-  }else if(!name){
-    res.status(httpCode.codes.BADREQUEST).json("no user name")
-    db.closeConnection(mycon);
-  }else if(!lastname){
-    res.status(httpCode.codes.BADREQUEST).json("no user lastname")
-    db.closeConnection(mycon);
-  }else if(!email){
-    res.status(httpCode.codes.BADREQUEST).json("no user email")
-    db.closeConnection(mycon);
-  }else if(!administrador){
-    res.status(httpCode.codes.BADREQUEST).json("no user type")
+  if(!name || !lastname || !email || !password){
+    res.status(httpCodes.codes.BADREQUEST).json("Faltan datos")
     db.closeConnection(mycon);
   }else {
-      checkProductExists(userId,mycon)
+      checkUserExists(email,mycon)
       .then(function(resp){
-      res.status(httpCodes.codes.CONFLICT).json("duplicated user id")
+        console.log("Error, email duplicado");
+      res.status(httpCodes.codes.CONFLICT).json("duplicated email")
       })
       .catch(function(resp){
           if(resp != DBERROR){
-              sql = `INSER INTO usuarios (UserId, Nombre, Apellido, Email, Administrador)`;
-              sql += `VALUES ('${userId}','${name}','${lastname}','${email}','${administrador}')`;
+              sql = `INSERT INTO usuarios ( Nombre, Apellido, Email, Administrador,Contraseña)`;
+              sql += `VALUES ('${name}','${lastname}','${email}',0,'${password}')`;
               //console.log("New User Inserction");
               mycon.query(sql,function(err,result){
                 if(err){
+
                   res.status (httpCodes.codes.SERVERERROR).json(DBERROR);
                   db.closeConnection(mycon);
 
                 }else{
-                  let newUrl = req.url + "/" + userId;
+                  let newUrl = req.url + "/" + email;
                   res.set("Location",newUrl);
-                  res.status(httCodes.codes.CREATED).end();
+                  res.status(httpCodes.codes.CREATED).end();
                   db.closeConnection(mycon);
 
                 }
@@ -105,44 +96,69 @@ function createNewUser(req,res){
 
   }
 }
+// Actualiza el nombre de un usuario en la tabla usuarios de mi BDD
+function userNameUpdate(email,name,conn) {
+  const NOUSER = "NON EXISTENT USER";
+  const DBERROR = "DATABASE ERROR";
+  var sql;
+  sql = "UPDATE usuarios SET Nombre = '"+name+"' WHERE Email='"+email+"'";
+  let laPromesa = new Promise(function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if(err){
+        console.log("ERROR ACTUALIZANDO NAME");
+        reject(DBERROR);
+      }else{
+        if(result.affectedRows==0){
+          console.log("No existe usuario");
+          reject(NOUSER);
+        }else{
+          resolve(result.affectedRows);
+        }
 
-function updateUser(req,res){
+      }
+    });
+  });
+  return laPromesa;
+
+}
+
+function updateNameUser(req,res){
   'use strict';
-  var userId= req.body.userId,
-    name= req.body.name,
+  var name= req.body.name,
     lastname=req.body.surname,
-    email = req.body.email,
-    administrador = req.body.boolean,
+    password = req.body.password,
+    email=req.body.email,
     sql;
-  if(!userId)
+  if(!email)
     res.status (httpCodes.codes.BADREQUEST).end();
   else{
     var mycon = db.doConnection();
-    sql = "SELECT UserId FROM usuarios WHERE UserId = '"+userId+"'";
+    sql = "SELECT * FROM usuarios WHERE Email = '"+email+"'";
     mycon.query(sql,function(err,result){
         if(err){
           res.status(htttpCodes.codes.SERVERERROR).end();
           db.closeConnection(mycon);
         }else{
             if(result.length==0){
-              res.status(httpCodes.codes.OK).json("non existent user id");
+              res.status(httpCodes.codes.OK).json("non existent user with that email");
             }else{
-              valueUpdate(mycon,res,userId,name,lastname,email,administrador);
+              userNameUpdate(email,name,mycon);
+              res.status(httpCodes.codes.OK).json("Nombre actualizado correctamente");
             }
         }
 
     })
   }
 }
-
+//Elimina el usuario pasado por parámetro
 function deleteUser(req,res){
   'use strict'
   var mycon = db.doConnection();
-  var userId= req.params.userId,
+  var email= req.params.email,
     sql;
-  checkUsersExists(userId,mycon)
+  checkUserExists(email,mycon)
     .then(function(resp){
-          sql="DELETE FROM usuarios WHERE UserId='"+userId+"'";
+          sql="DELETE FROM usuarios WHERE Email='"+email+"'";
           mycon.query(sql,function(err,result){
             if(err)
               res.status(httpCodes.codes.SERVERROR).json(DBERROR);
@@ -162,8 +178,62 @@ function deleteUser(req,res){
     });
 
 }
+//Comprueba que el usuario introducido en el formulario de angular existe llamando a la
+//función checkLogIn
+function findUser(req,res){
+  'use strict'
+  var mycon= db.doConnection();
+  let email = req.params.email;
+  let password= req.params.password;
+  if(!email|| !password ){
+    let errormsg="Faltan datos";
+    res.status(httpCodes.codes.UNAUTHORIZED).json(errormsg);
+    db.closeConnection(mycon);
+  }else{
+    checkLogIn(email,password,mycon)
+      .then(function(resp){
+        db.closeConnection(mycon);
+        res.status(httpCodes.codes.OK).json(resp);
+      })
+      .catch(function(resp){
+        db.closeConnection(mycon);
+        if(resp!=DBERROR){
+          res.status(httpCodes.codes.NOTFOUND).json(resp);
+        }else{
+          res.status(httpCodes.codes.SERVERERROR).json(resp);
+        }
+      });
+
+
+  }
+}
+//Comprueba que el email y password pasadas por parámeto existen en mi BDD
+function checkLogIn(email,password,conn){
+  const NOUSER="NON EXISTENT USER";
+  var sql;
+  sql = "SELECT * FROM  usuarios WHERE Email ='"+email+"' AND Contraseña='"+password+"'";
+  let laPromesa = new Promise (function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if (err){
+        console.log("No existe el usuario");
+        reject (DBERROR);
+      }
+      else {
+        if(result.length>0)
+          resolve(result[0]);
+        else
+          reject (NOUSER);
+      }
+
+    });
+  });
+  return laPromesa;
+}
+
+
+
 exports.listUsers=listUsers;
 exports.deleteUser=deleteUser;
-exports.updateUser=updateUser;
+exports.updateNameUser=updateNameUser;
 exports.createNewUser=createNewUser;
-
+exports.findUser=findUser;
