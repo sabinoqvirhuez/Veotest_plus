@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { hideHTML } from './services/hidehtml';
 
 
 @Component({
@@ -6,6 +7,14 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'TFG';
+export class AppComponent implements OnInit{
+
+
+
+  ngOnInit() {
+  }
+// Llama a la función hideHTML importada desde hidehtml.ts
+  toggleHTML() {
+    hideHTML();
+  }
 }

@@ -108,7 +108,7 @@ function userNameUpdate(email,name,conn) {
         console.log("ERROR ACTUALIZANDO NAME");
         reject(DBERROR);
       }else{
-        if(result.affectedRows==0){
+        if(result.affectedRows===0){
           console.log("No existe usuario");
           reject(NOUSER);
         }else{
@@ -125,29 +125,41 @@ function userNameUpdate(email,name,conn) {
 function updateNameUser(req,res){
   'use strict';
   var name= req.body.name,
-    lastname=req.body.surname,
-    password = req.body.password,
     email=req.body.email,
     sql;
-  if(!email)
+  if(!email || !name)
     res.status (httpCodes.codes.BADREQUEST).end();
   else{
     var mycon = db.doConnection();
     sql = "SELECT * FROM usuarios WHERE Email = '"+email+"'";
     mycon.query(sql,function(err,result){
         if(err){
-          res.status(htttpCodes.codes.SERVERERROR).end();
+          res.status(httpCodes.codes.SERVERERROR).end();
           db.closeConnection(mycon);
         }else{
-            if(result.length==0){
+            if(result.length===0){
               res.status(httpCodes.codes.OK).json("non existent user with that email");
+              db.closeConnection(mycon);
             }else{
-              userNameUpdate(email,name,mycon);
-              res.status(httpCodes.codes.OK).json("Nombre actualizado correctamente");
+              userNameUpdate(email,name,mycon)
+
+                .then(function (resp){
+                  res.status(httpCodes.codes.OK).json("Nombre actualizado correctamente");
+                  db.closeConnection(mycon);
+                }).catch(function (resp){
+                  db.closeConnection(mycon);
+                  if(resp!==DBERROR){
+                    res.status(httpCodes.codes.CONFLICT).json("No existe usuario");
+
+                  }else{
+                    res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+                  }
+                  db.closeConnection(mycon);
+              });
             }
         }
 
-    })
+    });
   }
 }
 //Elimina el usuario pasado por parámetro
@@ -161,7 +173,7 @@ function deleteUser(req,res){
           sql="DELETE FROM usuarios WHERE Email='"+email+"'";
           mycon.query(sql,function(err,result){
             if(err)
-              res.status(httpCodes.codes.SERVERROR).json(DBERROR);
+              res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
             else{
               res.status(httpCodes.codes.NOCONTENT).end();
             }
@@ -169,7 +181,7 @@ function deleteUser(req,res){
           });
     })
     .catch(function(resp){
-      if(resp!=DBERROR){
+      if(resp!==DBERROR){
         res.status(httpCodes.codes.NOTFOUND).json(resp);
       }else{
         res.status(httpCodes.codes.SERVERERROR).json(resp);
@@ -180,6 +192,39 @@ function deleteUser(req,res){
 }
 //Comprueba que el usuario introducido en el formulario de angular existe llamando a la
 //función checkLogIn
+
+function findUser(req, res) {
+  return new Promise(function(resolve, reject) {
+    'use strict'
+    var mycon= db.doConnection();
+    let email = req.params.email;
+    let password= req.params.password;
+    if(!email|| !password ){
+      let errormsg="Faltan datos";
+      res.status(httpCodes.codes.UNAUTHORIZED).json(errormsg);
+      db.closeConnection(mycon);
+      reject(errormsg);
+    }else{
+      checkLogIn(email,password,mycon)
+        .then(function(resp){
+          db.closeConnection(mycon);
+          resolve(resp);
+        })
+        .catch(function(resp){
+          db.closeConnection(mycon);
+          if(resp!==DBERROR){
+            res.status(httpCodes.codes.NOTFOUND).json(resp);
+            reject(resp);
+          }else{
+            res.status(httpCodes.codes.SERVERERROR).json(resp);
+            reject(resp);
+          }
+        });
+    }
+  });
+}
+
+/*
 function findUser(req,res){
   'use strict'
   var mycon= db.doConnection();
@@ -207,6 +252,8 @@ function findUser(req,res){
 
   }
 }
+*/
+
 //Comprueba que el email y password pasadas por parámeto existen en mi BDD
 function checkLogIn(email,password,conn){
   const NOUSER="NON EXISTENT USER";
