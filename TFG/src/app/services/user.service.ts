@@ -20,9 +20,20 @@ export class UserService{
 
 
   }
-
+/*
   loginUser(user:User){
+    console.log("este es el usuario que llega a loginUser");
+    console.log(user);
+
     let headers = new HttpHeaders().set('Content-type','applicaction/json');
     return this._http.post(this.url+'/iniciarSesion',user,{headers:headers});
   }
+*/
+  loginUser(user: User) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(user);
+    return this._http.post(this.url + '/iniciarSesion', body, { headers });
+  }
+
+
 }

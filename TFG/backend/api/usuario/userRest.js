@@ -1,9 +1,13 @@
-const{response} = require('express');
+const jwt = require ('jsonwebtoken');
+const secretKey="my_secret_key";
 
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
 
+
 const DBERROR = "Database Server Error";
+
+//Comprueba si el usuario exista en nuestra BDD
 function checkUserExists(email,conn){
   const NOPROD = "non existent user";
   var sql;
@@ -27,7 +31,7 @@ function checkUserExists(email,conn){
   return laPromesa;
 }
 
-
+// Lista los usuarios almacenados en nuestra bdd
 function listUsers(req,res){
   'use strict';
   var mycon = db.doConnection();
@@ -48,9 +52,12 @@ function listUsers(req,res){
   });
 }
 
+//Crea un nuevo usuario en nuestra BDD
+
 function createNewUser(req,res){
   'use strict'
   var mycon= db.doConnection();
+  console.log(req.body);
   var name= req.body.name,
     lastname=req.body.surname,
     email = req.body.email,
@@ -121,6 +128,9 @@ function userNameUpdate(email,name,conn) {
   return laPromesa;
 
 }
+/* Actualiza el nombre del usuario pasado por req, en caso de lograrse, se devuelve una respuesta 200
+sino devuelve el error correspondiente
+*/
 
 function updateNameUser(req,res){
   'use strict';
@@ -166,7 +176,7 @@ function updateNameUser(req,res){
 function deleteUser(req,res){
   'use strict'
   var mycon = db.doConnection();
-  var email= req.params.email,
+  var email= req.body.email,
     sql;
   checkUserExists(email,mycon)
     .then(function(resp){
@@ -190,92 +200,68 @@ function deleteUser(req,res){
     });
 
 }
-//Comprueba que el usuario introducido en el formulario de angular existe llamando a la
-//función checkLogIn
-
-function findUser(req, res) {
-  return new Promise(function(resolve, reject) {
-    'use strict'
-    var mycon= db.doConnection();
-    let email = req.params.email;
-    let password= req.params.password;
-    if(!email|| !password ){
-      let errormsg="Faltan datos";
-      res.status(httpCodes.codes.UNAUTHORIZED).json(errormsg);
-      db.closeConnection(mycon);
-      reject(errormsg);
-    }else{
-      checkLogIn(email,password,mycon)
-        .then(function(resp){
-          db.closeConnection(mycon);
-          resolve(resp);
-        })
-        .catch(function(resp){
-          db.closeConnection(mycon);
-          if(resp!==DBERROR){
-            res.status(httpCodes.codes.NOTFOUND).json(resp);
-            reject(resp);
-          }else{
-            res.status(httpCodes.codes.SERVERERROR).json(resp);
-            reject(resp);
-          }
-        });
-    }
-  });
-}
-
-/*
-function findUser(req,res){
+/*Comprueba que el usuario en body req existe llamando a la checkLogin()
+en caso de existir devuelve el usuario y un token, en caso de que no devuelve un mensaje de error
+*/
+function checkAuthorization(req,res){
   'use strict'
-  var mycon= db.doConnection();
-  let email = req.params.email;
-  let password= req.params.password;
-  if(!email|| !password ){
-    let errormsg="Faltan datos";
-    res.status(httpCodes.codes.UNAUTHORIZED).json(errormsg);
+  var mycon = db.doConnection();
+  console.log(req.body);
+  var email = req.body.email,
+    password = req.body.password;
+
+  if(!email || !password) {
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
     db.closeConnection(mycon);
   }else{
+
     checkLogIn(email,password,mycon)
-      .then(function(resp){
-        db.closeConnection(mycon);
+      .then(function (resp){
+        console.log("Individual user auth for:"+email);
+        const token = jwt.sign({email:'email'},'secretKey');
+        res.set('Authorization',token);
         res.status(httpCodes.codes.OK).json(resp);
+        console.log("paso por aqui");
+        //res.json(resp).string;
+        db.closeConnection(mycon);
       })
       .catch(function(resp){
-        db.closeConnection(mycon);
-        if(resp!=DBERROR){
+        if(resp!==DBERROR){
           res.status(httpCodes.codes.NOTFOUND).json(resp);
+
         }else{
           res.status(httpCodes.codes.SERVERERROR).json(resp);
+
         }
+        db.closeConnection(mycon);
       });
-
-
   }
-}
-*/
 
-//Comprueba que el email y password pasadas por parámeto existen en mi BDD
-function checkLogIn(email,password,conn){
-  const NOUSER="NON EXISTENT USER";
+}
+// Comprueba en la base de datos que los parametros email y password le pertenecen a algun usuario
+function checkLogIn(email, password, conn) {
+  const NOUSER = "NON EXISTENT USER";
   var sql;
-  sql = "SELECT * FROM  usuarios WHERE Email ='"+email+"' AND Contraseña='"+password+"'";
-  let laPromesa = new Promise (function(resolve,reject){
-    conn.query(sql,function(err,result){
-      if (err){
-        console.log("No existe el usuario");
-        reject (DBERROR);
-      }
-      else {
-        if(result.length>0)
+  sql = "SELECT * FROM  usuarios WHERE Email = ? AND Contraseña = ?";
+  console.log("SQL query:", sql, email, password); // Imprimir la consulta SQL
+  let laPromesa = new Promise(function (resolve, reject) {
+    conn.query(sql, [email, password], function (err, result) {
+      if (err) {
+        console.log("Error en la consulta: " + err.message);
+        reject(DBERROR);
+      } else {
+        if (result.length === 1 )
           resolve(result[0]);
         else
-          reject (NOUSER);
+          reject(NOUSER);
       }
-
     });
+  }).finally(() => {
+    conn.end(); // cerrar la conexión de la base de datos
   });
   return laPromesa;
 }
+
 
 
 
@@ -283,4 +269,4 @@ exports.listUsers=listUsers;
 exports.deleteUser=deleteUser;
 exports.updateNameUser=updateNameUser;
 exports.createNewUser=createNewUser;
-exports.findUser=findUser;
+exports.checkAuthorization=checkAuthorization;

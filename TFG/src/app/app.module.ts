@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { ErrorComponent } from './components/error/error.component';
 import { CreateUserComponent } from './components/usuarios/create-user/create-user.component';
+import {UserService} from "./services/user.service";
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { CreateUserComponent } from './components/usuarios/create-user/create-us
   ],
   providers: [
     appRoutingProviders,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
