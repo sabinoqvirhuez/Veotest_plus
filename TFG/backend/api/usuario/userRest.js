@@ -3,6 +3,7 @@ const secretKey="my_secret_key";
 
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
+const {catchError} = require("rxjs");
 
 
 const DBERROR = "Database Server Error";
@@ -132,46 +133,152 @@ function userNameUpdate(email,name,conn) {
 sino devuelve el error correspondiente
 */
 
-function updateNameUser(req,res){
+function updateNameUser(req, res) {
   'use strict';
-  var name= req.body.name,
-    email=req.body.email,
-    sql;
-  if(!email || !name)
-    res.status (httpCodes.codes.BADREQUEST).end();
-  else{
+  var name = req.body.name,
+    email = req.body.email;
+  if (!email || !name)
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  else {
     var mycon = db.doConnection();
-    sql = "SELECT * FROM usuarios WHERE Email = '"+email+"'";
-    mycon.query(sql,function(err,result){
-        if(err){
-          res.status(httpCodes.codes.SERVERERROR).end();
-          db.closeConnection(mycon);
-        }else{
-            if(result.length===0){
-              res.status(httpCodes.codes.OK).json("non existent user with that email");
-              db.closeConnection(mycon);
-            }else{
-              userNameUpdate(email,name,mycon)
+    checkUserExists(email, mycon)
+      .then(function (resp) {
+        return userNameUpdate(email, name, mycon)
+      })
+      .then(function (resp) {
+        res.status(httpCodes.codes.OK).json("Nombre actualizado correctamente");
+        db.closeConnection(mycon);
+      })
+      .catch(function (resp) {
+        db.closeConnection(mycon);
+        if (resp !== DBERROR) {
+          res.status(httpCodes.codes.CONFLICT).json("No existe usuario");
 
-                .then(function (resp){
-                  res.status(httpCodes.codes.OK).json("Nombre actualizado correctamente");
-                  db.closeConnection(mycon);
-                }).catch(function (resp){
-                  db.closeConnection(mycon);
-                  if(resp!==DBERROR){
-                    res.status(httpCodes.codes.CONFLICT).json("No existe usuario");
-
-                  }else{
-                    res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
-                  }
-                  db.closeConnection(mycon);
-              });
-            }
+        } else {
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
         }
-
-    });
+      });
   }
 }
+
+
+// Actualiza la contraseña de un usuario en la tabla usuarios de mi BDD
+function userPasswordUpdate(email,password,conn) {
+  const NOUSER = "NON EXISTENT USER";
+  const DBERROR = "DATABASE ERROR";
+  var sql;
+  sql = "UPDATE usuarios SET Contraseña = '"+password+"' WHERE Email='"+email+"'";
+  let laPromesa = new Promise(function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if(err){
+        console.log("ERROR ACTUALIZANDO CONTRASEÑA");
+        reject(DBERROR);
+      }else{
+        if(result.affectedRows===0){
+          console.log("No existe usuario");
+          reject(NOUSER);
+        }else{
+          resolve(result.affectedRows);
+        }
+
+      }
+    });
+  });
+  return laPromesa;
+
+}
+
+/* Actualiza el apellido del usuario pasado por req, en caso de lograrse, se devuelve una respuesta 200
+sino devuelve el error correspondiente
+*/
+function updatePasswordUser(req, res) {
+  'use strict';
+  var password = req.body.password,
+    email = req.body.email;
+  if (!email || !password)
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  else {
+    var mycon = db.doConnection();
+    checkUserExists(email, mycon)
+      .then(function (resp) {
+        return userPasswordUpdate(email, password, mycon);
+      })
+      .then(function (resp) {
+        res.status(httpCodes.codes.OK).json("Password actualizada correctamente");
+        db.closeConnection(mycon);
+      })
+      .catch(function (resp) {
+        db.closeConnection(mycon);
+        if (resp !== DBERROR) {
+          res.status(httpCodes.codes.CONFLICT).json("No existe usuario");
+
+        } else {
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+        }
+      });
+  }
+}
+
+
+// Actualiza el apellido de un usuario en la tabla usuarios de mi BDD
+
+function userSurnameUpdate(email,surname,conn) {
+  const NOUSER = "NON EXISTENT USER";
+  const DBERROR = "DATABASE ERROR";
+  var sql;
+  sql = "UPDATE usuarios SET Apellido = '"+surname+"' WHERE Email='"+email+"'";
+  let laPromesa = new Promise(function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if(err){
+        console.log("ERROR ACTUALIZANDO APELLIDO");
+        reject(DBERROR);
+      }else{
+        if(result.affectedRows===0){
+          console.log("No existe usuario");
+          reject(NOUSER);
+        }else{
+          resolve(result.affectedRows);
+        }
+
+      }
+    });
+  });
+  return laPromesa;
+
+}
+
+/* Actualiza el apellido del usuario pasado por req, en caso de lograrse, se devuelve una respuesta 200
+sino devuelve el error correspondiente
+*/
+function updateSurnameUser(req, res) {
+  'use strict';
+  var surname = req.body.surname,
+    email = req.body.email;
+  if (!email || !surname)
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  else {
+    var mycon = db.doConnection();
+    checkUserExists(email, mycon)
+      .then(function (resp) {
+        return userSurnameUpdate(email, surname, mycon)
+      })
+      .then(function (resp) {
+        res.status(httpCodes.codes.OK).json("Apellido actualizado correctamente");
+        db.closeConnection(mycon);
+      })
+      .catch(function (resp) {
+        db.closeConnection(mycon);
+        if (resp !== DBERROR) {
+          res.status(httpCodes.codes.CONFLICT).json("No existe usuario");
+
+        } else {
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+        }
+      });
+  }
+}
+
+
 //Elimina el usuario pasado por parámetro
 function deleteUser(req,res){
   'use strict'
@@ -270,3 +377,5 @@ exports.deleteUser=deleteUser;
 exports.updateNameUser=updateNameUser;
 exports.createNewUser=createNewUser;
 exports.checkAuthorization=checkAuthorization;
+exports.updateSurnameUser=updateSurnameUser;
+exports.updatePasswordUser=updatePasswordUser;

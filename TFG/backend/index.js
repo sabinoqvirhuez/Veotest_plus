@@ -26,7 +26,9 @@ app.listen(PORT,function(){
 app.get('/usuario',usuario.listUsers);
 app.post('/usuario',usuario.createNewUser);
 app.delete('/usuario',usuario.deleteUser);
-app.put('/usuarioNameUp',usuario.updateNameUser);
+app.put('/usuarioNameUpdate',usuario.updateNameUser);
+app.put('/usuarioSurnameUpdate',usuario.updateSurnameUser);
+app.put('/usuarioPasswordUpdate',usuario.updatePasswordUser);
 
 app.post('/iniciarSesion', usuario.checkAuthorization);
 //Faltan las modificaciones en apellidos y contraseña
