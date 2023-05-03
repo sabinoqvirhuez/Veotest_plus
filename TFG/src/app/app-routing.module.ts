@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ModuleWithProviders} from "@angular/core";
-
-
-import { HomeComponent } from './components/home/home.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import {AppComponent} from "./app.component";
 
@@ -12,7 +9,6 @@ import {CreateUserComponent} from "./components/usuarios/create-user/create-user
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
-  {path:'home',component:HomeComponent},
   {path:'usuarios', component:UsuariosComponent},
   {path:'create-user',component:CreateUserComponent},
   {path:'**',component:ErrorComponent}

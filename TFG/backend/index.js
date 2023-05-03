@@ -33,7 +33,6 @@ app.put('/usuarioPasswordUpdate',usuario.updatePasswordUser);
 app.post('/iniciarSesion', usuario.checkAuthorization);
 //Faltan las modificaciones en apellidos y contraseña
 
-
 app.get('/',function(req,res){
   res.status(200).send({message:'GET home route working fine!'});
 });

@@ -24,6 +24,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
+
   }
 // Llama a la función hideHTML importada desde hidehtml.ts
   toggleHTML() {
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit{
       res=>{
         console.log(res)
         this.toggleHTML();
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/usuarios');
 
       },
       error => {
@@ -46,6 +47,28 @@ export class AppComponent implements OnInit{
       }
     );
   }
+
+
+  // Agregar un evento popstate al objeto window
+  /*
+  window.addEventListener("popstate", function(event) {
+    // Llamar a la función hideHTML() para restaurar el estado anterior de visualización del elemento HTML
+    toogleHTML();
+  });
+
+// Al hacer clic en un botón o enlace, agregar una entrada al historial del navegador con el estado actual de visualización del elemento HTML
+  const buttonElement = document.getElementById("myButton");
+  buttonElement.addEventListener("click", function(event) {
+    const htmlElement = document.getElementById("LoginForm");
+    if (htmlElement.style.display === "none") {
+      htmlElement.style.display = "block";
+      history.pushState({visible: true}, "LoginForm visible", "#LoginFormVisible");
+    } else {
+      htmlElement.style.display = "none";
+      history.pushState({visible: false}, "LoginForm oculto", "#LoginFormOculto");
+    }
+  });
+*/
 
 
 

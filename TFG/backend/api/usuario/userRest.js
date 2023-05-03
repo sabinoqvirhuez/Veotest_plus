@@ -12,7 +12,7 @@ const DBERROR = "Database Server Error";
 function checkUserExists(email,conn){
   const NOPROD = "non existent user";
   var sql;
-  sql = "SELECT * FROM  usuarios WHERE Email ='"+email+"'";
+  sql = "SELECT * FROM  usuarios WHERE email ='"+email+"'";
 
   let laPromesa = new Promise (function(resolve,reject){
     conn.query(sql,function(err,result){
@@ -36,7 +36,7 @@ function checkUserExists(email,conn){
 function listUsers(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select Userid, Nombre, Apellido, Email, Administrador, Contraseña FROM usuarios";
+  var sql = "Select * FROM usuarios";
   //console.log("User global search");
   mycon.query(sql,function(err,result){
     if(err){
@@ -78,7 +78,7 @@ function createNewUser(req,res){
       })
       .catch(function(resp){
           if(resp != DBERROR){
-              sql = `INSERT INTO usuarios ( Nombre, Apellido, Email, Administrador,Contraseña)`;
+              sql = `INSERT INTO usuarios ( name, surname, email, Administrador,password)`;
               sql += `VALUES ('${name}','${lastname}','${email}',0,'${password}')`;
               //console.log("New User Inserction");
               mycon.query(sql,function(err,result){
@@ -109,7 +109,7 @@ function userNameUpdate(email,name,conn) {
   const NOUSER = "NON EXISTENT USER";
   const DBERROR = "DATABASE ERROR";
   var sql;
-  sql = "UPDATE usuarios SET Nombre = '"+name+"' WHERE Email='"+email+"'";
+  sql = "UPDATE usuarios SET name = '"+name+"' WHERE email='"+email+"'";
   let laPromesa = new Promise(function(resolve,reject){
     conn.query(sql,function(err,result){
       if(err){
@@ -167,7 +167,7 @@ function userPasswordUpdate(email,password,conn) {
   const NOUSER = "NON EXISTENT USER";
   const DBERROR = "DATABASE ERROR";
   var sql;
-  sql = "UPDATE usuarios SET Contraseña = '"+password+"' WHERE Email='"+email+"'";
+  sql = "UPDATE usuarios SET password = '"+password+"' WHERE email='"+email+"'";
   let laPromesa = new Promise(function(resolve,reject){
     conn.query(sql,function(err,result){
       if(err){
@@ -226,7 +226,7 @@ function userSurnameUpdate(email,surname,conn) {
   const NOUSER = "NON EXISTENT USER";
   const DBERROR = "DATABASE ERROR";
   var sql;
-  sql = "UPDATE usuarios SET Apellido = '"+surname+"' WHERE Email='"+email+"'";
+  sql = "UPDATE usuarios SET surname = '"+surname+"' WHERE email='"+email+"'";
   let laPromesa = new Promise(function(resolve,reject){
     conn.query(sql,function(err,result){
       if(err){
@@ -287,7 +287,7 @@ function deleteUser(req,res){
     sql;
   checkUserExists(email,mycon)
     .then(function(resp){
-          sql="DELETE FROM usuarios WHERE Email='"+email+"'";
+          sql="DELETE FROM usuarios WHERE email='"+email+"'";
           mycon.query(sql,function(err,result){
             if(err)
               res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
@@ -349,7 +349,7 @@ function checkAuthorization(req,res){
 function checkLogIn(email, password, conn) {
   const NOUSER = "NON EXISTENT USER";
   var sql;
-  sql = "SELECT * FROM  usuarios WHERE Email = ? AND Contraseña = ?";
+  sql = "SELECT * FROM  usuarios WHERE email = ? AND password = ?";
   console.log("SQL query:", sql, email, password); // Imprimir la consulta SQL
   let laPromesa = new Promise(function (resolve, reject) {
     conn.query(sql, [email, password], function (err, result) {
