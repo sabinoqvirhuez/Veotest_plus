@@ -45,11 +45,12 @@ function listUsers(req,res){
 
     }
     else{
+
       res.status(httpCodes.codes.OK).json(result);
+
 
     }
     db.closeConnection(mycon);
-
   });
 }
 
