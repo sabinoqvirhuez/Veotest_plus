@@ -317,20 +317,19 @@ function checkAuthorization(req,res){
   console.log(req.body);
   var email = req.body.email,
     password = req.body.password;
-
   if(!email || !password) {
     res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
     db.closeConnection(mycon);
   }else{
-
     checkLogIn(email,password,mycon)
       .then(function (resp){
         console.log("Individual user auth for:"+email);
         const token = jwt.sign({email:'email'},'secretKey');
-        res.set('Authorization',token);
-        res.status(httpCodes.codes.OK).json(resp);
-        console.log("paso por aqui");
-        //res.json(resp).string;
+        res.set('Auth_token', 'Bearer ' + token);
+
+        res.status(httpCodes.codes.OK).json({token,resp})
+
+
         db.closeConnection(mycon);
       })
       .catch(function(resp){
@@ -364,8 +363,8 @@ function checkLogIn(email, password, conn) {
           reject(NOUSER);
       }
     });
-  }).finally(() => {
-    conn.end(); // cerrar la conexión de la base de datos
+  //).finally(() => {
+    //conn.end(); // cerrar la conexión de la base de datos
   });
   return laPromesa;
 }
