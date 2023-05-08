@@ -38,13 +38,15 @@ export class AppComponent implements OnInit{
     this.servicio.loginUser(this.usuario).subscribe(
       (res: HttpResponse<any>) => {
         if(res.status==200) {
-          console.log("200 de status")
           console.log(res);
           this.toggleHTML();
-          this.router.navigateByUrl('/usuarios');
           var responseObj = res.body.resp as { Userid: number };
-          var id = responseObj.Userid;
+          var id = responseObj.Userid.toString();
           var token = res.body.token as string;
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('Userid',id);
+          this.router.navigateByUrl('/usuarios');
+
           console.log(id,token);
         }
       },
@@ -53,6 +55,10 @@ export class AppComponent implements OnInit{
         console.log("tiro el error por login()");
       }
     );
+  }
+  logout(){
+    this.servicio.deleteToken();
+    this.router.navigate(['/app'])
   }
 
 }

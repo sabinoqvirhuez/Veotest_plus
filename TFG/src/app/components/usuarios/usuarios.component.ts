@@ -21,4 +21,10 @@ export class UsuariosComponent implements OnInit{
       this.users = users;
     });
   }
+  listarUsuarios(){
+    this.servicio.listUsers().subscribe((users) => {
+
+      this.users = users;
+    });
+  }
 }

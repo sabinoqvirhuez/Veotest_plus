@@ -24,15 +24,7 @@ export class UserService{
 
 
   }
-  /*
-  loginUser(user: User) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify(user);
-    return this._http.post(this.url + '/iniciarSesion', body, { headers });
-  }
 
-
-   */
   loginUser(user: User): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(user);
@@ -46,6 +38,23 @@ export class UserService{
   listUsers() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.get<User[]>(this.url + '/usuario', { headers });
+  }
+
+  loggedIn(){
+    if(sessionStorage.getItem('token')){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  getToken(){
+    return sessionStorage.getItem('token');
+  }
+
+  deleteToken(){
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('Userid');
+
   }
 
 

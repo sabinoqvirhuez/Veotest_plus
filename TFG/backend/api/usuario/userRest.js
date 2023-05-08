@@ -1,5 +1,5 @@
 const jwt = require ('jsonwebtoken');
-const secretKey="my_secret_key";
+const secretKey="clave";
 
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
@@ -323,8 +323,11 @@ function checkAuthorization(req,res){
   }else{
     checkLogIn(email,password,mycon)
       .then(function (resp){
-        console.log("Individual user auth for:"+email);
-        const token = jwt.sign({email:'email'},'secretKey');
+
+        var id= resp.Userid;
+
+        console.log("Individual user auth for: "+email);
+        const token = jwt.sign({email, id},'secretKey');
         res.set('Auth_token', 'Bearer ' + token);
 
         res.status(httpCodes.codes.OK).json({token,resp})

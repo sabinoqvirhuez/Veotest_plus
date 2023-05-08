@@ -5,8 +5,10 @@ var express = require ('express'),
 
 
   httpCodes= require ('./api/http/httpCodes'),
+    tokenV=require('./api/usuario/tokenRest')
   usuario = require ('./api/usuario/userRest');
   const cors = require('cors');
+const {verify} = require("jsonwebtoken");
   const router = express.Router();
 
 const PORT = 3000;
@@ -23,7 +25,7 @@ app.listen(PORT,function(){
 });
 
 //Rutas de peticiones con el front
-app.get('/usuario',usuario.listUsers);
+app.get('/usuario',tokenV.verifyToken,usuario.listUsers);
 app.post('/usuario',usuario.createNewUser);
 app.delete('/usuario',usuario.deleteUser);
 app.put('/usuarioNameUpdate',usuario.updateNameUser);
