@@ -24,6 +24,8 @@ export class UserService{
 
 
   }
+  //Metodo que se conecta con el Backend mediante una peticion post para iniciar Sesión con
+  //una cuenta existente
 
   loginUser(user: User): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -35,11 +37,57 @@ export class UserService{
     });
   }
 
+
+  newName(user: User): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(user);
+
+    return this._http.post(this.url + '/iniciarSesion', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+
+
+  newSurname(user: User): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(user);
+
+    return this._http.post(this.url + '/iniciarSesion', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+
+  newPassword(user: User): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(user);
+
+    return this._http.post(this.url + '/iniciarSesion', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+
+  deleteUser(user: User): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(user);
+
+    return this._http.put(this.url + '/iniciarSesion', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+
+
+
+
+//Metodo que mediante una petición get obtiene un array de usuarios del backend
   listUsers() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.get<User[]>(this.url + '/usuario', { headers });
   }
-
+//Metodo para comprobar que un usuario está logeado, si lo está devuelve true, sino False
   loggedIn(){
     if(sessionStorage.getItem('token')){
       return true;
@@ -47,14 +95,16 @@ export class UserService{
       return false;
     }
   }
+  //Metodo que obtiene el token de un session Storage, en caso de haberlo
   getToken(){
     return sessionStorage.getItem('token');
   }
-
+//Metodo que borra el token e IdUsuario del sessionStorage
   deleteToken(){
+
+
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('Userid');
-
   }
 
 

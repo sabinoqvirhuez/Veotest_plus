@@ -1,9 +1,3 @@
-
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-
 <html>
 <head>
 
@@ -15,6 +9,9 @@
 
 
 <body id="LoginForm">
+
+<ng-container *ngIf="!loggedIn(); else elseBlock">
+
 <div class="container" >
   <h1 class="form-heading">Veotest plus</h1>
   <div class="login-form">
@@ -23,7 +20,13 @@
         <h2>User Login</h2>
         <p>Por favor introduzca su email y contraseña</p>
       </div>
-      <form id="Login" #loggearseForm="ngForm" (ngSubmit)="login(loggearseForm);">
+      <div class ="message success" *ngIf="status == 'success'">
+        Correcto
+      </div>
+      <div class ="message failed" *ngIf="status == 'failed'">
+        Error, datos introducidos erróneas
+      </div>
+      <form id="Login" #loggearseForm="ngForm" (ngSubmit)="login(loggearseForm); ">
 
         <div class="form-group" >
 
@@ -48,18 +51,45 @@
       </form>
     </div>
     <p class="botto-text"> Domain of NTT DATA</p>
-  </div></div>
+  </div>
+</div>
+</ng-container>
+<ng-template #elseBlock>
 
+  <div class="container2" >
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
 
+          <img src="./assets/icons/Veotest_icon.png" height="60">
+          <span class="fs-4">VeoTest Plus</span>
+
+      </div>
+        <button>
+          <a class="nav-link active" aria-current="page" routerLink="/usuarios">Usuarios</a>
+        </button>
+      <div>
+
+      </div>
+
+      <div class="col-md-3 text-end">
+        <button type="button" class="btn btn-outline-secondary me-2"><a href="./Perfil.html" class="nav-link px-2 link-secondary">Profile</a></button>
+        <button type="button" class="btn btn-secondary">
+
+          <a class="nav-link active" aria-current="page" (click)="deleteToken();">Sign-out</a>
+        </button>
+      </div>
+    </header>
+  </div>
+
+</ng-template>
 </body>
 
-<section class="container" id="contenedor">
-  <router-outlet></router-outlet>
-</section>
+
+
 
 </html>
 
-
+<router-outlet></router-outlet>
 
 
 

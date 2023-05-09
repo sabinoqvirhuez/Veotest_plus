@@ -5,6 +5,7 @@ import {User} from "./models/user";
 import { Router } from '@angular/router';
 import {HttpResponse} from "@angular/common/http";
 import {HttpHeaders} from "@angular/common/http";
+import {AuthGuard} from "./services/auth.guard";
 
 
 @Component({
@@ -16,9 +17,11 @@ import {HttpHeaders} from "@angular/common/http";
 export class AppComponent implements OnInit{
 
   public usuario :User;
+  public status: string;
 
-  constructor(private servicio: UserService, private router: Router) {
+  constructor(private servicio: UserService, private router: Router,private auth: AuthGuard) {
     this.usuario = new User('','','',0,'');
+    this.status = '';
 
 
 
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
 
   }
+
 // Llama a la función hideHTML importada desde hidehtml.ts
   toggleHTML() {
     hideHTML();
@@ -38,27 +42,49 @@ export class AppComponent implements OnInit{
     this.servicio.loginUser(this.usuario).subscribe(
       (res: HttpResponse<any>) => {
         if(res.status==200) {
-          console.log(res);
-          this.toggleHTML();
+          form.reset();
           var responseObj = res.body.resp as { Userid: number };
           var id = responseObj.Userid.toString();
           var token = res.body.token as string;
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('Userid',id);
-          this.router.navigateByUrl('/usuarios');
+          this.status= 'success';
 
-          console.log(id,token);
         }
       },
       error => {
         console.error(error);
-        console.log("tiro el error por login()");
+        this.status= 'failed';
       }
     );
   }
-  logout(){
-    this.servicio.deleteToken();
-    this.router.navigate(['/app'])
+
+  //Metodo para comprobar que un usuario está logeado, si lo está devuelve true, sino False
+  loggedIn(){
+    if(sessionStorage.getItem('token')){
+      return true;
+    }else{
+      return false;
+    }
   }
+  //Metodo que obtiene el token de un session Storage, en caso de haberlo
+  getToken(){
+    return sessionStorage.getItem('token');
+  }
+//Metodo que borra el token e IdUsuario del sessionStorage
+  deleteToken(){
+
+
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('Userid');
+      let aux :boolean=this.auth.canActivate();
+
+
+
+  }
+
+
+
+
 
 }

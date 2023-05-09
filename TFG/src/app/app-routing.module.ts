@@ -10,7 +10,7 @@ import {CreateUserComponent} from "./components/usuarios/create-user/create-user
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
-  {path:'usuarios', component:UsuariosComponent},
+  {path:'usuarios', component:UsuariosComponent,canActivate:[AuthGuard]},
   {path:'create-user',component:CreateUserComponent},
   {path:'**',component:ErrorComponent}
 ];
