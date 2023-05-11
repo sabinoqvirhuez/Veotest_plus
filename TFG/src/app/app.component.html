@@ -21,7 +21,6 @@
         <p>Por favor introduzca su email y contraseña</p>
       </div>
       <div class ="message success" *ngIf="status == 'success'">
-        Correcto
       </div>
       <div class ="message failed" *ngIf="status == 'failed'">
         Error, datos introducidos erróneas
@@ -54,7 +53,7 @@
   </div>
 </div>
 </ng-container>
-<ng-template #elseBlock>
+<ng-template  #elseBlock>
 
   <div class="container2" >
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom">
@@ -64,21 +63,24 @@
           <span class="fs-4">VeoTest Plus</span>
 
       </div>
-        <button>
-          <a class="nav-link active" aria-current="page" routerLink="/usuarios">Usuarios</a>
-        </button>
-      <div>
 
+      <div class="usuario">
+        <button >
+          <a class="nav-link" aria-current="page" routerLink="/usuarios">Usuarios</a>
+        </button>
       </div>
 
       <div class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-secondary me-2"><a href="./Perfil.html" class="nav-link px-2 link-secondary">Profile</a></button>
+        <button type="button" class="btn btn-outline-secondary me-2">
+          <a class="nav-link" aria-current="page" routerLink="/profile-user">Perfil</a>
+        </button>
         <button type="button" class="btn btn-secondary">
 
-          <a class="nav-link active" aria-current="page" (click)="deleteToken();">Sign-out</a>
+          <a class="nav-link" aria-current="page" (click)="deleteToken();">Cerrar sesión</a>
         </button>
       </div>
     </header>
+
   </div>
 
 </ng-template>

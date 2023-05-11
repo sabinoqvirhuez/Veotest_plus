@@ -7,12 +7,15 @@ import {AuthGuard} from "./services/auth.guard";
 
 import {ErrorComponent} from "./components/error/error.component";
 import {CreateUserComponent} from "./components/usuarios/create-user/create-user.component";
+import {ProfileUserComponent} from "./components/usuarios/profile-user/profile-user.component";
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
   {path:'usuarios', component:UsuariosComponent,canActivate:[AuthGuard]},
+  {path:'profile-user',component:ProfileUserComponent,canActivate:[AuthGuard]},
   {path:'create-user',component:CreateUserComponent},
   {path:'**',component:ErrorComponent}
+
 ];
 /*
 Para proteger un path con el authguard tengo que hacer

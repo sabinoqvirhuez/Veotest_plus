@@ -5,6 +5,7 @@ body#LoginForm{ background-image:url("https://hdwallsource.com/img/2014/9/blur-2
   background-size:cover;
 
 
+
 }
 .form-heading { color:#fff; font-size:23px;}
 .panel h2{ color:#444444; font-size:18px; margin:0 0 8px 0;}
@@ -81,7 +82,14 @@ body#LoginForm{ background-image:url("https://hdwallsource.com/img/2014/9/blur-2
   padding-top: 1px;
 }
 
-
+.container{
+  position: relative;
+  top: 60px;
+}
+.usuario{
+  position: relative;
+  right:250px;
+}
 
 
 

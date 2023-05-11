@@ -2,7 +2,6 @@ import { Component,OnInit } from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/user";
 import {Router} from "@angular/router";
-import {hideHTML} from "../../services/hidehtml";
 
 @Component({
   selector: 'app-usuarios',

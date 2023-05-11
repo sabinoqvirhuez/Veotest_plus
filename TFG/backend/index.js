@@ -27,13 +27,13 @@ app.listen(PORT,function(){
 //Rutas de peticiones con el front
 app.get('/usuario',tokenV.verifyToken,usuario.listUsers);
 app.post('/usuario',usuario.createNewUser);
-app.delete('/usuario',usuario.deleteUser);
+app.post('/eliminarUsuario',usuario.deleteUser);
 app.put('/usuarioNameUpdate',usuario.updateNameUser);
 app.put('/usuarioSurnameUpdate',usuario.updateSurnameUser);
 app.put('/usuarioPasswordUpdate',usuario.updatePasswordUser);
-
+app.post('/profile',tokenV.verifyToken,usuario.listOneUser);
 app.post('/iniciarSesion', usuario.checkAuthorization);
-//Faltan las modificaciones en apellidos y contraseña
+
 
 app.get('/',function(req,res){
   res.status(200).send({message:'GET home route working fine!'});

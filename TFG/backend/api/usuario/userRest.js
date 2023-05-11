@@ -32,6 +32,27 @@ function checkUserExists(email,conn){
   return laPromesa;
 }
 
+function listOneUser(req,res){
+  'use strict';
+  var id= req.body.id;
+  var mycon = db.doConnection();
+  var sql = "SELECT * FROM  usuarios WHERE Userid ='"+id+"'";
+  //console.log("User global search");
+  mycon.query(sql,function(err,result){
+    if(err){
+      console.log (err);
+      res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+
+    }
+    else{
+
+      res.status(httpCodes.codes.OK).json(result);
+
+
+    }
+    db.closeConnection(mycon);
+  });
+}
 // Lista los usuarios almacenados en nuestra bdd
 function listUsers(req,res){
   'use strict';
@@ -286,6 +307,7 @@ function deleteUser(req,res){
   var mycon = db.doConnection();
   var email= req.body.email,
     sql;
+  console.log(email);
   checkUserExists(email,mycon)
     .then(function(resp){
           sql="DELETE FROM usuarios WHERE email='"+email+"'";
@@ -382,3 +404,4 @@ exports.createNewUser=createNewUser;
 exports.checkAuthorization=checkAuthorization;
 exports.updateSurnameUser=updateSurnameUser;
 exports.updatePasswordUser=updatePasswordUser;
+exports.listOneUser=listOneUser;

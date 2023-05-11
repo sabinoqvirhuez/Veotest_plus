@@ -1,0 +1,40 @@
+.text-end{
+  text-align: right!important;
+}
+
+
+body{
+  background-color: lightblue!important;
+}
+.gradient-background {
+  background: linear-gradient(300deg, lightblue, #e06174, #5bb0f5);
+  background-size: 180% 180%;
+  animation: gradient-animation 18s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.nav-link{
+  color: black!important;
+}
+.cambiarName {
+  transform: translateY(32px);
+}
+button {
+  font-size: 0.90em;
+}
+label {
+
+  font-weight: bold; /* hace el texto en negrita */
+}
+

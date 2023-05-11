@@ -6,6 +6,7 @@ import {Global} from './global';
 import { tap } from 'rxjs/operators';
 
 
+
 @Injectable()
 export class UserService{
   private url:string;
@@ -36,6 +37,17 @@ export class UserService{
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
   }
+
+  showUser(idp:number):Observable<User[]>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const idaux=JSON.stringify({id: idp});
+
+
+    return this._http.post<User[]>(this.url + '/profile', idaux,{ headers});
+
+  }
+
+
 
 
   newName(user: User): Observable<HttpResponse<any>> {
@@ -73,7 +85,7 @@ export class UserService{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(user);
 
-    return this._http.put(this.url + '/iniciarSesion', body, {
+    return this._http.post(this.url + '/eliminarUsuario', body, {
       headers,
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
@@ -105,6 +117,7 @@ export class UserService{
 
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('Userid');
+
   }
 
 

@@ -165,7 +165,7 @@ describe ('Testing users managing: CHAI + REST', function (){
   //DELETE
   it('should return 204 -Usuario eliminado correctamente',function (done){
     chai.request(url)
-      .delete("/usuario")
+      .post("/eliminarUsuario")
       .send({email:"testingemail3"})
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.NOCONTENT);

@@ -13,13 +13,15 @@ import { CreateUserComponent } from './components/usuarios/create-user/create-us
 import {UserService} from "./services/user.service";
 import {AuthGuard} from "./services/auth.guard";
 import {TokenService} from "./services/token.service";
+import { ProfileUserComponent } from './components/usuarios/profile-user/profile-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsuariosComponent,
     ErrorComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    ProfileUserComponent
   ],
   imports: [
     BrowserModule,
