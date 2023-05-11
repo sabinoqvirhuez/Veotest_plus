@@ -1,0 +1,22 @@
+<div class ="container">
+  <h2>{{title}}</h2>
+
+  <div class ="message success" *ngIf="status == 'success'">
+    El apellido se ha cambiado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    El apellido no se ha podido cambiar
+  </div>
+
+  <form #usuarioForm="ngForm" (ngSubmit)="changeSurname(usuarioForm)">
+
+    <p>
+      <label for ="surname">Apellido</label>
+      <input type ="text" name="surname" #surname="ngModel" [(ngModel)]="usuario.surname " required/>
+
+    </p>
+
+    <input type="submit" value ="Enviar" [disabled]="!usuarioForm.form.valid"/>
+  </form>
+</div>
+

@@ -54,7 +54,7 @@ export class UserService{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(user);
 
-    return this._http.post(this.url + '/iniciarSesion', body, {
+    return this._http.put(this.url + '/usuarioNameUpdate', body, {
       headers,
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
@@ -65,7 +65,7 @@ export class UserService{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(user);
 
-    return this._http.post(this.url + '/iniciarSesion', body, {
+    return this._http.put(this.url + '/usuarioSurnameUpdate', body, {
       headers,
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
@@ -75,7 +75,7 @@ export class UserService{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(user);
 
-    return this._http.post(this.url + '/iniciarSesion', body, {
+    return this._http.put(this.url + '/usuarioPasswordUpdate', body, {
       headers,
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });

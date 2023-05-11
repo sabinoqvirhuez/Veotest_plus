@@ -1,0 +1,21 @@
+<div class ="container">
+  <h2>{{title}}</h2>
+
+  <div class ="message success" *ngIf="status == 'success'">
+    La contraseña se ha cambiado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    La contraseña no se ha podido cambiar
+  </div>
+
+  <form #usuarioForm="ngForm" (ngSubmit)="changePassword(usuarioForm)">
+
+    <p>
+      <label for ="password">Contraseña</label>
+      <input class="form-control"  type="password" name="password" placeholder="••••••" #password="ngModel" [(ngModel)]="usuario.password " required/>
+
+    </p>
+
+    <input type="submit" value ="Enviar" [disabled]="!usuarioForm.form.valid"/>
+  </form>
+</div>

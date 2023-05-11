@@ -15,7 +15,7 @@ export class ProfileUserComponent implements OnInit{
   users: User[]=[];
 
   constructor(private servicio: UserService,private router: Router) {
-    //this.usuario = new User('','','',0,'');
+
 
   }
 
@@ -26,11 +26,10 @@ export class ProfileUserComponent implements OnInit{
 
     if (aux !== null) {
       aux2 = parseInt(aux);
-      console.log("llego hasta aqui")
+
       this.servicio.showUser(aux2).subscribe(user => {
         this.users = user;
-        //console.log("Se va a mostrar el usuario")
-        console.log(this.users);
+
 
       });
 

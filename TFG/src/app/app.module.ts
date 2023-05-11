@@ -14,6 +14,9 @@ import {UserService} from "./services/user.service";
 import {AuthGuard} from "./services/auth.guard";
 import {TokenService} from "./services/token.service";
 import { ProfileUserComponent } from './components/usuarios/profile-user/profile-user.component';
+import { CambiarNombreComponent } from './components/usuarios/cambiar-nombre/cambiar-nombre.component';
+import { CambiarApellidoComponent } from './components/usuarios/cambiar-apellido/cambiar-apellido.component';
+import { CambiarContraseniaComponent } from './components/usuarios/cambiar-contrasenia/cambiar-contrasenia.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { ProfileUserComponent } from './components/usuarios/profile-user/profile
     UsuariosComponent,
     ErrorComponent,
     CreateUserComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    CambiarNombreComponent,
+    CambiarApellidoComponent,
+    CambiarContraseniaComponent
   ],
   imports: [
     BrowserModule,
