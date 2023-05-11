@@ -1,43 +1,45 @@
 <div class ="container">
-  <h2>{{title}}</h2>
+  <div class="container-fluid">
+    <h2>{{title}}</h2>
 
-  <div class ="message success" *ngIf="status == 'success'">
-    El usuario se ha creado correctamente
-  </div>
-  <div class ="message failed" *ngIf="status == 'failed'">
-    El usuario no se ha podido crear
-  </div>
+    <div class ="message success" *ngIf="status == 'success'">
+      El usuario se ha creado correctamente
+    </div>
+    <div class ="message failed" *ngIf="status == 'failed'">
+      El usuario no se ha podido crear
+    </div>
 
-  <form #usuarioForm="ngForm" (ngSubmit)="addUser(usuarioForm)">
-    <p>
-      <label for ="name">Nombre</label>
-      <input type ="text" name="name" #name="ngModel" [(ngModel)]="usuario.name" required/>
-        <span class="form_error" *ngIf="name.touched && !name.valid">
-        El nombre es obligatorio
+    <form #usuarioForm="ngForm" (ngSubmit)="addUser(usuarioForm)">
+      <p>
+        <label for ="name">Nombre</label>
+        <input type ="text" name="name" #name="ngModel" [(ngModel)]="usuario.name" required/>
+          <span class="form_error" *ngIf="name.touched && !name.valid">
+          El nombre es obligatorio
+          </span>
+      </p>
+      <p>
+        <label for ="surname">Apellido</label>
+        <input type ="text" name="surname" #surname="ngModel" [(ngModel)]="usuario.surname " required/>
+        <span *ngIf="surname.touched && !surname.valid">
+        El apellido es obligatorio
         </span>
-    </p>
-    <p>
-      <label for ="surname">Apellido</label>
-      <input type ="text" name="surname" #surname="ngModel" [(ngModel)]="usuario.surname " required/>
-      <span *ngIf="surname.touched && !surname.valid">
-      El apellido es obligatorio
-      </span>
-    </p>
-    <p>
-      <label for ="password">Contraseña</label>
-      <input type ="text" name="password" #password="ngModel" [(ngModel)]="usuario.password " required/>
-      <span *ngIf="password.touched && !password.valid">
-      La contraseña es obligatorio
-      </span>
-    </p>
-    <p>
-      <label for ="email">E-mail</label>
-      <input type ="text" name="email" #email="ngModel" [(ngModel)]="usuario.email" required/>
-      <span *ngIf="email.touched && !email.valid">
-      El email es obligatorio
-      </span>
-    </p>
+      </p>
+      <p>
+        <label for ="password">Contraseña</label>
+        <input type ="text" name="password" #password="ngModel" [(ngModel)]="usuario.password " required/>
+        <span *ngIf="password.touched && !password.valid">
+        La contraseña es obligatorio
+        </span>
+      </p>
+      <p>
+        <label for ="email">E-mail</label>
+        <input type ="text" name="email" #email="ngModel" [(ngModel)]="usuario.email" required/>
+        <span *ngIf="email.touched && !email.valid">
+        El email es obligatorio
+        </span>
+      </p>
 
-    <input type="submit" value ="Enviar" [disabled]="!usuarioForm.form.valid"/>
-  </form>
+      <input type="submit" value ="Enviar" [disabled]="!usuarioForm.form.valid"/>
+    </form>
+  </div>
 </div>

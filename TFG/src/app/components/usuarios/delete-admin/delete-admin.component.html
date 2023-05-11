@@ -1,0 +1,23 @@
+<div class ="container">
+  <h2>{{title}}</h2>
+
+  <div class ="message success" *ngIf="status == 'success'">
+    El usuario se ha borrado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    No se ha podido borrar el usuario
+  </div>
+
+  <form #usuarioForm="ngForm" (ngSubmit)="borrarUsuarioAdmin(usuarioForm)">
+
+    <p>
+      <label for ="email">Email  </label>
+      <input type ="text" name="email" #email="ngModel" [(ngModel)]="usuario.email " required/>
+
+    </p>
+
+    <input type="submit" value ="Enviar" [disabled]="!usuarioForm.form.valid"/>
+  </form>
+</div>
+
+

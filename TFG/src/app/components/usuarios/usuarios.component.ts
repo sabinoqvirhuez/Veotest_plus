@@ -22,6 +22,8 @@ export class UsuariosComponent implements OnInit{
 
       this.users = users;
     });
+
+
   }
   listarUsuarios(){
 

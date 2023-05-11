@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
 
   public usuario :User;
   public status: string;
+  usersA: User[]=[];
 
   constructor(private servicio: UserService, private router: Router,private auth: AuthGuard) {
     this.usuario = new User('','','',0,'');
@@ -29,6 +30,8 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
+
+
 
   }
 
@@ -49,6 +52,25 @@ export class AppComponent implements OnInit{
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('Userid',id);
           this.status= 'success';
+
+          const aux = sessionStorage.getItem('Userid');
+          let aux2: number;
+
+          if (aux !== null) {
+            aux2 = parseInt(aux);
+
+            this.servicio.showUser(aux2).subscribe(user => {
+              this.usersA = user;
+
+
+
+
+
+            });
+          } else {
+            console.log('ESTA OCURRIENDO UN FALLO');
+
+          }
 
         }
       },

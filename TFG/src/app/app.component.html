@@ -69,6 +69,10 @@
           <a class="nav-link" aria-current="page" routerLink="/usuarios">Usuarios</a>
         </button>
       </div>
+      <button *ngIf="  usersA.length > 0 && usersA[0].administrador ==1">
+        <a class="nav-link" aria-current="page" routerLink="/deleteAdmin">Borrar Usuarios</a>
+      </button>
+
 
       <div class="col-md-3 text-end">
         <button type="button" class="btn btn-outline-secondary me-2">
@@ -80,6 +84,7 @@
         </button>
       </div>
     </header>
+
 
   </div>
 

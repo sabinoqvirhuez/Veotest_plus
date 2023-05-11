@@ -24,22 +24,24 @@ app.listen(PORT,function(){
   console.log("Node Server at http://localhost:"+PORT);
 });
 
-//Rutas de peticiones con el front
+//Peticiones de Usuario
 app.get('/usuario',tokenV.verifyToken,usuario.listUsers);
 app.post('/usuario',usuario.createNewUser);
-app.post('/eliminarUsuario',usuario.deleteUser);
-app.put('/usuarioNameUpdate',usuario.updateNameUser);
-app.put('/usuarioSurnameUpdate',usuario.updateSurnameUser);
-app.put('/usuarioPasswordUpdate',usuario.updatePasswordUser);
+app.post('/eliminarUsuario',tokenV.verifyToken,usuario.deleteUser);
+app.put('/usuarioNameUpdate',tokenV.verifyToken,usuario.updateNameUser);
+app.put('/usuarioSurnameUpdate',tokenV.verifyToken,usuario.updateSurnameUser);
+app.put('/usuarioPasswordUpdate',tokenV.verifyToken,usuario.updatePasswordUser);
 app.post('/profile',tokenV.verifyToken,usuario.listOneUser);
 app.post('/iniciarSesion', usuario.checkAuthorization);
 
-
+/*
 app.get('/',function(req,res){
   res.status(200).send({message:'GET home route working fine!'});
 });
 app.use(function(req,res){
   res.status(httpCodes.codes.NOTFOUND).json("Not Found");
 })
+
+ */
 
 module.exports = router;
