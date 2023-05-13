@@ -38,17 +38,16 @@ function listOneUser(req,res){
   var mycon = db.doConnection();
   var sql = "SELECT * FROM  usuarios WHERE Userid ='"+id+"'";
   //console.log("User global search");
-  mycon.query(sql,function(err,result){
-    if(err){
-      console.log (err);
+  mycon.query(sql, function (err, result) {
+    if (err) {
+      console.log(err);
       res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
-
-    }
-    else{
-
-      res.status(httpCodes.codes.OK).json(result);
-
-
+    } else {
+      if (result.length === 0) {
+        res.status(httpCodes.codes.NOTFOUND).json({ error: 'User not found' });
+      } else {
+        res.status(httpCodes.codes.OK).json(result);
+      }
     }
     db.closeConnection(mycon);
   });
