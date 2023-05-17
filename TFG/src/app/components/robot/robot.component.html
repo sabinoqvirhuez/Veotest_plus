@@ -7,14 +7,24 @@
     <tr>
       <th>Nombre</th>
       <th>Descripción</th>
+      <th>Dispositivo</th>
+      <th>Dirección</th>
+      <th>Disponible</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let user of robots">
       <td>{{ user.name }}</td>
       <td>{{ user.description }}</td>
+      <td>{{ user.dispositivo }}</td>
+      <td>{{ user.direccion }}</td>
+      <td>{{ user.disponible }}</td>
     </tr>
     </tbody>
   </table>
+
+  <button *ngIf="  usersB.length > 0 && usersB[0].administrador ==1">
+    <a class="nav-link" aria-current="page" routerLink="/createRobot">Registrar Robot</a>
+  </button>
 
 </div>

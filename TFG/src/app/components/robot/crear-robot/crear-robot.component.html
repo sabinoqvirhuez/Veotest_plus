@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <h2>{{title}}</h2>
+
+  <div class ="message success" *ngIf="status == 'success'">
+    El robot se ha creado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    El robot no se ha podido crear
+  </div>
+
+  <form #robotForm="ngForm" (ngSubmit)="addRobot(robotForm)">
+    <p>
+      <label >Nombre</label>
+      <input type ="text" name="name" #name="ngModel" [(ngModel)]="robot.name" required/>
+      <span class="form_error" *ngIf="name.touched && !name.valid">
+          El nombre es obligatorio
+          </span>
+    </p>
+    <p>
+      <label >Breve descripción</label>
+      <input type ="text" name="description" #description="ngModel" [(ngModel)]="robot.description" required/>
+      <span *ngIf="description.touched && !description.valid">
+        La descripción es obligatoria
+        </span>
+    </p>
+    <p>
+      <label >Dispositivo</label>
+      <input type ="text" name="dispositivo" #dispositivo="ngModel" [(ngModel)]="robot.dispositivo " required/>
+      <span *ngIf="dispositivo.touched && !dispositivo.valid">
+        El dispositivo es obligatorio
+        </span>
+    </p>
+    <p>
+      <label >Dirección IP</label>
+      <input type ="text" name="direccion" #direccion="ngModel" [(ngModel)]="robot.direccion" required/>
+      <span *ngIf="direccion.touched && !direccion.valid">
+        La dirección IP es obligatoria
+        </span>
+    </p>
+
+    <input type="submit" value ="Enviar" [disabled]="!robotForm.form.valid"/>
+  </form>
+</div>
+
+

@@ -19,4 +19,12 @@ export class RobotService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.get<Robot[]>(this.url + '/robots', { headers });
   }
+
+  saveRobot(robot:Robot){
+
+    let headers = new HttpHeaders().set('Content-type','application/json');
+    return this._http.post(this.url+'/robots',robot,{headers:headers});
+
+
+  }
 }

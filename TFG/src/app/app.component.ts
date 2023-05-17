@@ -63,9 +63,6 @@ export class AppComponent implements OnInit{
               this.usersA = user;
 
 
-
-
-
             });
           } else {
             console.log('ESTA OCURRIENDO UN FALLO');
