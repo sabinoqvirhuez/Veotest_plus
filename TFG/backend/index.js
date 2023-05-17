@@ -42,6 +42,9 @@ tokenV.verifyToken,
 //Peticiones de Robots
 app.get('/robots',robots.listRobots);
 app.put('/robots',robots.updateDescriptionRobot);
+app.put('/robotsDispositivo',robots.updateDispositivoRobot);
+app.put('/robotsDireccion',robots.updateDireccionRobot);
+app.put('/robotsDispo',robots.updateDisponibleRobot);
 app.post('/robots',robots.createNewRobot);
 app.post('/eliminarRobot',robots.deleteRobot);
 

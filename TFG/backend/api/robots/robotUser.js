@@ -56,9 +56,12 @@ function createNewRobot(req,res){
 
   var name= req.body.name,
     description = req.body.description,
+    dispositivo = req.body.dispositivo,
+    direccion = req.body.direccion,
+    disponible = req.body.disponible,
     sql;
 
-  if(!name || !description){
+  if(!name || !description || !dispositivo || !direccion || !disponible){
     res.status(httpCodes.codes.BADREQUEST).json("Faltan datos")
     db.closeConnection(mycon);
   }else{
@@ -70,8 +73,8 @@ function createNewRobot(req,res){
       })
       .catch(function(resp){
         if(resp != DBERROR){
-          sql = `INSERT INTO robots ( name, description)`;
-          sql += `VALUES ('${name}','${description}')`;
+          sql = `INSERT INTO robots ( name, description, dispositivo, direccion, disponible)`;
+          sql += `VALUES ('${name}','${description}','${dispositivo}','${direccion}','${disponible}')`;
           mycon.query(sql,function(err,result){
             if(err){
 
@@ -175,6 +178,166 @@ function updateDescriptionRobot(req, res) {
   }
 }
 
+function updateDispositivoRobot(req, res) {
+  'use strict';
+  var name = req.body.name,
+    dispositivo = req.body.dispositivo;
+  if (!name || !dispositivo)
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  else {
+    var mycon = db.doConnection();
+    checkRobotExists(name, mycon)
+      .then(function (resp) {
+        return robotDispositivoPromise(name, dispositivo, mycon)
+      })
+      .then(function (resp) {
+        res.status(httpCodes.codes.OK).json("Dispositivo del robot actualizado correctamente");
+        db.closeConnection(mycon);
+      })
+      .catch(function (resp) {
+        db.closeConnection(mycon);
+        if (resp !== DBERROR) {
+          res.status(httpCodes.codes.CONFLICT).json("No existe robot");
+
+        } else {
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+        }
+      });
+  }
+}
+
+function robotDispositivoPromise(name,description,conn) {
+  const NOUSER = "NON EXISTENT ROBOT";
+  const DBERROR = "DATABASE ERROR";
+  var sql;
+  sql = "UPDATE robots SET dispositivo = '"+description+"' WHERE name='"+name+"'";
+  let laPromesa = new Promise(function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if(err){
+        console.log("ERROR ACTUALIZANDO DISPOSITIVO");
+        reject(DBERROR);
+      }else{
+        if(result.affectedRows===0){
+          console.log("No existe robot");
+          reject(NOUSER);
+        }else{
+          resolve(result.affectedRows);
+        }
+
+      }
+    });
+  });
+  return laPromesa;
+
+}
+
+function updateDireccionRobot(req, res) {
+  'use strict';
+  var name = req.body.name,
+    direccion = req.body.direccion;
+  if (!name || !direccion)
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  else {
+    var mycon = db.doConnection();
+    checkRobotExists(name, mycon)
+      .then(function (resp) {
+        return robotDireccionPromise(name, direccion, mycon)
+      })
+      .then(function (resp) {
+        res.status(httpCodes.codes.OK).json("Direccion del robot actualizado correctamente");
+        db.closeConnection(mycon);
+      })
+      .catch(function (resp) {
+        db.closeConnection(mycon);
+        if (resp !== DBERROR) {
+          res.status(httpCodes.codes.CONFLICT).json("No existe robot");
+
+        } else {
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+        }
+      });
+  }
+}
+
+function robotDireccionPromise(name,direccion,conn) {
+  const NOUSER = "NON EXISTENT ROBOT";
+  const DBERROR = "DATABASE ERROR";
+  var sql;
+  sql = "UPDATE robots SET direccion = '"+direccion+"' WHERE name='"+name+"'";
+  let laPromesa = new Promise(function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if(err){
+        console.log("ERROR ACTUALIZANDO DIRECCION");
+        reject(DBERROR);
+      }else{
+        if(result.affectedRows===0){
+          console.log("No existe robot");
+          reject(NOUSER);
+        }else{
+          resolve(result.affectedRows);
+        }
+
+      }
+    });
+  });
+  return laPromesa;
+
+}
+function updateDisponibleRobot(req, res) {
+  'use strict';
+  var name = req.body.name,
+    direccion = req.body.disponible;
+  if (!name || direccion==null)
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  else {
+    var mycon = db.doConnection();
+    checkRobotExists(name, mycon)
+      .then(function (resp) {
+        return robotDisponiblePromise(name, direccion, mycon)
+      })
+      .then(function (resp) {
+        res.status(httpCodes.codes.OK).json("Disponibilidad del robot actualizada correctamente");
+        db.closeConnection(mycon);
+      })
+      .catch(function (resp) {
+        db.closeConnection(mycon);
+        if (resp !== DBERROR) {
+          res.status(httpCodes.codes.CONFLICT).json("Disponible debe de ser de tipo entero");
+
+        } else {
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+        }
+      });
+  }
+}
+function robotDisponiblePromise(name,disponible,conn) {
+  const NOUSER = "NON EXISTENT ROBOT";
+  const DBERROR = "DATABASE ERROR";
+  var sql;
+  sql = "UPDATE robots SET disponible = ? WHERE name = ?";
+
+  let laPromesa = new Promise(function(resolve, reject) {
+    conn.query(sql, [disponible, name], function(err, result) {
+      if (err) {
+        console.log("ERROR ACTUALIZANDO DISPONIBLE");
+        reject(DBERROR);
+      } else {
+        if (result.affectedRows === 0) {
+          console.log("No existe robot");
+          reject(NOUSER);
+        } else {
+          resolve(result.affectedRows);
+        }
+      }
+    });
+  });
+
+  return laPromesa;
+
+}
+exports.updateDisponibleRobot=updateDisponibleRobot;
+exports.updateDireccionRobot=updateDireccionRobot;
+exports.updateDispositivoRobot=updateDispositivoRobot;
 exports.updateDescriptionRobot=updateDescriptionRobot;
 exports.deleteRobot=deleteRobot;
 exports.createNewRobot=createNewRobot;

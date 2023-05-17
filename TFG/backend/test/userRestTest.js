@@ -196,7 +196,7 @@ describe ('Testing deleteUser', function () {
         done();
       });
   });
-  it('should return 204 -Usuario no eliminado correctamente, no se encuentra registrado', function (done) {
+  it('should return 409 -Usuario no eliminado correctamente, no se encuentra registrado', function (done) {
     chai.request(url)
       .post("/eliminarUsuario")
       .send({email: "nOEXISTO"})

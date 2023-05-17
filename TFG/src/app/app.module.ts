@@ -18,6 +18,7 @@ import { CambiarNombreComponent } from './components/usuarios/cambiar-nombre/cam
 import { CambiarApellidoComponent } from './components/usuarios/cambiar-apellido/cambiar-apellido.component';
 import { CambiarContraseniaComponent } from './components/usuarios/cambiar-contrasenia/cambiar-contrasenia.component';
 import { DeleteAdminComponent } from './components/usuarios/delete-admin/delete-admin.component';
+import { RobotComponent } from './components/robot/robot.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DeleteAdminComponent } from './components/usuarios/delete-admin/delete-
     CambiarNombreComponent,
     CambiarApellidoComponent,
     CambiarContraseniaComponent,
-    DeleteAdminComponent
+    DeleteAdminComponent,
+    RobotComponent
   ],
   imports: [
     BrowserModule,

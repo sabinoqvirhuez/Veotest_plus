@@ -5,8 +5,6 @@ import {User} from '../models/user';
 import {Global} from './global';
 import { tap } from 'rxjs/operators';
 
-
-
 @Injectable()
 export class UserService{
   private url:string;

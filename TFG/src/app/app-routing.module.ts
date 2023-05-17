@@ -12,6 +12,7 @@ import{CambiarApellidoComponent} from "./components/usuarios/cambiar-apellido/ca
 import {CambiarContraseniaComponent} from "./components/usuarios/cambiar-contrasenia/cambiar-contrasenia.component";
 import {CambiarNombreComponent} from "./components/usuarios/cambiar-nombre/cambiar-nombre.component";
 import {DeleteAdminComponent} from "./components/usuarios/delete-admin/delete-admin.component";
+import {RobotComponent} from "./components/robot/robot.component";
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:'cambiarNombre',component:CambiarNombreComponent,canActivate:[AuthGuard]},
   {path:'cambiarApellido',component:CambiarApellidoComponent,canActivate:[AuthGuard]},
   {path:'create-user',component:CreateUserComponent},
+  {path:'robots',component:RobotComponent,canActivate:[AuthGuard]},
   {path:'**',component:ErrorComponent}
 
 ];
