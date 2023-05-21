@@ -1,6 +1,6 @@
 
 <div class="container">
-  <h2>Robots disponibles</h2>
+  <h2>Robots registrados</h2>
 
   <table>
     <thead>
@@ -19,11 +19,14 @@
       <td>{{ user.dispositivo }}</td>
       <td>{{ user.direccion }}</td>
       <td>{{ user.disponible }}</td>
+      <td *ngIf="admin()" ><button (click)="updateRobotInfo(user)">Modificar información</button></td>
+      <td *ngIf="admin()" ><button (click)="deleteRobot(user)">Borrar robot</button></td>
+
     </tr>
     </tbody>
   </table>
 
-  <button *ngIf="  usersB.length > 0 && usersB[0].administrador ==1">
+  <button *ngIf="admin()">
     <a class="nav-link" aria-current="page" routerLink="/createRobot">Registrar Robot</a>
   </button>
 

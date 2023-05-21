@@ -35,4 +35,28 @@ export class RobotComponent implements OnInit{
     }
 
   }
+
+  updateRobotInfo(robot:Robot){
+    console.log(robot);
+  }
+  deleteRobot(robot:Robot){
+    console.log("El robot "+robot.name+" ha sido borrado");
+  }
+
+  admin(): boolean {
+    var aux: string | null = sessionStorage.getItem('Userid');
+
+    if (aux !== null) {
+      var userId: number = parseInt(aux, 10);
+
+      if (!isNaN(userId) && userId === 11) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
 }

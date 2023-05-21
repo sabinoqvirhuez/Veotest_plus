@@ -9,20 +9,14 @@ exports.doConnection=function(){
     user: connData.connectionData.user,
     password: connData.connectionData.password,
     database: connData.connectionData.database
-
-
   });
-
   con.on('error',function(err){
     console.log(DBERROR);
   })
   return con;
-
-
 }
 exports.closeConnection = function (con){
   con.end(function(err){});
-  //console.log("Database connection closed");
 }
 
 

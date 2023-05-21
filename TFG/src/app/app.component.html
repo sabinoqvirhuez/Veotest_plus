@@ -68,10 +68,15 @@
         <button >
           <a class="nav-link" aria-current="page" routerLink="/usuarios">Usuarios</a>
         </button>
+        <button id ="robot">
+          <a class="nav-link" aria-current="page" routerLink="/robots">Robots</a>
+        </button>
+        <button *ngIf="admin()">
+          <a class="nav-link" aria-current="page" routerLink="/deleteAdmin">Borrar Usuario</a>
+        </button>
       </div>
-      <button *ngIf="  usersA.length > 0 && usersA[0].administrador ==1">
-        <a class="nav-link" aria-current="page" routerLink="/deleteAdmin">Borrar Usuarios</a>
-      </button>
+
+
 
 
       <div class="col-md-3 text-end">

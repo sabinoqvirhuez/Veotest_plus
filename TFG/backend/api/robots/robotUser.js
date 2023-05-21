@@ -335,6 +335,28 @@ function robotDisponiblePromise(name,disponible,conn) {
   return laPromesa;
 
 }
+
+function showRobot(req,res){
+  'use strict';
+  var name= req.body.name;
+  var mycon = db.doConnection();
+  var sql = "SELECT * FROM  robots WHERE name ='"+name+"'";
+  mycon.query(sql, function (err, result) {
+    if (err) {
+      console.log(err);
+      res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+    } else {
+      if (result.length === 0) {
+        res.status(httpCodes.codes.NOTFOUND).json({ error: 'Robot not found' });
+      } else {
+        res.status(httpCodes.codes.OK).json(result);
+      }
+    }
+    db.closeConnection(mycon);
+  });
+}
+
+exports.showRobot=showRobot;
 exports.updateDisponibleRobot=updateDisponibleRobot;
 exports.updateDireccionRobot=updateDireccionRobot;
 exports.updateDispositivoRobot=updateDispositivoRobot;

@@ -52,7 +52,7 @@ export class AppComponent implements OnInit{
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('Userid',id);
           this.status= 'success';
-
+/*
           const aux = sessionStorage.getItem('Userid');
           let aux2: number;
 
@@ -68,6 +68,8 @@ export class AppComponent implements OnInit{
             console.log('ESTA OCURRIENDO UN FALLO');
 
           }
+
+ */
 
         }
       },
@@ -102,8 +104,20 @@ export class AppComponent implements OnInit{
 
   }
 
+//Comprueba que el usuario actual sea administrador
+  admin(): boolean {
+    var aux: string | null = sessionStorage.getItem('Userid');
 
+    if (aux !== null) {
+      var userId: number = parseInt(aux, 10);
 
-
-
+      if (!isNaN(userId) && userId === 11) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }

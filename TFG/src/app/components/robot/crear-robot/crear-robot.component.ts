@@ -16,7 +16,7 @@ export class CrearRobotComponent implements OnInit{
   constructor(
     private service: RobotService
   ) {
-    this.title = 'Registrarse';
+    this.title = 'Registrar Robot';
     this.robot = new Robot('','','','',1);
     this.status ='';
 

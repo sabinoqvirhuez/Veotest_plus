@@ -21,10 +21,46 @@ export class RobotService {
   }
 
   saveRobot(robot:Robot){
-
     let headers = new HttpHeaders().set('Content-type','application/json');
     return this._http.post(this.url+'/robots',robot,{headers:headers});
+  }
 
+  newDispositivo(robot: Robot): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(robot);
 
+    return this._http.put(this.url + '/robotsDispositivo', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+  newDescription(robot: Robot): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(robot);
+
+    return this._http.put(this.url + '/robots', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+
+  newDireccion(robot: Robot): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(robot);
+
+    return this._http.put(this.url + '/robotsDireccion', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
+  }
+
+  newDisponibilidad(robot: Robot): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(robot);
+
+    return this._http.put(this.url + '/robotsDispo', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
   }
 }

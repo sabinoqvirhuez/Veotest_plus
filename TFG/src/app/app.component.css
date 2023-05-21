@@ -88,7 +88,10 @@ body#LoginForm{ background-image:url("https://hdwallsource.com/img/2014/9/blur-2
 }
 .usuario{
   position: relative;
-  right:250px;
+  right:100px;
+}
+.robot{
+  right:100px;
 }
 
 
