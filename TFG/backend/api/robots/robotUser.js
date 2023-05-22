@@ -338,7 +338,7 @@ function robotDisponiblePromise(name,disponible,conn) {
 
 function showRobot(req,res){
   'use strict';
-  var name= req.body.name;
+  var name= req.params.name;
   var mycon = db.doConnection();
   var sql = "SELECT * FROM  robots WHERE name ='"+name+"'";
   mycon.query(sql, function (err, result) {

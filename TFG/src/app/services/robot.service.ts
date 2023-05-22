@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Global} from "./global";
 import {Robot} from "../models/robot";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -63,4 +64,10 @@ export class RobotService {
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
   }
+  //Devuelve el robot con el nombre solicitado
+  showRobot(name: string): Observable<HttpResponse<Robot[]>> {
+    const url = `${this.url+'/profileRobot'}/${name}`;
+    return this._http.get<Robot[]>(url, { observe: 'response' });
+  }
+
 }

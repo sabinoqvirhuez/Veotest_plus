@@ -36,9 +36,14 @@ export class RobotComponent implements OnInit{
 
   }
 
-  updateRobotInfo(robot:Robot){
-    console.log(robot);
+  updateRobotInfo(name: string) {
+    this.router.navigate(['profileRobot', name]).then(() => {
+      console.log("Navegación exitosa")
+    }).catch(error => {
+      console.log("Error al navegar")
+    });
   }
+
   deleteRobot(robot:Robot){
     console.log("El robot "+robot.name+" ha sido borrado");
   }

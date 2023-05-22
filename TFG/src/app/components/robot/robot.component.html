@@ -19,7 +19,7 @@
       <td>{{ user.dispositivo }}</td>
       <td>{{ user.direccion }}</td>
       <td>{{ user.disponible }}</td>
-      <td *ngIf="admin()" ><button (click)="updateRobotInfo(user)">Modificar información</button></td>
+      <td *ngIf="admin()" ><button (click)="updateRobotInfo(user.name)">Modificar información</button></td>
       <td *ngIf="admin()" ><button (click)="deleteRobot(user)">Borrar robot</button></td>
 
     </tr>

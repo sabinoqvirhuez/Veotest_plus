@@ -1,1 +1,118 @@
-<p>robot-profile works!</p>
+
+<div class="container">
+  <div class="row flex-lg-nowrap">
+    <div class="col">
+      <div class="row">
+        <div class="col mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="e-profile">
+
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">Settings</li>
+                </ul>
+                <div class="tab-content pt-3">
+                  <div >
+                    <form class="form" novalidate="">
+                      <div class="row">
+                        <div class="col">
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Nombre</label>
+                                <p *ngIf="robots && robots.length > 0">{{robots[0].name}}</p>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="cambiarName">
+                                  <button >
+                                    <a  class="nav-link" aria-current="page" routerLink="/cambiarNombre">Cambiar Nombre</a>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Descripción</label>
+                                <p *ngIf="robots && robots.length > 0">{{robots[0].description}}</p>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="cambiarName">
+                                  <button >
+                                    <a  class="nav-link" aria-current="page" routerLink="/cambiarApellido">Cambiar Apellido</a>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Dispositivo</label>
+                                <p  *ngIf="robots && robots.length > 0">{{robots[0].dispositivo}}</p>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="cambiarName">
+
+                                  <button >
+                                    <a class="nav-link" aria-current="page" routerLink="/cambiarContrasenia">Cambiar contraseña</a>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Direccion</label>
+                                <p *ngIf="robots && robots.length > 0">{{robots[0].direccion}}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Disponibilidad</label>
+                                <p  *ngIf="robots && robots.length > 0">{{robots[0].disponible}}</p>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="cambiarName">
+
+                                  <button >
+                                    <a class="nav-link" aria-current="page" routerLink="/cambiarContrasenia">Cambiar contraseña</a>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

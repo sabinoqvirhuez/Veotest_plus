@@ -42,6 +42,6 @@ app.put('/robotsDireccion',robots.updateDireccionRobot);
 app.put('/robotsDispo',robots.updateDisponibleRobot);
 app.post('/robots',robots.createNewRobot);
 app.post('/eliminarRobot',robots.deleteRobot);
-app.post('/robotsOne',robots.showRobot);
+app.get('/profileRobot/:name',robots.showRobot);
 
 module.exports = router;
