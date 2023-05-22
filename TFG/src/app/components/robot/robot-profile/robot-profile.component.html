@@ -9,7 +9,8 @@
               <div class="e-profile">
 
                 <ul class="nav nav-tabs">
-                  <li class="nav-item">Settings</li>
+                  <li class="nav-item"><strong><span class="bold-and-large">Detalles del robot</span></strong></li>
+
                 </ul>
                 <div class="tab-content pt-3">
                   <div >
@@ -23,15 +24,7 @@
                                 <p *ngIf="robots && robots.length > 0">{{robots[0].name}}</p>
                               </div>
                             </div>
-                            <div class="col">
-                              <div class="form-group">
-                                <div class="cambiarName">
-                                  <button >
-                                    <a  class="nav-link" aria-current="page" routerLink="/cambiarNombre">Cambiar Nombre</a>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
+
                           </div>
                           <div class="row">
                             <div class="col">
@@ -40,15 +33,7 @@
                                 <p *ngIf="robots && robots.length > 0">{{robots[0].description}}</p>
                               </div>
                             </div>
-                            <div class="col">
-                              <div class="form-group">
-                                <div class="cambiarName">
-                                  <button >
-                                    <a  class="nav-link" aria-current="page" routerLink="/cambiarApellido">Cambiar Apellido</a>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
+
                           </div>
 
                           <div class="row">
@@ -58,16 +43,7 @@
                                 <p  *ngIf="robots && robots.length > 0">{{robots[0].dispositivo}}</p>
                               </div>
                             </div>
-                            <div class="col">
-                              <div class="form-group">
-                                <div class="cambiarName">
 
-                                  <button >
-                                    <a class="nav-link" aria-current="page" routerLink="/cambiarContrasenia">Cambiar contraseña</a>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
                           </div>
 
                           <div class="row">
@@ -83,19 +59,11 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Disponibilidad</label>
-                                <p  *ngIf="robots && robots.length > 0">{{robots[0].disponible}}</p>
+                                <p  *ngIf="robots && robots.length > 0&& robots[0].disponible==0">No disponible</p>
+                                <p  *ngIf="robots && robots.length > 0&& robots[0].disponible==1">Disponible</p>
                               </div>
                             </div>
-                            <div class="col">
-                              <div class="form-group">
-                                <div class="cambiarName">
 
-                                  <button >
-                                    <a class="nav-link" aria-current="page" routerLink="/cambiarContrasenia">Cambiar contraseña</a>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
                           </div>
 
                         </div>
@@ -103,6 +71,9 @@
 
 
                     </form>
+
+                    <button (click)="changeDetails(robots[0].name)">Cambiar Detalles</button>
+                    <button (click)="changeAvailability(robots[0])">Cambiar Disponibilidad</button>
 
                   </div>
                 </div>

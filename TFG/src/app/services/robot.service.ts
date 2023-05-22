@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders,HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Global} from "./global";
 import {Robot} from "../models/robot";
+import {User} from "../models/user";
 
 
 @Injectable({
@@ -68,6 +69,16 @@ export class RobotService {
   showRobot(name: string): Observable<HttpResponse<Robot[]>> {
     const url = `${this.url+'/profileRobot'}/${name}`;
     return this._http.get<Robot[]>(url, { observe: 'response' });
+  }
+
+  removeRobot(robot: Robot): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(robot);
+
+    return this._http.post(this.url + '/eliminarRobot', body, {
+      headers,
+      observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
+    });
   }
 
 }

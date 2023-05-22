@@ -20,10 +20,8 @@
         <h2>User Login</h2>
         <p>Por favor introduzca su email y contraseña</p>
       </div>
-      <div class ="message success" *ngIf="status == 'success'">
-      </div>
       <div class ="message failed" *ngIf="status == 'failed'">
-        Error, datos introducidos erróneas
+        Error, datos introducidos erróneos
       </div>
       <form id="Login" #loggearseForm="ngForm" (ngSubmit)="login(loggearseForm); ">
 

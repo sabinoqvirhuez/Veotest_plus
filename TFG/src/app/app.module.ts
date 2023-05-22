@@ -22,6 +22,7 @@ import { RobotComponent } from './components/robot/robot.component';
 import { CrearRobotComponent } from './components/robot/crear-robot/crear-robot.component';
 import { EliminarRobotComponent } from './components/robot/eliminar-robot/eliminar-robot.component';
 import { RobotProfileComponent } from './components/robot/robot-profile/robot-profile.component';
+import { UpdateRobotComponent } from './components/robot/update-robot/update-robot.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RobotProfileComponent } from './components/robot/robot-profile/robot-pr
     RobotComponent,
     CrearRobotComponent,
     EliminarRobotComponent,
-    RobotProfileComponent
+    RobotProfileComponent,
+    UpdateRobotComponent
   ],
   imports: [
     BrowserModule,

@@ -53,6 +53,7 @@ function listOneUser(req,res){
   });
 }
 // Lista los usuarios almacenados en nuestra bdd
+//Cambiar el *
 function listUsers(req,res){
   'use strict';
   var mycon = db.doConnection();

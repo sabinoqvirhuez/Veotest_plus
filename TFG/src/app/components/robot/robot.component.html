@@ -9,7 +9,7 @@
       <th>Descripción</th>
       <th>Dispositivo</th>
       <th>Dirección</th>
-      <th>Disponible</th>
+      <th>Disponibilidad</th>
     </tr>
     </thead>
     <tbody>
@@ -18,7 +18,8 @@
       <td>{{ user.description }}</td>
       <td>{{ user.dispositivo }}</td>
       <td>{{ user.direccion }}</td>
-      <td>{{ user.disponible }}</td>
+      <td *ngIf="user.disponible==0">No Disponible</td>
+      <td *ngIf="user.disponible==1">Disponible</td>
       <td *ngIf="admin()" ><button (click)="updateRobotInfo(user.name)">Modificar información</button></td>
       <td *ngIf="admin()" ><button (click)="deleteRobot(user)">Borrar robot</button></td>
 

@@ -1,0 +1,7 @@
+label {
+  font-weight: bold;
+}
+.bold-and-large {
+  font-weight: bold;
+  font-size: 1.2em; /* Ajusta el tamaño según tus preferencias */
+}

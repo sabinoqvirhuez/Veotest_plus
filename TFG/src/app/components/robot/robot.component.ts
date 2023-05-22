@@ -4,6 +4,7 @@ import {Robot} from "../../models/robot";
 import {RobotService} from "../../services/robot.service";
 import {UserService} from "../../services/user.service";
 import{User} from "../../models/user";
+import {HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-robot',
@@ -45,7 +46,18 @@ export class RobotComponent implements OnInit{
   }
 
   deleteRobot(robot:Robot){
-    console.log("El robot "+robot.name+" ha sido borrado");
+
+    this.robotService.removeRobot(robot).subscribe(
+      (response: HttpResponse<any>)=>{
+        console.log("El robot "+robot.name+" ha sido borrado");
+      },
+      (error:any)=>{
+
+        console.log("Ha habido un error borrando el robot: "+robot.name);
+
+      });
+
+
   }
 
   admin(): boolean {

@@ -15,6 +15,7 @@ import {DeleteAdminComponent} from "./components/usuarios/delete-admin/delete-ad
 import {RobotComponent} from "./components/robot/robot.component";
 import {CrearRobotComponent} from "./components/robot/crear-robot/crear-robot.component";
 import {RobotProfileComponent} from "./components/robot/robot-profile/robot-profile.component";
+import {UpdateRobotComponent} from "./components/robot/update-robot/update-robot.component";
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path:'robots',component:RobotComponent,canActivate:[AuthGuard]},
   {path:'createRobot',component:CrearRobotComponent,canActivate:[AuthGuard]},
   {path:'profileRobot/:name',component:RobotProfileComponent,canActivate:[AuthGuard]},
+  {path:'updateRobot/:name',component:UpdateRobotComponent,canActivate:[AuthGuard]},
 
   {path:'**',component:ErrorComponent}
 

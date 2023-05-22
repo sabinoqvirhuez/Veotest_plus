@@ -12,16 +12,17 @@ import{HttpResponse} from "@angular/common/http";
 export class RobotProfileComponent implements OnInit{
 
   robots: Robot[]=[];
+  public statusDisponibilidad: string;
 
   constructor(private robotService:RobotService, private router : Router,private route: ActivatedRoute) {
+    this.statusDisponibilidad='';
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const name = params['name']; // Obtén el valor del parámetro de ruta llamado 'name'
-      console.log("Llego hasta aqui");
       this.listRobot(name); // Utiliza el valor del parámetro en tu lógica de componente
-      console.log("Llego hasta aqui 2");
+
     });
   }
 
@@ -39,6 +40,35 @@ export class RobotProfileComponent implements OnInit{
         console.log(error);
       }
     );
+  }
+
+  changeDetails(name:string){
+
+    this.router.navigate(['updateRobot', name]).then(() => {
+      console.log("Navegación exitosa")
+    }).catch(error => {
+      console.log("Error al navegar a updateRobot")
+    });
+
+  }
+
+  changeAvailability(robotaux: Robot){
+
+    if(robotaux.disponible==0){
+      robotaux.disponible=1;
+    }else{
+      robotaux.disponible=0;
+    }
+
+    this.robotService.newDisponibilidad(robotaux).subscribe(
+      (response: HttpResponse<any>)=>{
+        this.statusDisponibilidad="success";
+      },
+      (error:any)=>{
+        this.statusDisponibilidad="failed";
+
+      });
+    console.log(this.statusDisponibilidad);
   }
 
 }
