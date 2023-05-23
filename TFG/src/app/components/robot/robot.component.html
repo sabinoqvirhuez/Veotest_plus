@@ -21,7 +21,7 @@
       <td *ngIf="user.disponible==0">No Disponible</td>
       <td *ngIf="user.disponible==1">Disponible</td>
       <td *ngIf="admin()" ><button (click)="updateRobotInfo(user.name)">Modificar información</button></td>
-      <td *ngIf="admin()" ><button (click)="deleteRobot(user)">Borrar robot</button></td>
+      <td *ngIf="admin()" ><button (click)="deleteRobot(user.name)">Borrar robot</button></td>
 
     </tr>
     </tbody>

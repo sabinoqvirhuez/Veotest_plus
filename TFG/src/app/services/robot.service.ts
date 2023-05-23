@@ -71,12 +71,9 @@ export class RobotService {
     return this._http.get<Robot[]>(url, { observe: 'response' });
   }
 
-  removeRobot(robot: Robot): Observable<HttpResponse<any>> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify(robot);
-
-    return this._http.post(this.url + '/eliminarRobot', body, {
-      headers,
+  removeRobot(name: string): Observable<HttpResponse<any>> {
+    const url= `${this.url+'/eliminarRobot'}/${name}`;
+    return this._http.delete(url, {
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
   }

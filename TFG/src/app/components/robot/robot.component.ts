@@ -45,17 +45,22 @@ export class RobotComponent implements OnInit{
     });
   }
 
-  deleteRobot(robot:Robot){
+  deleteRobot(name: string){
 
-    this.robotService.removeRobot(robot).subscribe(
+    this.robotService.removeRobot(name).subscribe(
       (response: HttpResponse<any>)=>{
-        console.log("El robot "+robot.name+" ha sido borrado");
+        console.log("El robot "+name+" ha sido borrado");
+        this.robotService.listRobots().subscribe((robots) => {
+          this.robots = robots;
+        });
       },
       (error:any)=>{
 
-        console.log("Ha habido un error borrando el robot: "+robot.name);
+        console.log("Ha habido un error borrando el robot: "+name);
 
       });
+
+
 
 
   }

@@ -99,7 +99,7 @@ function createNewRobot(req,res){
 function deleteRobot(req,res){
   'use strict'
   var mycon = db.doConnection();
-  var name= req.body.name,
+  var name= req.params.name,
     sql;
 
   checkRobotExists(name,mycon)
