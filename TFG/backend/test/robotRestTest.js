@@ -235,19 +235,17 @@ describe ('Testing updateDisponibleRobot', function () {
 });
 
 describe ('Testing deleteRobot', function () {
-  it('should return 204 -Usuario eliminado correctamente', function (done) {
+  it('should return 204 -Robot eliminado correctamente', function (done) {
     chai.request(url)
-      .post("/eliminarRobot")
-      .send({name: "Testing4"})
+      .delete("/eliminarRobot/Testing4")
       .end(function (err, res) {
         expect(res).to.have.status(httpCodes.codes.NOCONTENT);
         done();
       });
   });
-  it('should return 204 -Usuario no eliminado correctamente, no se encuentra registrado', function (done) {
+  it('should return 204 -Robot no eliminado correctamente, no se encuentra registrado', function (done) {
     chai.request(url)
-      .post("/eliminarRobot")
-      .send({name: "nOEXISTO"})
+      .delete("/eliminarRobot/nOEXISTO")
       .end(function (err, res) {
         expect(res).to.have.status(httpCodes.codes.NOTFOUND);
         done();

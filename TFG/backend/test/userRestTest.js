@@ -30,7 +30,7 @@ describe ('Testing createNewUser', function () {
       .send({
         name: "Testing4",
         surname: "testingsur8",
-        email: "testingemail8",
+        email: "testingemail9",
         administrador: 0,
         password: "tesingpasworrd"
       })
@@ -189,8 +189,7 @@ describe ('Testing createNewUser', function () {
 describe ('Testing deleteUser', function () {
   it('should return 204 -Usuario eliminado correctamente', function (done) {
     chai.request(url)
-      .post("/eliminarUsuario")
-      .send({email: "testingemail8"})
+      .delete("/eliminarUsuario/testingemail9")
       .end(function (err, res) {
         expect(res).to.have.status(httpCodes.codes.NOCONTENT);
         done();
@@ -198,8 +197,7 @@ describe ('Testing deleteUser', function () {
   });
   it('should return 409 -Usuario no eliminado correctamente, no se encuentra registrado', function (done) {
     chai.request(url)
-      .post("/eliminarUsuario")
-      .send({email: "nOEXISTO"})
+      .delete("/eliminarUsuario/nOexisto")
       .end(function (err, res) {
         expect(res).to.have.status(httpCodes.codes.NOTFOUND);
         done();
@@ -211,7 +209,7 @@ describe ('Testing checkAuthorization', function () {
   it('should return 200- Devuelve un token y el usuario logeado ', function (done) {
     chai.request(url)
       .post("/iniciarSesion")
-      .send({name: '', surname: '', email: 'ejemplo@outlook.es', Administrador: 0, password: 'holi'})
+      .send({name: '', surname: '', email: 'ejemplo@outlook.es', Administrador: 0, password: 'ejemplo'})
       .end(function (err, res) {
         expect(res).to.have.status(httpCodes.codes.OK);
         done();
@@ -230,8 +228,7 @@ describe ('Testing checkAuthorization', function () {
 describe ('Testing listOneUser', function () {
   it('should return 200-Devuelve un usuario existente entregandole su id',function (done){
     chai.request(url)
-      .post("/profile")
-      .send({id:'11'})
+      .get("/profile/11")
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.OK);
         expect(res.body).to.be.an('Array');
@@ -240,8 +237,7 @@ describe ('Testing listOneUser', function () {
   });
   it('should return 404-No encuentra al usuario entregandole su id',function (done){
     chai.request(url)
-      .post("/profile")
-      .send({id:'10'})
+      .get("/profile/10")
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.NOTFOUND);
 

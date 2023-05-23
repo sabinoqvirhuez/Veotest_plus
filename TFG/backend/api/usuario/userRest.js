@@ -12,7 +12,7 @@ const DBERROR = "Database Server Error";
 function checkUserExists(email,conn){
   const NOPROD = "non existent user";
   var sql;
-  sql = "SELECT * FROM  usuarios WHERE email ='"+email+"'";
+  sql = "SELECT email FROM  usuarios WHERE email ='"+email+"'";
 
   let laPromesa = new Promise (function(resolve,reject){
     conn.query(sql,function(err,result){
@@ -36,7 +36,7 @@ function listOneUser(req,res){
   'use strict';
   var id= req.params.id;
   var mycon = db.doConnection();
-  var sql = "SELECT * FROM  usuarios WHERE Userid ='"+id+"'";
+  var sql = "SELECT email FROM  usuarios WHERE Userid ='"+id+"'";
   //console.log("User global search");
   mycon.query(sql, function (err, result) {
     if (err) {
@@ -57,7 +57,7 @@ function listOneUser(req,res){
 function listUsers(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select * FROM usuarios";
+  var sql = "Select email FROM usuarios";
   //console.log("User global search");
   mycon.query(sql,function(err,result){
     if(err){
@@ -374,7 +374,7 @@ function checkAuthorization(req,res){
 function checkLogIn(email, password, conn) {
   const NOUSER = "NON EXISTENT USER";
   var sql;
-  sql = "SELECT * FROM  usuarios WHERE email = ? AND password = ?";
+  sql = "SELECT email FROM  usuarios WHERE email = ? AND password = ?";
   console.log("SQL query:", sql, email, password); // Imprimir la consulta SQL
   let laPromesa = new Promise(function (resolve, reject) {
     conn.query(sql, [email, password], function (err, result) {
