@@ -34,7 +34,7 @@ function checkUserExists(email,conn){
 
 function listOneUser(req,res){
   'use strict';
-  var id= req.body.id;
+  var id= req.params.id;
   var mycon = db.doConnection();
   var sql = "SELECT * FROM  usuarios WHERE Userid ='"+id+"'";
   //console.log("User global search");
@@ -305,7 +305,7 @@ function updateSurnameUser(req, res) {
 function deleteUser(req,res){
   'use strict'
   var mycon = db.doConnection();
-  var email= req.body.email,
+  var email= req.params.email,
     sql;
   console.log(email);
   checkUserExists(email,mycon)

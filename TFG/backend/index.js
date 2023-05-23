@@ -23,11 +23,11 @@ app.listen(PORT,function(){
 //Peticiones de Usuario
 app.get('/usuario',usuario.listUsers);
 app.post('/usuario',usuario.createNewUser);
-app.post('/eliminarUsuario',usuario.deleteUser);
+app.delete('/eliminarUsuario/:email',usuario.deleteUser);
 app.put('/usuarioNameUpdate',usuario.updateNameUser);
 app.put('/usuarioSurnameUpdate',usuario.updateSurnameUser);
 app.put('/usuarioPasswordUpdate',usuario.updatePasswordUser);
-app.post('/profile',usuario.listOneUser);
+app.get('/profile/:id',usuario.listOneUser);
 app.post('/iniciarSesion', usuario.checkAuthorization);
 
 /*

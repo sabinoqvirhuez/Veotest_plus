@@ -32,7 +32,7 @@ export class DeleteAdminComponent implements OnInit{
   borrarUsuarioAdmin(form:any){
 
 
-    this.userService.deleteUser(this.usuario).subscribe(
+    this.userService.deleteUser(this.usuario.email).subscribe(
       response  =>{
         //console.log(response);
         form.reset();

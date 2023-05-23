@@ -38,10 +38,8 @@ export class UserService{
 
   showUser(idp:number):Observable<User[]>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const idaux=JSON.stringify({id: idp});
-
-
-    return this._http.post<User[]>(this.url + '/profile', idaux,{ headers});
+    const url = `${this.url+'/profile'}/${idp}`;
+    return this._http.get<User[]>(url, { headers});
 
   }
 
@@ -79,12 +77,9 @@ export class UserService{
     });
   }
 
-  deleteUser(user: User): Observable<HttpResponse<any>> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify(user);
-
-    return this._http.post(this.url + '/eliminarUsuario', body, {
-      headers,
+  deleteUser(email: string): Observable<HttpResponse<any>> {
+    const url = `${this.url+'/eliminarUsuario'}/${email}`;
+    return this._http.delete(url, {
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
   }

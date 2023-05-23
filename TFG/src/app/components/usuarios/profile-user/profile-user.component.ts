@@ -40,7 +40,7 @@ export class ProfileUserComponent implements OnInit{
   }
   borrarUsuario(){
     if(this.users.length>0){
-      this.servicio.deleteUser(this.users[0]).subscribe((res:HttpResponse<any>)=>{
+      this.servicio.deleteUser(this.users[0].email).subscribe((res:HttpResponse<any>)=>{
         if(res.status==204){
           console.log("Usuario eliminado correctamente");
           this.servicio.deleteToken();
