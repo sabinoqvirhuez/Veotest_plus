@@ -78,7 +78,7 @@ export class UserService{
   }
 
   deleteUser(email: string): Observable<HttpResponse<any>> {
-    const url = `${this.url+'/eliminarUsuario'}/${email}`;
+    const url = `${this.url+'/eliminarRobot'}/${email}`;
     return this._http.delete(url, {
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });

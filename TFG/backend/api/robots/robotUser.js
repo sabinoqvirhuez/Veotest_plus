@@ -32,7 +32,7 @@ function checkRobotExists(name,conn){
 function listRobots(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select name FROM robots";
+  var sql = "Select name, description, direccion, disponible, dispositivo FROM robots";
 
   mycon.query(sql,function(err,result){
     if(err){
@@ -69,7 +69,7 @@ function createNewRobot(req,res){
     checkRobotExists(name,mycon)
       .then(function(resp){
         console.log("Error, nombre duplicado");
-        res.status(httpCodes.codes.CONFLICT).json("duplicated name")
+        res.status(httpCodes.codes.CONFLICT).json("Nombre duplicado")
       })
       .catch(function(resp){
         if(resp != DBERROR){
@@ -340,7 +340,7 @@ function showRobot(req,res){
   'use strict';
   var name= req.params.name;
   var mycon = db.doConnection();
-  var sql = "SELECT name FROM  robots WHERE name ='"+name+"'";
+  var sql = "SELECT name, description, dispositivo, direccion, disponible FROM  robots WHERE name ='"+name+"'";
   mycon.query(sql, function (err, result) {
     if (err) {
       console.log(err);

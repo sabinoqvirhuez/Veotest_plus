@@ -82,7 +82,7 @@ describe ('Testing updateDescriptionRobot', function () {
         done();
       });
   });
-  it('should return 409 - No existe robot, no se ha podido actualizar la descripción', function (done) {
+  it('should return 404 - No existe robot, no se ha podido actualizar la descripción', function (done) {
     chai.request(url)
       .put("/robots")
       .send({name: "NameNoexisto", description: "noexisto"})
@@ -123,7 +123,7 @@ describe ('Testing updateDispositivoRobot', function () {
         done();
       });
   });
-  it('should return 409 - No existe robot, no se ha podido actualizar el dispositivo', function (done) {
+  it('should return 404 - No existe robot, no se ha podido actualizar el dispositivo', function (done) {
     chai.request(url)
       .put("/robotsDispositivo")
       .send({name: "NameNoexisto", dispositivo: "noexisto"})
@@ -164,7 +164,7 @@ describe ('Testing updateDireccionRobot', function () {
         done();
       });
   });
-  it('should return 409 - No existe robot, no se ha podido actualizar la dirección', function (done) {
+  it('should return 404 - No existe robot, no se ha podido actualizar la dirección', function (done) {
     chai.request(url)
       .put("/robotsDireccion")
       .send({name: "NameNoexisto", direccion: "noexisto"})
@@ -205,7 +205,7 @@ describe ('Testing updateDisponibleRobot', function () {
         done();
       });
   });
-  it('should return 409 - No existe robot, no se ha podido actualizar la disponibilidad', function (done) {
+  it('should return 404 - No existe robot, no se ha podido actualizar la disponibilidad', function (done) {
     chai.request(url)
       .put("/robotsDispo")
       .send({name: "NameNoexist", disponible:0})
@@ -243,7 +243,7 @@ describe ('Testing deleteRobot', function () {
         done();
       });
   });
-  it('should return 204 -Robot no eliminado correctamente, no se encuentra registrado', function (done) {
+  it('should return 404 -Robot no eliminado correctamente, no se encuentra registrado', function (done) {
     chai.request(url)
       .delete("/eliminarRobot/nOEXISTO")
       .end(function (err, res) {

@@ -4,7 +4,6 @@ import {UserService} from "./services/user.service";
 import {User} from "./models/user";
 import { Router } from '@angular/router';
 import {HttpResponse} from "@angular/common/http";
-import {HttpHeaders} from "@angular/common/http";
 import {AuthGuard} from "./services/auth.guard";
 
 
@@ -52,6 +51,8 @@ export class AppComponent implements OnInit{
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('Userid',id);
           this.status= 'success';
+          this.router.navigate(['/usuarios']);
+
 /*
           const aux = sessionStorage.getItem('Userid');
           let aux2: number;
@@ -83,7 +84,9 @@ export class AppComponent implements OnInit{
   //Metodo para comprobar que un usuario está logeado, si lo está devuelve true, sino False
   loggedIn(){
     if(sessionStorage.getItem('token')){
+
       return true;
+
     }else{
       return false;
     }
