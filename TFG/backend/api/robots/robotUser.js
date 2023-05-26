@@ -1,7 +1,5 @@
-const jwt = require ('jsonwebtoken');
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
-const {catchError} = require("rxjs");
 const DBERROR = "Database Server Error";
 
 //Comprueba que el robot existe y devuelve sus datos, sino da error

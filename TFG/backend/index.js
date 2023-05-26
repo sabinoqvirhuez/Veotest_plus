@@ -5,6 +5,7 @@ var express = require ('express'),
   httpCodes= require ('./api/http/httpCodes'),
     tokenV=require('./api/usuario/tokenRest')
   usuario = require ('./api/usuario/userRest'),
+    clave= require('./api/claves/claveRest'),
     robots=require('./api/robots/robotUser');
   const cors = require('cors');
 const {verify} = require("jsonwebtoken");
@@ -43,5 +44,15 @@ app.put('/robotsDispo',robots.updateDisponibleRobot);
 app.post('/robots',robots.createNewRobot);
 app.delete('/eliminarRobot/:name',robots.deleteRobot);
 app.get('/profileRobot/:name',robots.showRobot);
+
+
+//Peticiones de Claves
+
+app.get('/keys/:id',clave.showKey);
+app.post('/keys',clave.createNewKey);
+app.delete('/keys/:id',clave.deleteKey);
+
+
+
 
 module.exports = router;
