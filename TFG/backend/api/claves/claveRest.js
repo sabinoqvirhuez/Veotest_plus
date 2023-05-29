@@ -6,7 +6,7 @@ function showKey(req,res){
   'use strict';
   var Userid= req.params.id;
   var mycon = db.doConnection();
-  var sql = "SELECT Clave FROM  robots WHERE Userid ='"+Userid+"'";
+  var sql = "SELECT Clave FROM  claves WHERE Userid ='"+Userid+"'";
   mycon.query(sql, function (err, result) {
     if (err) {
       console.log(err);
@@ -65,7 +65,7 @@ function createNewKey(req,res){
       })
       .catch(function(resp){
         if(resp != DBERROR){
-          sql = `INSERT INTO claves ( id, clave)`;
+          sql = `INSERT INTO claves ( Userid, Clave)`;
           sql += `VALUES ('${id}','${clave}')`;
           mycon.query(sql,function(err,result){
             if(err){
@@ -96,7 +96,7 @@ function deleteKey(req,res){
 
   hasKey(id,mycon)
     .then(function(resp){
-      sql="DELETE FROM clave WHERE Userid='"+id+"'";
+      sql="DELETE FROM claves WHERE Userid='"+id+"'";
       mycon.query(sql,function(err,result){
         if(err)
           res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
