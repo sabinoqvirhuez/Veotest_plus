@@ -1,0 +1,21 @@
+<div class="container-md">
+
+  <div class ="message success" *ngIf="status == 'success'">
+    La clave se ha almacenado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    Error, la clave no se ha podido almacenar
+  </div>
+
+
+  <form #createKeyForm="ngForm" (ngSubmit)="newKey(createKeyForm)">
+
+    <p>
+      <label >Clave Pública    </label>
+      <input type ="text" name="name" #surname="ngModel" [(ngModel)]="key.Clave " required/>
+
+    </p>
+
+    <input type="submit" value ="Enviar" [disabled]="!createKeyForm.form.valid"/>
+  </form>
+</div>

@@ -17,8 +17,8 @@ describe('Testing createNewKey', function (){
   it('should return 201 - Nueva clave creada',function (done){
     chai.request(url).post("/keys")
       .send({
-        id: 11,
-        clave: "egjusjsdoeokfmUk9/ksnwdjsmnskdkmnvxsargbvder"
+        Userid: 11,
+        Clave: "egjusjsdoeokfmUk9/ksnwdjsmnskdkmnvxsargbvder"
       })
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.CREATED);
@@ -31,8 +31,8 @@ describe('Testing createNewKey', function (){
   it('should return 400 - Error, Falta clave',function (done){
     chai.request(url).post("/keys")
       .send({
-        id: 11,
-        clave: ""
+        Userid: 11,
+        Clave: ""
       })
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.BADREQUEST);
@@ -45,8 +45,8 @@ describe('Testing createNewKey', function (){
   it('should return 409 - Error, Este usuario ya tiene una clave asignada',function (done){
     chai.request(url).post("/keys")
       .send({
-        id: 11,
-        clave: "aaaa"
+        Userid: 11,
+        Clave: "aaaa"
       })
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.CONFLICT);

@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <h2>Crear Solicitud</h2>
+
+  <div class ="message success" *ngIf="status == 'success'">
+    El robot se ha creado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    El robot no se ha podido crear
+  </div>
+
+  <form #solicitudForm="ngForm" (ngSubmit)="saveSolicitud(solicitudForm)">
+    <p>
+      <label >Robot</label>
+      <input type ="text" name="name" #name="ngModel" [(ngModel)]="solicitud.name" required/>
+      <span class="form_error" *ngIf="name.touched && !name.valid">
+          El nombre del robot es obligatorio
+      </span>
+    </p>
+    <p>
+      <label >Breve descripción</label>
+      <input type ="text" name="description" #description="ngModel" [(ngModel)]="solicitud.description" required/>
+      <span *ngIf="description.touched && !description.valid">
+        La descripción es obligatoria
+      </span>
+    </p>
+
+    <input type="submit" value ="Enviar" [disabled]="!solicitudForm.form.valid"/>
+  </form>
+</div>
+
+

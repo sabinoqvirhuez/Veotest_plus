@@ -1,0 +1,64 @@
+form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+form p {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+input[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+input[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.message {
+  max-width: 300px;
+  padding: 10px;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 3px;
+}
+
+.message.success {
+  background-color: #4CAF50;
+}
+
+.message.failed {
+  background-color: #f44336;
+}

@@ -6,6 +6,7 @@ var express = require ('express'),
     tokenV=require('./api/usuario/tokenRest')
   usuario = require ('./api/usuario/userRest'),
     clave= require('./api/claves/claveRest'),
+    solicitud = require('./api/solicitudes/solicitudRest')
     robots=require('./api/robots/robotUser');
   const cors = require('cors');
 const {verify} = require("jsonwebtoken");
@@ -52,7 +53,11 @@ app.get('/keys/:id',clave.showKey);
 app.post('/keys',clave.createNewKey);
 app.delete('/keys/:id',clave.deleteKey);
 
+//Peticiones de Solicitudes
 
-
-
+app.post('/solicitudes',solicitud.createNewSolicitud);
+app.delete('/solicitudes/:Robotid/:Userid',solicitud.deleteSolicitud);
+app.put('/solicitudes',solicitud.updateEstadoSolicitud);
+app.get('/solicitudes/:Userid',solicitud.listMySolicitudes);
+app.get('/solicitudes',solicitud.listSolicitudes);
 module.exports = router;

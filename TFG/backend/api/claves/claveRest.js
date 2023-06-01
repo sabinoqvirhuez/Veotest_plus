@@ -6,7 +6,7 @@ function showKey(req,res){
   'use strict';
   var Userid= req.params.id;
   var mycon = db.doConnection();
-  var sql = "SELECT Clave FROM  claves WHERE Userid ='"+Userid+"'";
+  var sql = "SELECT Userid, Clave FROM  claves WHERE Userid ='"+Userid+"'";
   mycon.query(sql, function (err, result) {
     if (err) {
       console.log(err);
@@ -49,8 +49,8 @@ function createNewKey(req,res){
   'use strict'
   var mycon= db.doConnection();
 
-  var id= req.body.id,
-    clave = req.body.clave,
+  var id= req.body.Userid,
+    clave = req.body.Clave,
     sql;
 
   if(!id || !clave){

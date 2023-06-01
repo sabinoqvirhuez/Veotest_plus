@@ -16,6 +16,10 @@ import {RobotComponent} from "./components/robot/robot.component";
 import {CrearRobotComponent} from "./components/robot/crear-robot/crear-robot.component";
 import {RobotProfileComponent} from "./components/robot/robot-profile/robot-profile.component";
 import {UpdateRobotComponent} from "./components/robot/update-robot/update-robot.component";
+import{ClaveComponent} from "./components/clave/clave.component";
+import {CreateKeyComponent} from "./components/clave/create-key/create-key.component";
+import {SolicitudesComponent} from "./components/solicitudes/solicitudes.component";
+import {CreateSolicitudComponent} from "./components/solicitudes/create-solicitud/create-solicitud.component";
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
@@ -30,6 +34,10 @@ const routes: Routes = [
   {path:'createRobot',component:CrearRobotComponent,canActivate:[AuthGuard]},
   {path:'profileRobot/:name',component:RobotProfileComponent,canActivate:[AuthGuard]},
   {path:'updateRobot/:name',component:UpdateRobotComponent,canActivate:[AuthGuard]},
+  {path:'keys',component:ClaveComponent,canActivate:[AuthGuard]},
+  {path:'create-key',component:CreateKeyComponent,canActivate:[AuthGuard]},
+  {path:'solicitudes',component:SolicitudesComponent,canActivate:[AuthGuard]},
+  {path:'create-solicitud',component:CreateSolicitudComponent,canActivate:[AuthGuard]},
 
   {path:'**',component:ErrorComponent}
 

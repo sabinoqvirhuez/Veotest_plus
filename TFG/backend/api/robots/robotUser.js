@@ -6,7 +6,7 @@ const DBERROR = "Database Server Error";
 function checkRobotExists(name,conn){
   const NOPROD = "non existent robot";
   var sql;
-  sql = "SELECT name FROM  robots WHERE name ='"+name+"'";
+  sql = "SELECT Robotid, name FROM  robots WHERE name ='"+name+"'";
 
   let laPromesa = new Promise (function(resolve,reject){
     conn.query(sql,function(err,result){
@@ -30,7 +30,7 @@ function checkRobotExists(name,conn){
 function listRobots(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select name, description, direccion, disponible, dispositivo FROM robots";
+  var sql = "Select Robotid, name, description, direccion, disponible, dispositivo FROM robots";
 
   mycon.query(sql,function(err,result){
     if(err){
@@ -338,7 +338,7 @@ function showRobot(req,res){
   'use strict';
   var name= req.params.name;
   var mycon = db.doConnection();
-  var sql = "SELECT name, description, dispositivo, direccion, disponible FROM  robots WHERE name ='"+name+"'";
+  var sql = "SELECT Robotid, name, description, dispositivo, direccion, disponible FROM  robots WHERE name ='"+name+"'";
   mycon.query(sql, function (err, result) {
     if (err) {
       console.log(err);

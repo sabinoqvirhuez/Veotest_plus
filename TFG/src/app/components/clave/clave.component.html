@@ -1,0 +1,38 @@
+<ng-container *ngIf="keys.length>0; else elseBlock">
+    <div class="container">
+      <h2>Mi clave pública</h2>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Clave</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of keys">
+          <td>{{ user.Clave }}</td>
+
+
+        </tr>
+
+        </tbody>
+      </table>
+
+      <button (click)="deleteKey(keys[0].Userid)">Eliminar Clave</button>
+
+
+
+    </div>
+
+</ng-container>
+
+<ng-template  #elseBlock>
+<div class="container-md">
+  <h3>No tienes ninguna clave </h3>
+
+  <button>
+    <a class="nav-link" aria-current="page" routerLink="/create-key">Subir clave</a>
+  </button>
+</div>
+
+</ng-template>

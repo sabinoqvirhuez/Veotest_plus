@@ -23,6 +23,10 @@ import { CrearRobotComponent } from './components/robot/crear-robot/crear-robot.
 import { EliminarRobotComponent } from './components/robot/eliminar-robot/eliminar-robot.component';
 import { RobotProfileComponent } from './components/robot/robot-profile/robot-profile.component';
 import { UpdateRobotComponent } from './components/robot/update-robot/update-robot.component';
+import { ClaveComponent } from './components/clave/clave.component';
+import { CreateKeyComponent } from './components/clave/create-key/create-key.component';
+import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
+import { CreateSolicitudComponent } from './components/solicitudes/create-solicitud/create-solicitud.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { UpdateRobotComponent } from './components/robot/update-robot/update-rob
     CrearRobotComponent,
     EliminarRobotComponent,
     RobotProfileComponent,
-    UpdateRobotComponent
+    UpdateRobotComponent,
+    ClaveComponent,
+    CreateKeyComponent,
+    SolicitudesComponent,
+    CreateSolicitudComponent
   ],
   imports: [
     BrowserModule,

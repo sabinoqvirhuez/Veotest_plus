@@ -1,0 +1,73 @@
+<div class="container-md">
+
+  <h2>Solicitudes</h2>
+  <ng-container  *ngIf="!admin(); else elseBlock">
+
+    <table>
+      <thead>
+      <tr>
+        <th>Robotid</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of mysolicitudes">
+        <td>{{ user.Robotid }}</td>
+        <td>{{ user.description }}</td>
+        <td>{{ user.Fecha }}</td>
+        <td *ngIf="user.Estado==0">Pendiente</td>
+        <td *ngIf="user.Estado==1">En activo</td>
+        <td *ngIf="user.Estado==2">Revocado</td>
+        <td *ngIf="user.Estado==3">Rechazado</td>
+
+      </tr>
+      </tbody>
+    </table>
+
+    <button >
+      <a class="nav-link" aria-current="page" routerLink="/create-solicitud">Crear Solicitud</a>
+    </button>
+
+
+
+  </ng-container>
+  <ng-template  #elseBlock>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Robotid</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of solicitudes">
+        <td>{{ user.Robotid }}</td>
+        <td id="td">{{ user.description }}</td>
+        <td>{{ user.Fecha }}</td>
+        <td *ngIf="user.Estado==0">Pendiente</td>
+        <td *ngIf="user.Estado==1">En activo</td>
+        <td *ngIf="user.Estado==2">Revocado</td>
+        <td *ngIf="user.Estado==3">Rechazado</td>
+
+        <td *ngIf="user.Estado==0" ><button (click)="actualizarEstadoDeSolicitud(user.Userid,user.Robotid,3)">Rechazar Solicitud</button></td>
+        <td *ngIf="user.Estado==1" ><button >Revocar Acceso</button></td>
+        <td *ngIf="user.Estado==2" ><button (click)="borrarSolicitud(user.Userid,user.Robotid)" >Eliminar Solicitud</button></td>
+        <td *ngIf="user.Estado==3" ><button (click)="borrarSolicitud(user.Userid,user.Robotid)" >Eliminar Solicitud</button></td>
+
+      </tr>
+      </tbody>
+    </table>
+
+  </ng-template>
+
+
+
+
+</div>

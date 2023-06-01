@@ -11,7 +11,7 @@
 </head>
 <body class="text-center gradient-background">
 
-<ng-container *ngIf="!loggedIn(); else elseBlock"><
+<ng-container *ngIf="!loggedIn(); else elseBlock">
 <div class="container">
   <nav class="navbar navbar-dark ">
     <a class="navbar-brand">
@@ -57,6 +57,12 @@
         </button>
         <button id ="robot">
           <a class="nav-link" aria-current="page" routerLink="/robots">Robots</a>
+        </button>
+        <button >
+          <a class="nav-link" aria-current="page" routerLink="/keys">Clave</a>
+        </button>
+        <button >
+          <a class="nav-link" aria-current="page" routerLink="/solicitudes">Solicitudes</a>
         </button>
         <button *ngIf="admin()">
           <a class="nav-link" aria-current="page" routerLink="/deleteAdmin">Borrar Usuario</a>
