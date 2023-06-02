@@ -2,6 +2,7 @@ var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
 const DBERROR = "Database Server Error";
 
+
 function createNewSolicitud(req,res){
   'use strict'
   var mycon= db.doConnection();
@@ -209,6 +210,62 @@ function listMySolicitudes(req,res){
   });
 }
 
+
+function darAcceso(req,res){
+  'use strict';
+  let rid= req.params.Robotid,
+    uid=req.params.Userid;
+
+  var mycon = db.doConnection();
+
+    accesoPromise(rid, uid, mycon)
+      .then(function(result) {
+        // Acceder a los campos del resultado
+        var nombreRobot = result.name;
+        var clave = result.Clave;
+
+        // Utilizar los campos como desees
+        console.log("Nombre del robot:", nombreRobot);
+        console.log("Clave:", clave);
+        db.closeConnection(mycon);
+      })
+      .catch(function(error) {
+        // Manejar el error de la promesa rechazada
+        console.error(error);
+        db.closeConnection(mycon);
+      });
+
+}
+
+function accesoPromise(rid,uid,conn){
+  var sql;
+  sql = "Select robots.name, claves.Clave FROM solicitudes join robots on solicitudes.Robotid = robots.Robotid join usuarios on usuarios.Userid = solicitudes.Userid join claves on claves.Userid=usuarios.Userid WHERE solicitudes.Robotid='"+rid+"' and solicitudes.Userid='"+uid+"'";
+
+  let laPromesa = new Promise (function(resolve,reject){
+    conn.query(sql,function(err,result){
+      if (err){
+        console.log("Error")
+        reject (DBERROR);
+      }
+      else {
+        if(result.length>0)
+          resolve(result[0]);
+        else
+          reject ("No existe solicitud");
+      }
+
+    });
+  });
+  return laPromesa;
+}
+/*
+function jenkins(req,res){
+  const {exec} = require('child_process');
+  exec('')
+
+}
+
+ */
 
 exports.createNewSolicitud=createNewSolicitud;
 exports.deleteSolicitud=deleteSolicitud;
