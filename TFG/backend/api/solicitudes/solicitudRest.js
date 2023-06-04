@@ -1,5 +1,6 @@
 var httpCodes = require ('../http/httpCodes'),
   db = require ('../database/dbManage');
+const {exec} = require("child_process");
 const DBERROR = "Database Server Error";
 
 
@@ -211,30 +212,38 @@ function listMySolicitudes(req,res){
 }
 
 
-function darAcceso(req,res){
+function darAcceso(req, res) {
   'use strict';
-  let rid= req.params.Robotid,
-    uid=req.params.Userid;
+  let rid = req.params.Robotid,
+    uid = req.params.Userid;
 
   var mycon = db.doConnection();
 
-    accesoPromise(rid, uid, mycon)
-      .then(function(result) {
-        // Acceder a los campos del resultado
-        var nombreRobot = result.name;
-        var clave = result.Clave;
+  accesoPromise(rid, uid, mycon)
+    .then(function(result) {
+      let nombreRobot = result.name;
+      let clave = result.Clave;
 
-        // Utilizar los campos como desees
-        console.log("Nombre del robot:", nombreRobot);
-        console.log("Clave:", clave);
-        db.closeConnection(mycon);
-      })
-      .catch(function(error) {
-        // Manejar el error de la promesa rechazada
-        console.error(error);
-        db.closeConnection(mycon);
-      });
+      console.log("Nombre del robot:", nombreRobot);
+      console.log("Clave:", clave);
 
+      provideAcceso(nombreRobot, clave)
+        .then(function(result) {
+          console.log("Acceso concedido");
+          res.status(httpCodes.codes.OK).send("Acceso concedido");
+        })
+        .catch(function(err) {
+          console.error(err);
+          res.status(httpCodes.codes.CONFLICT).send("Error al conceder acceso");
+        });
+
+      db.closeConnection(mycon);
+    })
+    .catch(function(error) {
+      console.error(error);
+      db.closeConnection(mycon);
+      res.status(httpCodes.codes.SERVERERROR).send("Error al obtener acceso");
+    });
 }
 
 function accesoPromise(rid,uid,conn){
@@ -258,17 +267,86 @@ function accesoPromise(rid,uid,conn){
   });
   return laPromesa;
 }
-/*
-function jenkins(req,res){
-  const {exec} = require('child_process');
-  exec('')
 
+function provideAcceso(Robotid, Clave) {
+  const { exec } = require('child_process');
+
+  return new Promise((resolve, reject) => {
+    exec(
+      `USER_PKEY=$(echo -n '${Clave}' | perl -p -e 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg') && curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_011_PROVIDE_ACCESS/buildWithParameters?TARGET_HOST='${Robotid}'&USER_PKEY=${USER_PKEY}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error al ejecutar los comandos: ${error}`);
+          reject(error);
+        } else {
+          console.log(`Resultado: ${stdout}`);
+          resolve("Proceso ejecutado correctamente");
+        }
+      }
+    );
+  });
 }
 
- */
+function revokeAcceso(Robotid, Clave) {
+  const { exec } = require('child_process');
+
+  return new Promise((resolve, reject) => {
+    exec(
+      `USER_PKEY=$(echo -n '${Clave}' | perl -p -e 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg') && curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_009_REVOKE_ACCESS/buildWithParameters?TARGET_HOST='${Robotid}'&USER_PKEY=${USER_PKEY}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error al ejecutar los comandos: ${error}`);
+          reject(error);
+        } else {
+          console.log(`Resultado: ${stdout}`);
+          resolve("Proceso ejecutado correctamente");
+        }
+      }
+    );
+  });
+}
+
+
+function quitarAcceso(req, res) {
+  'use strict';
+  let rid = req.params.Robotid,
+    uid = req.params.Userid;
+
+  var mycon = db.doConnection();
+
+  accesoPromise(rid, uid, mycon)
+    .then(function(result) {
+      let nombreRobot = result.name;
+      let clave = result.Clave;
+
+      console.log("Nombre del robot:", nombreRobot);
+      console.log("Clave:", clave);
+
+      revokeAcceso(nombreRobot, clave)
+        .then(function(result) {
+          console.log("Acceso revocado");
+          res.status(httpCodes.codes.OK).send("Acceso revocado");
+
+        })
+        .catch(function(err) {
+          console.error(err);
+          res.status(httpCodes.codes.CONFLICT).send("Error al revocar acceso");
+        });
+
+      db.closeConnection(mycon);
+    })
+    .catch(function(error) {
+      console.error(error);
+      db.closeConnection(mycon);
+      res.status(httpCodes.codes.SERVERERROR).send("Error al revocar acceso");
+    });
+}
+
 
 exports.createNewSolicitud=createNewSolicitud;
 exports.deleteSolicitud=deleteSolicitud;
 exports.updateEstadoSolicitud=updateEstadoSolicitud;
 exports.listSolicitudes=listSolicitudes;
 exports.listMySolicitudes=listMySolicitudes;
+exports.darAcceso=darAcceso;
+exports.quitarAcceso=quitarAcceso;
