@@ -60,4 +60,5 @@ app.delete('/solicitudes/:Robotid/:Userid',solicitud.deleteSolicitud);
 app.put('/solicitudes',solicitud.updateEstadoSolicitud);
 app.get('/solicitudes/:Userid',solicitud.listMySolicitudes);
 app.get('/solicitudes',solicitud.listSolicitudes);
+app.post('/acceso',solicitud.darAcceso);
 module.exports = router;

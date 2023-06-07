@@ -12,7 +12,7 @@ function createNewSolicitud(req,res){
     name=req.body.name,
     description = req.body.description,
     sql;
-  if(!name || !description){
+  if(!name ){
     res.status(httpCodes.codes.BADREQUEST).json("Faltan datos")
     db.closeConnection(mycon);
   }else{
@@ -214,14 +214,14 @@ function listMySolicitudes(req,res){
 
 function darAcceso(req, res) {
   'use strict';
-  let rid = req.params.Robotid,
-    uid = req.params.Userid;
+  let rid = req.body.Robotid,
+    uid = req.body.Userid;
 
   var mycon = db.doConnection();
 
   accesoPromise(rid, uid, mycon)
     .then(function(result) {
-      let nombreRobot = result.name;
+      let nombreRobot = result.name.substring(8);
       let clave = result.Clave;
 
       console.log("Nombre del robot:", nombreRobot);
@@ -272,20 +272,21 @@ function provideAcceso(Robotid, Clave) {
   const { exec } = require('child_process');
 
   return new Promise((resolve, reject) => {
-    exec(
-      `USER_PKEY=$(echo -n '${Clave}' | perl -p -e 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg') && curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_011_PROVIDE_ACCESS/buildWithParameters?TARGET_HOST='${Robotid}'&USER_PKEY=${USER_PKEY}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error al ejecutar los comandos: ${error}`);
-          reject(error);
-        } else {
-          console.log(`Resultado: ${stdout}`);
-          resolve("Proceso ejecutado correctamente");
-        }
+    const encodedClave = encodeURIComponent(Clave);
+    const cmd = `curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_011_PROVIDE_ACCESS/buildWithParameters?TARGET_HOST=${Robotid}&USER_PKEY=${encodedClave}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`;
+
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error al ejecutar los comandos: ${error}`);
+        reject(error);
+      } else {
+        console.log(`Resultado: ${stdout}`);
+        resolve("Proceso ejecutado correctamente");
       }
-    );
+    });
   });
 }
+
 
 function revokeAcceso(Robotid, Clave) {
   const { exec } = require('child_process');
@@ -316,7 +317,7 @@ function quitarAcceso(req, res) {
 
   accesoPromise(rid, uid, mycon)
     .then(function(result) {
-      let nombreRobot = result.name;
+      let nombreRobot = result.name.substring(8);
       let clave = result.Clave;
 
       console.log("Nombre del robot:", nombreRobot);

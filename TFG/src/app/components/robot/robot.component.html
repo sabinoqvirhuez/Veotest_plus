@@ -22,6 +22,7 @@
       <td *ngIf="user.disponible==1">Disponible</td>
       <td *ngIf="admin()" ><button (click)="updateRobotInfo(user.name)">Modificar información</button></td>
       <td *ngIf="admin()" ><button (click)="deleteRobot(user.name)">Borrar robot</button></td>
+      <td *ngIf="!admin()" ><button (click)="saveSolicitud(user.name)">Solicitar</button></td>
 
     </tr>
     </tbody>

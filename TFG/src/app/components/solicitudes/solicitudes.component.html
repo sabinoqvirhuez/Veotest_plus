@@ -16,7 +16,8 @@
       <tbody>
       <tr *ngFor="let user of mysolicitudes">
         <td>{{ user.Robotid }}</td>
-        <td>{{ user.description }}</td>
+        <td *ngIf="user.description.length>0">{{ user.description }}</td>
+        <td *ngIf="user.description.length==0">Sin descripción</td>
         <td>{{ user.Fecha }}</td>
         <td *ngIf="user.Estado==0">Pendiente</td>
         <td *ngIf="user.Estado==1">En activo</td>
@@ -49,7 +50,8 @@
       <tbody>
       <tr *ngFor="let user of solicitudes">
         <td>{{ user.Robotid }}</td>
-        <td id="td">{{ user.description }}</td>
+        <td *ngIf="user.description.length>0">{{ user.description }}</td>
+        <td *ngIf="user.description.length==0">Sin descripción</td>
         <td>{{ user.Fecha }}</td>
         <td *ngIf="user.Estado==0">Pendiente</td>
         <td *ngIf="user.Estado==1">En activo</td>
@@ -57,6 +59,7 @@
         <td *ngIf="user.Estado==3">Rechazado</td>
 
         <td *ngIf="user.Estado==0" ><button (click)="actualizarEstadoDeSolicitud(user.Userid,user.Robotid,3)">Rechazar Solicitud</button></td>
+        <td *ngIf="user.Estado==0" ><button (click)="concederAcceso(user)">Dar Acceso</button></td>
         <td *ngIf="user.Estado==1" ><button >Revocar Acceso</button></td>
         <td *ngIf="user.Estado==2" ><button (click)="borrarSolicitud(user.Userid,user.Robotid)" >Eliminar Solicitud</button></td>
         <td *ngIf="user.Estado==3" ><button (click)="borrarSolicitud(user.Userid,user.Robotid)" >Eliminar Solicitud</button></td>

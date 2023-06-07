@@ -24,3 +24,9 @@ h2 {
 borrar {
   padding-top: 50px;
 }
+
+td{
+  max-width: 200px;
+  word-wrap: break-word;
+
+}

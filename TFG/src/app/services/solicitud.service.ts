@@ -51,4 +51,14 @@ export class SolicitudService {
       observe: 'response' // Aquí se especifica que se desea observar la respuesta completa
     });
   }
+
+  provideSolicitud(solicitud: Solicitud){
+    let headers = new HttpHeaders().set('Content-type','application/json');
+    return this._http.post(this.url+'/solicitudes',solicitud,{headers:headers});
+
+  }
+
+  revokeSolicitud(){
+
+  }
 }

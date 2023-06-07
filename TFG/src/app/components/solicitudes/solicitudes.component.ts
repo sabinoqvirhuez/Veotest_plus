@@ -88,5 +88,21 @@ export class SolicitudesComponent implements OnInit{
     }
   }
 
+  concederAcceso(aux:Solicitud){
+
+    this.service.provideSolicitud(aux).subscribe(
+      response  =>{
+        console.log(response);
+        console.log("Se hizo correctamente");
+
+      },error => {
+        console.log(<any>error);
+        console.log("Ocurrio un error");
+
+      }
+    );
+
+  }
+
 
 }
