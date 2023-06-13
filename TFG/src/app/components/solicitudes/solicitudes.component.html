@@ -1,76 +1,65 @@
 <div class="container-md">
-
   <h2>Solicitudes</h2>
-  <ng-container  *ngIf="!admin(); else elseBlock">
-
-    <table>
-      <thead>
-      <tr>
-        <th>Robotid</th>
-        <th>Descripción</th>
-        <th>Fecha</th>
-        <th>Estado</th>
-
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of mysolicitudes">
-        <td>{{ user.Robotid }}</td>
-        <td *ngIf="user.description.length>0">{{ user.description }}</td>
-        <td *ngIf="user.description.length==0">Sin descripción</td>
-        <td>{{ user.Fecha }}</td>
-        <td *ngIf="user.Estado==0">Pendiente</td>
-        <td *ngIf="user.Estado==1">En activo</td>
-        <td *ngIf="user.Estado==2">Revocado</td>
-        <td *ngIf="user.Estado==3">Rechazado</td>
-
-      </tr>
-      </tbody>
-    </table>
-
-    <button >
-      <a class="nav-link" aria-current="page" routerLink="/create-solicitud">Crear Solicitud</a>
-    </button>
-
-
-
+  <ng-container *ngIf="solicitudes.length === 0; ">
+    <p>No hay solicitudes en este momento</p>
   </ng-container>
-  <ng-template  #elseBlock>
-
+  <ng-container *ngIf="admin(); then adminSolicitudesBlock; else mySolicitudesBlock"></ng-container>
+  <ng-template #adminSolicitudesBlock>
     <table>
       <thead>
       <tr>
-        <th>Robotid</th>
-        <th>Descripción</th>
+        <th>Nombre del robot</th>
+        <th>Solicitado por</th>
         <th>Fecha</th>
         <th>Estado</th>
-
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let user of solicitudes">
-        <td>{{ user.Robotid }}</td>
-        <td *ngIf="user.description.length>0">{{ user.description }}</td>
-        <td *ngIf="user.description.length==0">Sin descripción</td>
-        <td>{{ user.Fecha }}</td>
-        <td *ngIf="user.Estado==0">Pendiente</td>
-        <td *ngIf="user.Estado==1">En activo</td>
-        <td *ngIf="user.Estado==2">Revocado</td>
-        <td *ngIf="user.Estado==3">Rechazado</td>
-
-        <td *ngIf="user.Estado==0" ><button (click)="actualizarEstadoDeSolicitud(user.Userid,user.Robotid,3)">Rechazar Solicitud</button></td>
-        <td *ngIf="user.Estado==0" ><button (click)="concederAcceso(user)">Dar Acceso</button></td>
-        <td *ngIf="user.Estado==1" ><button >Revocar Acceso</button></td>
-        <td *ngIf="user.Estado==2" ><button (click)="borrarSolicitud(user.Userid,user.Robotid)" >Eliminar Solicitud</button></td>
-        <td *ngIf="user.Estado==3" ><button (click)="borrarSolicitud(user.Userid,user.Robotid)" >Eliminar Solicitud</button></td>
-
+        <td>{{ user.name }}</td>
+        <td>{{ user.uname +" "+ user.usurname }}</td>
+        <td>{{ user.Fecha | date: 'dd MMMM yyyy, HH:mm' }}</td>
+        <td *ngIf="user.Estado === 0">Pendiente</td>
+        <td *ngIf="user.Estado === 1">En activo</td>
+        <td *ngIf="user.Estado === 2">Revocado</td>
+        <td *ngIf="user.Estado === 3">Rechazado</td>
+        <td class="hola" *ngIf="user.Estado === 0">
+          <button (click)="actualizarEstadoDeSolicitud(user.Userid, user.Robotid, 3)">Rechazar Solicitud</button>
+        </td>
+        <td class="hola" *ngIf="user.Estado === 0">
+          <button (click)="concederAcceso(user)">Dar Acceso</button>
+        </td>
+        <td class="hola" *ngIf="user.Estado === 1">
+          <button (click)="revocarAcceso(user)">Revocar Acceso</button>
+        </td>
+        <td class="hola" *ngIf="user.Estado === 2 || user.Estado === 3">
+          <button (click)="borrarSolicitud(user.Userid, user.Robotid)">Eliminar Solicitud</button>
+        </td>
       </tr>
       </tbody>
     </table>
-
   </ng-template>
 
-
-
+  <ng-template #mySolicitudesBlock>
+    <table>
+      <thead>
+      <tr>
+        <th>Nombre del robot</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of mysolicitudes">
+        <td>{{ user.name }}</td>
+        <td>{{ user.Fecha | date: 'dd MMMM yyyy, HH:mm' }}</td>
+        <td *ngIf="user.Estado === 0">Pendiente</td>
+        <td *ngIf="user.Estado === 1">En activo</td>
+        <td *ngIf="user.Estado === 2">Revocado</td>
+        <td *ngIf="user.Estado === 3">Rechazado</td>
+      </tr>
+      </tbody>
+    </table>
+  </ng-template>
 
 </div>

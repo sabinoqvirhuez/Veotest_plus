@@ -4,7 +4,7 @@ export class Robot{
     public description: string,
     public dispositivo:string,
     public direccion: string,
-    public disponible: number
+    public disponible: string
 
   ) {}
 }

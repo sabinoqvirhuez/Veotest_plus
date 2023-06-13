@@ -5,6 +5,8 @@ import {User} from "./models/user";
 import { Router } from '@angular/router';
 import {HttpResponse} from "@angular/common/http";
 import {AuthGuard} from "./services/auth.guard";
+import {SolicitudService} from "./services/solicitud.service";
+
 
 
 @Component({
@@ -19,6 +21,7 @@ export class AppComponent implements OnInit{
   public status: string;
   usersA: User[]=[];
 
+
   constructor(private servicio: UserService, private router: Router,private auth: AuthGuard) {
     this.usuario = new User('','','',0,'');
     this.status = '';
@@ -27,7 +30,6 @@ export class AppComponent implements OnInit{
 
 
   }
-
   ngOnInit() {
 
 

@@ -59,8 +59,8 @@
                             <div class="col">
                               <div class="form-group">
                                 <label>Disponibilidad</label>
-                                <p  *ngIf="robots && robots.length > 0&& robots[0].disponible==0">No disponible</p>
-                                <p  *ngIf="robots && robots.length > 0&& robots[0].disponible==1">Disponible</p>
+                                <p  *ngIf="robots && robots.length > 0">{{robots[0].disponible}}</p>
+
                               </div>
                             </div>
 

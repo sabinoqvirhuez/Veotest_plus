@@ -16,13 +16,6 @@
           El nombre del robot es obligatorio
       </span>
     </p>
-    <p>
-      <label >Breve descripción</label>
-      <input type ="text" name="description" #description="ngModel" [(ngModel)]="solicitud.description" required/>
-      <span *ngIf="description.touched && !description.valid">
-        La descripción es obligatoria
-      </span>
-    </p>
 
     <input type="submit" value ="Enviar" [disabled]="!solicitudForm.form.valid"/>
   </form>

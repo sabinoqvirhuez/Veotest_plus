@@ -18,11 +18,10 @@
       <td>{{ user.description }}</td>
       <td>{{ user.dispositivo }}</td>
       <td>{{ user.direccion }}</td>
-      <td *ngIf="user.disponible==0">No Disponible</td>
-      <td *ngIf="user.disponible==1">Disponible</td>
+      <td>{{user.disponible}}</td>
       <td *ngIf="admin()" ><button (click)="updateRobotInfo(user.name)">Modificar información</button></td>
       <td *ngIf="admin()" ><button (click)="deleteRobot(user.name)">Borrar robot</button></td>
-      <td *ngIf="!admin()" ><button (click)="saveSolicitud(user.name)">Solicitar</button></td>
+      <td *ngIf="!admin() && mysolicitudes.length===0 && user.disponible==='Disponible' " ><button (click)="saveSolicitud(user.name)">Solicitar acceso</button></td>
 
     </tr>
     </tbody>

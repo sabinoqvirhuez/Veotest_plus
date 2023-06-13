@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Global} from "./global";
 import {Solicitud} from "../models/solicitud";
 import {SolicitudAux} from "../models/solicitudAux";
+import {SolicitudName} from "../models/solicitudName";
 
 
 
@@ -21,12 +22,12 @@ export class SolicitudService {
 
   listSolicitudes() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.get<Solicitud[]>(this.url + '/solicitudes', { headers });
+    return this._http.get<SolicitudName[]>(this.url + '/solicitudes', { headers });
   }
-  listOneSolicitud(id: number): Observable<Solicitud[]> {
+  listOneSolicitud(id: number): Observable<SolicitudName[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const url = `${this.url+'/solicitudes'}/${id}`;
-    return this._http.get<Solicitud[]>(url, { headers });
+    return this._http.get<SolicitudName[]>(url, { headers });
   }
 
   //Hacer otro modelo de solicitud
@@ -52,13 +53,16 @@ export class SolicitudService {
     });
   }
 
-  provideSolicitud(solicitud: Solicitud){
+  provideSolicitud(aux: Solicitud){
     let headers = new HttpHeaders().set('Content-type','application/json');
-    return this._http.post(this.url+'/solicitudes',solicitud,{headers:headers});
+    return this._http.post(this.url+'/acceso',aux,{headers:headers});
 
   }
 
-  revokeSolicitud(){
+  revokeSolicitud(aux:Solicitud){
+    let headers = new HttpHeaders().set('Content-type','application/json');
+    return this._http.post(this.url+'/noacceso',aux,{headers:headers});
+
 
   }
 }

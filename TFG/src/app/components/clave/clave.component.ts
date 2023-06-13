@@ -3,7 +3,6 @@ import {KeyService} from "../../services/key.service";
 import {Router} from "@angular/router";
 import{Key} from "../../models/key"
 import {HttpResponse} from "@angular/common/http";
-
 @Component({
   selector: 'app-clave',
   templateUrl: './clave.component.html',
@@ -23,11 +22,17 @@ export class ClaveComponent implements OnInit{
     let aux2: number;
     if (aux !== null) {
       aux2 = parseInt(aux);
-      this.service.showKey(aux2).subscribe(key => {
-        this.keys = key;
-      });
+      this.service.showKey(aux2).subscribe(
+        key => {
+          this.keys = key;
+        },
+        error => {
+          console.log("No hay clave.");
+        }
+      );
+
     } else {
-      console.log('Fallo');
+      console.log('Fallo al obtener el id del usuario');
     }
   }
 

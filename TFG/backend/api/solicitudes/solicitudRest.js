@@ -10,7 +10,6 @@ function createNewSolicitud(req,res){
 
   var Userid= req.body.Userid,
     name=req.body.name,
-    description = req.body.description,
     sql;
   if(!name ){
     res.status(httpCodes.codes.BADREQUEST).json("Faltan datos")
@@ -19,8 +18,8 @@ function createNewSolicitud(req,res){
     checkRobotExists(name, mycon)
       .then((result) => {
         const Robotid = result.Robotid;
-        sql = `INSERT INTO solicitudes ( Userid, Robotid, description,Estado)`;
-        sql += `VALUES ('${Userid}','${Robotid}','${description}',0)`;
+        sql = `INSERT INTO solicitudes ( Userid, Robotid,Estado)`;
+        sql += `VALUES ('${Userid}','${Robotid}',0)`;
         mycon.query(sql, function (err, result) {
           if (err) {
             res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
@@ -171,7 +170,7 @@ function checkRobotExistsByRobotid(id,conn){
 function listSolicitudes(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select Userid, Robotid, description, Estado FROM solicitudes";
+  var sql = "Select robots.name as name, usuarios.name as uname, usuarios.surname as usurname, solicitudes.Robotid,Fecha, Estado FROM solicitudes Join robots on solicitudes.Robotid= robots.Robotid join usuarios on solicitudes.Userid= usuarios.Userid";
 
   mycon.query(sql,function(err,result){
     if(err){
@@ -193,7 +192,7 @@ function listMySolicitudes(req,res){
   'use strict';
   var Userid = req.params.Userid;
   var mycon = db.doConnection();
-  var sql = "Select Userid, Robotid, description, Estado FROM solicitudes WHERE Userid ='"+Userid+"'";
+  var sql = "Select name, Fecha, Estado FROM solicitudes Join robots on solicitudes.Robotid= robots.Robotid WHERE Userid ='"+Userid+"'";
 
   mycon.query(sql,function(err,result){
     if(err){
@@ -230,11 +229,11 @@ function darAcceso(req, res) {
       provideAcceso(nombreRobot, clave)
         .then(function(result) {
           console.log("Acceso concedido");
-          res.status(httpCodes.codes.OK).send("Acceso concedido");
+          res.status(httpCodes.codes.OK).json("Acceso concedido");
         })
         .catch(function(err) {
           console.error(err);
-          res.status(httpCodes.codes.CONFLICT).send("Error al conceder acceso");
+          res.status(httpCodes.codes.CONFLICT).json("Error al conceder acceso");
         });
 
       db.closeConnection(mycon);
@@ -242,7 +241,7 @@ function darAcceso(req, res) {
     .catch(function(error) {
       console.error(error);
       db.closeConnection(mycon);
-      res.status(httpCodes.codes.SERVERERROR).send("Error al obtener acceso");
+      res.status(httpCodes.codes.SERVERERROR).json("Error al obtener acceso");
     });
 }
 
@@ -272,7 +271,7 @@ function provideAcceso(Robotid, Clave) {
   const { exec } = require('child_process');
 
   return new Promise((resolve, reject) => {
-    const encodedClave = encodeURIComponent(Clave);
+    const encodedClave = encodeURIComponent(`"${Clave}"`);
     const cmd = `curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_011_PROVIDE_ACCESS/buildWithParameters?TARGET_HOST=${Robotid}&USER_PKEY=${encodedClave}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`;
 
     exec(cmd, (error, stdout, stderr) => {
@@ -288,30 +287,32 @@ function provideAcceso(Robotid, Clave) {
 }
 
 
+
+
 function revokeAcceso(Robotid, Clave) {
   const { exec } = require('child_process');
 
   return new Promise((resolve, reject) => {
-    exec(
-      `USER_PKEY=$(echo -n '${Clave}' | perl -p -e 's/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg') && curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_009_REVOKE_ACCESS/buildWithParameters?TARGET_HOST='${Robotid}'&USER_PKEY=${USER_PKEY}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error al ejecutar los comandos: ${error}`);
-          reject(error);
-        } else {
-          console.log(`Resultado: ${stdout}`);
-          resolve("Proceso ejecutado correctamente");
-        }
+    const encodedClave = encodeURIComponent(`"${Clave}"`);
+    const cmd = `curl -X POST "http://10.96.0.71:8080/job/JOB_ANS_009_REVOKE_ACCESS/buildWithParameters?TARGET_HOST=${Robotid}&USER_PKEY=${encodedClave}" --user uservideo:1191a844371d1d85652e94017fce9f8f6e`;
+
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error al ejecutar los comandos: ${error}`);
+        reject(error);
+      } else {
+        console.log(`Resultado: ${stdout}`);
+        resolve("Proceso ejecutado correctamente");
       }
-    );
+    });
   });
 }
 
 
 function quitarAcceso(req, res) {
   'use strict';
-  let rid = req.params.Robotid,
-    uid = req.params.Userid;
+  let rid = req.body.Robotid,
+    uid = req.body.Userid;
 
   var mycon = db.doConnection();
 
@@ -326,12 +327,12 @@ function quitarAcceso(req, res) {
       revokeAcceso(nombreRobot, clave)
         .then(function(result) {
           console.log("Acceso revocado");
-          res.status(httpCodes.codes.OK).send("Acceso revocado");
+          res.status(httpCodes.codes.OK).json("Acceso revocado");
 
         })
         .catch(function(err) {
           console.error(err);
-          res.status(httpCodes.codes.CONFLICT).send("Error al revocar acceso");
+          res.status(httpCodes.codes.CONFLICT).json("Error al revocar acceso");
         });
 
       db.closeConnection(mycon);
@@ -339,7 +340,7 @@ function quitarAcceso(req, res) {
     .catch(function(error) {
       console.error(error);
       db.closeConnection(mycon);
-      res.status(httpCodes.codes.SERVERERROR).send("Error al revocar acceso");
+      res.status(httpCodes.codes.SERVERERROR).json("Error al revocar acceso");
     });
 }
 

@@ -54,11 +54,12 @@ export class RobotProfileComponent implements OnInit{
 
   changeAvailability(robotaux: Robot){
 
-    if(robotaux.disponible==0){
-      robotaux.disponible=1;
-    }else{
-      robotaux.disponible=0;
+    if (robotaux.disponible === 'Disponible') {
+      robotaux.disponible = 'No Disponible';
+    } else {
+      robotaux.disponible = 'Disponible';
     }
+
 
     this.robotService.newDisponibilidad(robotaux).subscribe(
       (response: HttpResponse<any>)=>{

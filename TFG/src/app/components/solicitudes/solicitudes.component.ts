@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {SolicitudService} from "../../services/solicitud.service";
 import {Solicitud} from "../../models/solicitud";
-import {SolicitudAux} from "../../models/solicitudAux";
 import {HttpResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {RobotService} from "../../services/robot.service";
+import {SolicitudName} from "../../models/solicitudName";
+import {Robot} from "../../models/robot";
+
 
 @Component({
   selector: 'app-solicitudes',
@@ -12,12 +14,15 @@ import {Router} from "@angular/router";
 })
 export class SolicitudesComponent implements OnInit{
 
-  solicitudes: Solicitud[]=[];
-  mysolicitudes: Solicitud[]=[];
+  solicitudes: SolicitudName[]=[];
+  mysolicitudes: SolicitudName[]=[];
   aux:Solicitud;
+  auxRobot:Robot
 
-  constructor(private service: SolicitudService, private router: Router) {
-    this.aux= new Solicitud(0,0,'',new Date(),0);
+  constructor(private service: SolicitudService,  private rservice: RobotService) {
+    this.aux= new Solicitud(0,0,new Date(),0);
+    this.auxRobot= new Robot("","","","","");
+
   }
   ngOnInit() {
     this.initVariables();
@@ -29,6 +34,7 @@ export class SolicitudesComponent implements OnInit{
       (error:any)=>{
         console.log("Error borrando a solicitud con Robotid: "+Robotid+" y Userid: "+Userid);
       });
+    this.initVariables();
   }
 
   actualizarEstadoDeSolicitud(Userid:number,Robotid:number,Estado:number){
@@ -39,10 +45,14 @@ export class SolicitudesComponent implements OnInit{
     {
       console.log("Se cambió el estado de la solicitud correctamente");
       this.initVariables();
+      if (Estado==3){
+        this.actualizarDisponibilidadRobot(false);
+      }
 
     },error => {
       console.log("Error cambiando el estado de la solicitud");
     })
+
   }
 
   initVariables() {
@@ -88,17 +98,54 @@ export class SolicitudesComponent implements OnInit{
     }
   }
 
-  concederAcceso(aux:Solicitud){
-
+  concederAcceso(aux: Solicitud) {
     this.service.provideSolicitud(aux).subscribe(
+      response  => {
+        console.log(response);
+        console.log("Se ha concedido el acceso correctamente");
+        this.actualizarEstadoDeSolicitud(aux.Userid, aux.Robotid, 1);
+        this.actualizarDisponibilidadRobot(false);
+      },
+      error => {
+        console.log(error);
+        console.log("Ocurrió un error al conceder el acceso");
+      }
+    );
+  }
+
+
+
+
+  revocarAcceso(aux:Solicitud){
+
+    this.service.revokeSolicitud(aux).subscribe(
       response  =>{
         console.log(response);
         console.log("Se hizo correctamente");
+        this.actualizarEstadoDeSolicitud(aux.Userid,aux.Robotid,2);
+        this.actualizarDisponibilidadRobot(true);
 
       },error => {
         console.log(<any>error);
         console.log("Ocurrio un error");
 
+      }
+    );
+
+
+  }
+  actualizarDisponibilidadRobot(aux:boolean) {
+    if (!aux) {
+    this.auxRobot.disponible = "No Disponible";
+    }else{
+      this.auxRobot.disponible="Disponible"
+    }
+    this.rservice.newDisponibilidad(this.auxRobot).subscribe(
+      () => {
+        console.log("El cambio de disponibilidad del robot se realizó con éxito");
+      },
+      (error) => {
+        console.error("Ocurrió un error al cambiar la disponibilidad del robot:", error);
       }
     );
 

@@ -21,7 +21,7 @@ export class UpdateRobotComponent implements OnInit{
     private service: RobotService, private route: ActivatedRoute
   ) {
     this.title = 'Actualizar datos del Robot';
-    this.robot = new Robot('','','','',1);
+    this.robot = new Robot('','','','','Disponible');
     this.statusDireccion ='';
     this.statusDescription='';
     this.statusDispositivo='';

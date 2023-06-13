@@ -302,34 +302,34 @@ function updateSurnameUser(req, res) {
 
 
 //Elimina el usuario pasado por parámetro
-function deleteUser(req,res){
-  'use strict'
+function deleteUser(req, res) {
+  'use strict';
   var mycon = db.doConnection();
-  var email= req.params.email,
-    sql;
+  var email = req.params.email;
+  var sql;
   console.log(email);
-  checkUserExists(email,mycon)
-    .then(function(resp){
-          sql="DELETE FROM usuarios WHERE email='"+email+"'";
-          mycon.query(sql,function(err,result){
-            if(err)
-              res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
-            else{
-              res.status(httpCodes.codes.NOCONTENT).end();
-            }
-            db.closeConnection(mycon);
-          });
+  checkUserExists(email, mycon)
+    .then(function(resp) {
+      sql = "DELETE FROM usuarios WHERE email='" + email + "'";
+      mycon.query(sql, function(err, result) {
+        if (err)
+          res.status(httpCodes.codes.SERVERERROR).json(DBERROR);
+        else {
+          res.status(httpCodes.codes.NOCONTENT).end();
+        }
+        db.closeConnection(mycon);
+      });
     })
-    .catch(function(resp){
-      if(resp!==DBERROR){
+    .catch(function(resp) {
+      if (resp !== DBERROR) {
         res.status(httpCodes.codes.NOTFOUND).json(resp);
-      }else{
+      } else {
         res.status(httpCodes.codes.SERVERERROR).json(resp);
       }
       db.closeConnection(mycon);
     });
-
 }
+
 /*Comprueba que el usuario en body req existe llamando a la checkLogin()
 en caso de existir devuelve el usuario y un token, en caso de que no devuelve un mensaje de error
 */

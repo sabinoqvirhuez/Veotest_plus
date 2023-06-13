@@ -285,7 +285,7 @@ function updateDisponibleRobot(req, res) {
   'use strict';
   var name = req.body.name,
     direccion = req.body.disponible;
-  if (!name || direccion==null)
+  if (!name || !direccion)
     res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
   else {
     var mycon = db.doConnection();

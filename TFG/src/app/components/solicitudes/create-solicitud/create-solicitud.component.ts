@@ -13,7 +13,7 @@ export class CreateSolicitudComponent implements OnInit{
 
 
   constructor(private service: SolicitudService) {
-    this.solicitud = new SolicitudAux(0,'','');
+    this.solicitud = new SolicitudAux(0,'');
     this.status='';
   }
 

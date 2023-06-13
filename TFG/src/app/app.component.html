@@ -58,7 +58,7 @@
         <button id ="robot">
           <a class="nav-link" aria-current="page" routerLink="/robots">Robots</a>
         </button>
-        <button >
+        <button *ngIf="!admin()" >
           <a class="nav-link" aria-current="page" routerLink="/keys">Clave</a>
         </button>
         <button >

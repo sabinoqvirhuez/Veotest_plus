@@ -15,7 +15,11 @@ th, td {
 }
 
 td{
-  max-width: 300px;
+  max-width: 150px;
   word-wrap: break-word;
+
+}
+.hola{
+  max-width: 110px;
 
 }
