@@ -24,7 +24,7 @@
         <td *ngIf="user.Estado === 2">Revocado</td>
         <td *ngIf="user.Estado === 3">Rechazado</td>
         <td class="hola" *ngIf="user.Estado === 0">
-          <button (click)="actualizarEstadoDeSolicitud(user.Userid, user.Robotid, 3)">Rechazar Solicitud</button>
+          <button (click)="actualizarEstadoDeSolicitud(user.Userid, user.Robotid, 3,user.name)">Rechazar Solicitud</button>
         </td>
         <td class="hola" *ngIf="user.Estado === 0">
           <button (click)="concederAcceso(user)">Dar Acceso</button>
@@ -57,6 +57,9 @@
         <td *ngIf="user.Estado === 1">En activo</td>
         <td *ngIf="user.Estado === 2">Revocado</td>
         <td *ngIf="user.Estado === 3">Rechazado</td>
+        <td class="hola" *ngIf="user.Estado === 2 || user.Estado === 3">
+          <button (click)="borrarSolicitud(user.Userid, user.Robotid)">Eliminar Solicitud</button>
+        </td>
       </tr>
       </tbody>
     </table>

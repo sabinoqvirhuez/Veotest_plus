@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {SolicitudService} from "../../services/solicitud.service";
-import {Solicitud} from "../../models/solicitud";
 import {HttpResponse} from "@angular/common/http";
 import {RobotService} from "../../services/robot.service";
 import {SolicitudName} from "../../models/solicitudName";
@@ -16,11 +15,11 @@ export class SolicitudesComponent implements OnInit{
 
   solicitudes: SolicitudName[]=[];
   mysolicitudes: SolicitudName[]=[];
-  aux:Solicitud;
+  aux:SolicitudName;
   auxRobot:Robot
 
   constructor(private service: SolicitudService,  private rservice: RobotService) {
-    this.aux= new Solicitud(0,0,new Date(),0);
+    this.aux= new SolicitudName("","","",0,0,new Date(),0);
     this.auxRobot= new Robot("","","","","");
 
   }
@@ -37,7 +36,7 @@ export class SolicitudesComponent implements OnInit{
     this.initVariables();
   }
 
-  actualizarEstadoDeSolicitud(Userid:number,Robotid:number,Estado:number){
+  actualizarEstadoDeSolicitud(Userid:number,Robotid:number,Estado:number,name:string){
     this.aux.Userid=Userid;
     this.aux.Robotid=Robotid;
     this.aux.Estado=Estado;
@@ -45,8 +44,10 @@ export class SolicitudesComponent implements OnInit{
     {
       console.log("Se cambió el estado de la solicitud correctamente");
       this.initVariables();
-      if (Estado==3){
-        this.actualizarDisponibilidadRobot(false);
+      if (Estado==3 || Estado ==2){
+        this.actualizarDisponibilidadRobot(false, name);
+      }else{
+        this.actualizarDisponibilidadRobot(true,name);
       }
 
     },error => {
@@ -98,13 +99,15 @@ export class SolicitudesComponent implements OnInit{
     }
   }
 
-  concederAcceso(aux: Solicitud) {
+  concederAcceso(aux: SolicitudName) {
     this.service.provideSolicitud(aux).subscribe(
       response  => {
         console.log(response);
         console.log("Se ha concedido el acceso correctamente");
-        this.actualizarEstadoDeSolicitud(aux.Userid, aux.Robotid, 1);
-        this.actualizarDisponibilidadRobot(false);
+
+
+        this.actualizarEstadoDeSolicitud(aux.Userid, aux.Robotid, 1,aux.name);
+
       },
       error => {
         console.log(error);
@@ -116,14 +119,16 @@ export class SolicitudesComponent implements OnInit{
 
 
 
-  revocarAcceso(aux:Solicitud){
+  revocarAcceso(aux:SolicitudName){
 
     this.service.revokeSolicitud(aux).subscribe(
       response  =>{
         console.log(response);
         console.log("Se hizo correctamente");
-        this.actualizarEstadoDeSolicitud(aux.Userid,aux.Robotid,2);
-        this.actualizarDisponibilidadRobot(true);
+
+        this.actualizarEstadoDeSolicitud(aux.Userid,aux.Robotid,2,aux.name);
+
+
 
       },error => {
         console.log(<any>error);
@@ -134,7 +139,8 @@ export class SolicitudesComponent implements OnInit{
 
 
   }
-  actualizarDisponibilidadRobot(aux:boolean) {
+  actualizarDisponibilidadRobot(aux:boolean,name:string) {
+    this.auxRobot.name=name;
     if (!aux) {
     this.auxRobot.disponible = "No Disponible";
     }else{

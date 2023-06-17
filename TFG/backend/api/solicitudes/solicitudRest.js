@@ -31,7 +31,7 @@ function createNewSolicitud(req,res){
         });
       }).catch((error) => {
       console.error("Error: El robot que intentas solicitar, no existe", error);
-      res.status(httpCodes.codes.NOTFOUND).json(error);
+      res.status(httpCodes.codes.CONFLICT).json(error);
       db.closeConnection(mycon);
     });
   }
@@ -98,7 +98,9 @@ function updateEstadoSolicitud(req, res) {
     Robotid = req.body.Robotid,
     Estado= req.body.Estado;
 
-  if (!Userid || !Robotid || Estado<0 || Estado >4)
+  console.log(Userid,Robotid,Estado);
+
+  if (!Userid || !Robotid || Estado<0 || Estado >4 || !Estado)
     res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
   else {
     var mycon = db.doConnection();
@@ -170,7 +172,7 @@ function checkRobotExistsByRobotid(id,conn){
 function listSolicitudes(req,res){
   'use strict';
   var mycon = db.doConnection();
-  var sql = "Select robots.name as name, usuarios.name as uname, usuarios.surname as usurname, solicitudes.Robotid,Fecha, Estado FROM solicitudes Join robots on solicitudes.Robotid= robots.Robotid join usuarios on solicitudes.Userid= usuarios.Userid";
+  var sql = "Select solicitudes.Userid, robots.name as name, usuarios.name as uname, usuarios.surname as usurname, solicitudes.Robotid,Fecha, Estado FROM solicitudes Join robots on solicitudes.Robotid= robots.Robotid join usuarios on solicitudes.Userid= usuarios.Userid";
 
   mycon.query(sql,function(err,result){
     if(err){

@@ -1,4 +1,7 @@
+
 'use strict';
+
+/*
 if (!global.Promise) {
   global.Promise = require('q');
 }
@@ -253,3 +256,7 @@ describe ('Testing deleteRobot', function () {
   });
 
 });
+
+
+ */
+

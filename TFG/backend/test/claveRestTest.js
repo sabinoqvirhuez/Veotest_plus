@@ -23,11 +23,8 @@ describe('Testing createNewKey', function (){
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.CREATED);
         done();
-    })
+      })
   });
-});
-
-describe('Testing createNewKey', function (){
   it('should return 400 - Error, Falta clave',function (done){
     chai.request(url).post("/keys")
       .send({
@@ -39,9 +36,6 @@ describe('Testing createNewKey', function (){
         done();
       })
   });
-});
-
-describe('Testing createNewKey', function (){
   it('should return 409 - Error, Este usuario ya tiene una clave asignada',function (done){
     chai.request(url).post("/keys")
       .send({
@@ -64,9 +58,6 @@ describe('Testing showKey', function (){
       done();
     })
   });
-});
-
-describe('Testing showKey', function (){
   it('should return 404- Error, No se encontró la clave dada',function (done){
     chai.request(url).get("/keys/230").end(function (err,res){
       expect(err).to.be.null;
@@ -76,6 +67,7 @@ describe('Testing showKey', function (){
   });
 });
 
+
 describe('Testing deleteKey', function (){
   it('should return 204 - Clave del usuario eliminada correctamente',function (done){
     chai.request(url).delete("/keys/11")
@@ -84,9 +76,6 @@ describe('Testing deleteKey', function (){
         done();
       })
   });
-});
-
-describe('Testing deleteKey', function (){
   it('should return 404 - Error, no se encontró al usuario introducido',function (done){
     chai.request(url).delete("/keys/150")
       .end(function (err,res){
@@ -94,7 +83,9 @@ describe('Testing deleteKey', function (){
         done();
       })
   });
+
 });
+
 
 
 

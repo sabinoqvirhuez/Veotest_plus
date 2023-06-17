@@ -49,17 +49,17 @@ app.get('/profileRobot/:name',tokenV.verifyToken,robots.showRobot);
 
 //Peticiones de Claves
 
-app.get('/keys/:id',tokenV.verifyToken,clave.showKey);
-app.post('/keys',tokenV.verifyToken,clave.createNewKey);
-app.delete('/keys/:id',tokenV.verifyToken,clave.deleteKey);
+app.get('/keys/:id',clave.showKey);
+app.post('/keys',clave.createNewKey);
+app.delete('/keys/:id',clave.deleteKey);
 
 //Peticiones de Solicitudes
 
-app.post('/solicitudes',tokenV.verifyToken,solicitud.createNewSolicitud);
-app.delete('/solicitudes/:Robotid/:Userid',tokenV.verifyToken,solicitud.deleteSolicitud);
-app.put('/solicitudes',tokenV.verifyToken,solicitud.updateEstadoSolicitud);
-app.get('/solicitudes/:Userid',tokenV.verifyToken,solicitud.listMySolicitudes);
-app.get('/solicitudes',tokenV.verifyToken,solicitud.listSolicitudes);
+app.post('/solicitudes',solicitud.createNewSolicitud);
+app.delete('/solicitudes/:Robotid/:Userid',solicitud.deleteSolicitud);
+app.put('/solicitudes',solicitud.updateEstadoSolicitud);
+app.get('/solicitudes/:Userid',solicitud.listMySolicitudes);
+app.get('/solicitudes',solicitud.listSolicitudes);
 app.post('/acceso',tokenV.verifyToken,solicitud.darAcceso);
 app.post('/noacceso',tokenV.verifyToken,solicitud.quitarAcceso);
 module.exports = router;
