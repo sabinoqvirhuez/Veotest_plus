@@ -27,6 +27,7 @@ import { ClaveComponent } from './components/clave/clave.component';
 import { CreateKeyComponent } from './components/clave/create-key/create-key.component';
 import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
 import { CreateSolicitudComponent } from './components/solicitudes/create-solicitud/create-solicitud.component';
+import { IncidenciasComponent } from './components/incidencias/incidencias.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CreateSolicitudComponent } from './components/solicitudes/create-solici
     ClaveComponent,
     CreateKeyComponent,
     SolicitudesComponent,
-    CreateSolicitudComponent
+    CreateSolicitudComponent,
+    IncidenciasComponent
   ],
   imports: [
     BrowserModule,

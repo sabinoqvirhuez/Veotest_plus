@@ -20,6 +20,7 @@ import{ClaveComponent} from "./components/clave/clave.component";
 import {CreateKeyComponent} from "./components/clave/create-key/create-key.component";
 import {SolicitudesComponent} from "./components/solicitudes/solicitudes.component";
 import {CreateSolicitudComponent} from "./components/solicitudes/create-solicitud/create-solicitud.component";
+import {IncidenciasComponent} from "./components/incidencias/incidencias.component";
 
 const routes: Routes = [
   {path:'',redirectTo:'app',pathMatch:'full'},
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path:'create-key',component:CreateKeyComponent,canActivate:[AuthGuard]},
   {path:'solicitudes',component:SolicitudesComponent,canActivate:[AuthGuard]},
   {path:'create-solicitud',component:CreateSolicitudComponent,canActivate:[AuthGuard]},
+  {path:'incidencias',component:IncidenciasComponent,canActivate:[AuthGuard]},
 
   {path:'**',component:ErrorComponent}
 
