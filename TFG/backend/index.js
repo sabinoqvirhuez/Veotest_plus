@@ -6,7 +6,8 @@ var express = require ('express'),
     tokenV=require('./api/usuario/tokenRest')
   usuario = require ('./api/usuario/userRest'),
     clave= require('./api/claves/claveRest'),
-    solicitud = require('./api/solicitudes/solicitudRest')
+    solicitud = require('./api/solicitudes/solicitudRest'),
+    incidencia= require('./api/incidencias/incidenciasRest'),
     robots=require('./api/robots/robotUser');
   const cors = require('cors');
 const {verify} = require("jsonwebtoken");
@@ -62,4 +63,15 @@ app.get('/solicitudes/:Userid',solicitud.listMySolicitudes);
 app.get('/solicitudes',solicitud.listSolicitudes);
 app.post('/acceso',tokenV.verifyToken,solicitud.darAcceso);
 app.post('/noacceso',tokenV.verifyToken,solicitud.quitarAcceso);
+
+//Peticiones de Incidencias
+
+app.post('/incidencias', incidencia.createNewIncidencia);
+app.get('/incidencias',incidencia.listIncidencias);
+app.get('/incidencias/:id',incidencia.listMyIncidencias);
+app.put('/incidencias',incidencia.updateDescriptionIncidencia);
+app.delete('/incidencias/:id/:userid',incidencia.deleteIncidencia);
+app.get('/incidenciaProfile/:id/:indexid',incidencia.listOneIncidencias);
 module.exports = router;
+
+

@@ -1,0 +1,8 @@
+
+<div class="container-md">
+  <ul *ngFor="let aux of myIncidencias">
+    <li >{{ aux.Nombre }}</li>
+    <li >{{ aux.Fecha | date: 'dd MMMM yyyy, HH:mm'}}</li>
+    <li>{{aux.Description}}</li>
+  </ul>
+</div>

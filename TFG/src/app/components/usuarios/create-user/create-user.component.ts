@@ -23,6 +23,7 @@ export class CreateUserComponent implements OnInit{
 
   }
   ngOnInit(){
+    this.toggleHTML();
 
   }
 

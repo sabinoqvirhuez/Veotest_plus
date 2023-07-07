@@ -1,1 +1,70 @@
-<p>incidencias works!</p>
+<div class="container-md">
+  <h2>Incidencias</h2>
+  <ng-container *ngIf="incidencias.length === 0 && !admin() ">
+    <p>No hay incidencias en este momento</p>
+    <button>
+      <a class="nav-link" aria-current="page" routerLink="/create-incidencia">Crear incidencia</a>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="admin(); then adminSolicitudesBlock; else mySolicitudesBlock"></ng-container>
+  <ng-template #adminSolicitudesBlock>
+    <table>
+      <thead>
+      <tr>
+        <th>Creada por</th>
+        <th>Título
+        <th>Fecha</th>
+        <th>Descripción</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let aux of incidencias">
+        <td>{{aux.name+" "+aux.surname}}</td>
+        <td>{{ aux.Nombre}}</td>
+        <td>{{ aux.Fecha | date: 'dd MMMM yyyy, HH:mm' }}</td>
+        <td>{{ aux.Description.substring(0,25) + "..." }}</td>
+        <button type="button" class="btn btn-link">  <a (click)="enviarDatos(aux.Idincidencia,aux.Userid);">Leer más</a></button>
+
+        <td class="hola" >
+          <button (click)="borrarIncidencia(aux.Idincidencia, aux.Userid)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn btn-outline-secondary me-2">
+      <a class="nav-link" aria-current="page" routerLink="/create-incidencia">Crear incidencia</a>
+    </button>
+  </ng-template>
+
+  <ng-template #mySolicitudesBlock>
+    <table>
+      <thead>
+      <tr>
+
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let aux of myIncidencias">
+
+        <td>{{ aux.Nombre}}</td>
+        <td>{{ aux.Description }}</td>
+        <td>{{ aux.Fecha | date: 'dd MMMM yyyy, HH:mm' }}</td>
+        <td class="hola" >
+          <button (click)="borrarIncidencia(aux.Idincidencia, aux.Userid)">Eliminar Solicitud</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn btn-outline-secondary me-2">
+      <a class="nav-link" aria-current="page" routerLink="/create-incidencia">Crear incidencia</a>
+    </button>
+  </ng-template>
+
+</div>
+

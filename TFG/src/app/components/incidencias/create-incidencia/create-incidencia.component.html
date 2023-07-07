@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <h2>Crear Incidencia</h2>
+
+  <div class ="message success" *ngIf="status == 'success'">
+    La incidencia se ha creado correctamente
+  </div>
+  <div class ="message failed" *ngIf="status == 'failed'">
+    La incidencia no se ha podido crear
+  </div>
+
+  <form #solicitudForm="ngForm" (ngSubmit)="saveIncidencia(solicitudForm)">
+    <div class ="form-group">
+      <label >Nombre</label>
+      <input class ="form-control" type ="text" name="name" #name="ngModel" [(ngModel)]="aux.Nombre" required/>
+      <span class="form_error" *ngIf="name.touched && !name.valid">
+          El nombre de la incidencia es obligatorio
+      </span>
+    </div>
+    <div class ="form-group">
+    <label >Descripción</label>
+    <textarea class ="form-control" name="postBody" rows="5" cols="120" #postBody="ngModel" [(ngModel)]="aux.Description" required> </textarea>
+      <span class="form_error" *ngIf="postBody.touched && !postBody.valid">
+          La descripción de la incidencia es obligatoria
+      </span>
+    </div>
+
+    <input type="submit" value ="Enviar" [disabled]="!solicitudForm.form.valid"/>
+  </form>
+
+</div>
+
+

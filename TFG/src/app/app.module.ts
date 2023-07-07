@@ -8,7 +8,6 @@ import {HttpInterceptor} from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { ErrorComponent } from './components/error/error.component';
 import { CreateUserComponent } from './components/usuarios/create-user/create-user.component';
 import {UserService} from "./services/user.service";
 import {AuthGuard} from "./services/auth.guard";
@@ -20,7 +19,6 @@ import { CambiarContraseniaComponent } from './components/usuarios/cambiar-contr
 import { DeleteAdminComponent } from './components/usuarios/delete-admin/delete-admin.component';
 import { RobotComponent } from './components/robot/robot.component';
 import { CrearRobotComponent } from './components/robot/crear-robot/crear-robot.component';
-import { EliminarRobotComponent } from './components/robot/eliminar-robot/eliminar-robot.component';
 import { RobotProfileComponent } from './components/robot/robot-profile/robot-profile.component';
 import { UpdateRobotComponent } from './components/robot/update-robot/update-robot.component';
 import { ClaveComponent } from './components/clave/clave.component';
@@ -28,12 +26,13 @@ import { CreateKeyComponent } from './components/clave/create-key/create-key.com
 import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
 import { CreateSolicitudComponent } from './components/solicitudes/create-solicitud/create-solicitud.component';
 import { IncidenciasComponent } from './components/incidencias/incidencias.component';
+import { CreateIncidenciaComponent } from './components/incidencias/create-incidencia/create-incidencia.component';
+import { ProfileIncidenciaComponent } from './components/incidencias/profile-incidencia/profile-incidencia.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsuariosComponent,
-    ErrorComponent,
     CreateUserComponent,
     ProfileUserComponent,
     CambiarNombreComponent,
@@ -42,14 +41,15 @@ import { IncidenciasComponent } from './components/incidencias/incidencias.compo
     DeleteAdminComponent,
     RobotComponent,
     CrearRobotComponent,
-    EliminarRobotComponent,
     RobotProfileComponent,
     UpdateRobotComponent,
     ClaveComponent,
     CreateKeyComponent,
     SolicitudesComponent,
     CreateSolicitudComponent,
-    IncidenciasComponent
+    IncidenciasComponent,
+    CreateIncidenciaComponent,
+    ProfileIncidenciaComponent
   ],
   imports: [
     BrowserModule,

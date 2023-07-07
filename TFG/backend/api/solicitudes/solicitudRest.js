@@ -217,34 +217,37 @@ function darAcceso(req, res) {
   'use strict';
   let rid = req.body.Robotid,
     uid = req.body.Userid;
-
   var mycon = db.doConnection();
 
-  accesoPromise(rid, uid, mycon)
-    .then(function(result) {
-      let nombreRobot = result.name.substring(8);
-      let clave = result.Clave;
+  if(rid==null || uid==null){
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  }else{
+    accesoPromise(rid, uid, mycon)
+      .then(function (result) {
+        let nombreRobot = result.name.substring(8);
+        let clave = result.Clave;
 
-      console.log("Nombre del robot:", nombreRobot);
-      console.log("Clave:", clave);
+        console.log("Nombre del robot:", nombreRobot);
+        console.log("Clave:", clave);
 
-      provideAcceso(nombreRobot, clave)
-        .then(function(result) {
-          console.log("Acceso concedido");
-          res.status(httpCodes.codes.OK).json("Acceso concedido");
-        })
-        .catch(function(err) {
-          console.error(err);
-          res.status(httpCodes.codes.CONFLICT).json("Error al conceder acceso");
-        });
+        provideAcceso(nombreRobot, clave)
+          .then(function (result) {
+            console.log("Acceso concedido");
+            res.status(httpCodes.codes.OK).json("Acceso concedido");
+          })
+          .catch(function (err) {
+            console.error(err);
+            res.status(httpCodes.codes.CONFLICT).json("Error al conceder acceso");
+          });
 
-      db.closeConnection(mycon);
-    })
-    .catch(function(error) {
-      console.error(error);
-      db.closeConnection(mycon);
-      res.status(httpCodes.codes.SERVERERROR).json("Error al obtener acceso");
-    });
+        db.closeConnection(mycon);
+      })
+      .catch(function (error) {
+        console.error(error);
+        db.closeConnection(mycon);
+        res.status(httpCodes.codes.SERVERERROR).json("Error al obtener acceso");
+      });
+  }
 }
 
 function accesoPromise(rid,uid,conn){
@@ -288,9 +291,6 @@ function provideAcceso(Robotid, Clave) {
   });
 }
 
-
-
-
 function revokeAcceso(Robotid, Clave) {
   const { exec } = require('child_process');
 
@@ -318,32 +318,37 @@ function quitarAcceso(req, res) {
 
   var mycon = db.doConnection();
 
-  accesoPromise(rid, uid, mycon)
-    .then(function(result) {
-      let nombreRobot = result.name.substring(8);
-      let clave = result.Clave;
+  if(rid==null||uid==null) {
 
-      console.log("Nombre del robot:", nombreRobot);
-      console.log("Clave:", clave);
+    res.status(httpCodes.codes.BADREQUEST).json("Incomplete request");
+  }else {
+    accesoPromise(rid, uid, mycon)
+      .then(function (result) {
+        let nombreRobot = result.name.substring(8);
+        let clave = result.Clave;
 
-      revokeAcceso(nombreRobot, clave)
-        .then(function(result) {
-          console.log("Acceso revocado");
-          res.status(httpCodes.codes.OK).json("Acceso revocado");
+        console.log("Nombre del robot:", nombreRobot);
+        console.log("Clave:", clave);
 
-        })
-        .catch(function(err) {
-          console.error(err);
-          res.status(httpCodes.codes.CONFLICT).json("Error al revocar acceso");
-        });
+        revokeAcceso(nombreRobot, clave)
+          .then(function (result) {
+            console.log("Acceso revocado");
+            res.status(httpCodes.codes.OK).json("Acceso revocado");
 
-      db.closeConnection(mycon);
-    })
-    .catch(function(error) {
-      console.error(error);
-      db.closeConnection(mycon);
-      res.status(httpCodes.codes.SERVERERROR).json("Error al revocar acceso");
-    });
+          })
+          .catch(function (err) {
+            console.error(err);
+            res.status(httpCodes.codes.CONFLICT).json("Error al revocar acceso");
+          });
+
+        db.closeConnection(mycon);
+      })
+      .catch(function (error) {
+        console.error(error);
+        db.closeConnection(mycon);
+        res.status(httpCodes.codes.SERVERERROR).json("Error al revocar acceso");
+      });
+  }
 }
 
 

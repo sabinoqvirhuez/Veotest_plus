@@ -1,0 +1,25 @@
+.container{
+  font-family: Arial, sans-serif;
+}
+table {
+
+  width: 100%;
+  border-collapse: collapse;
+
+}
+th, td {
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+
+}
+
+td{
+  max-width: 150px;
+  word-wrap: break-word;
+
+}
+.hola{
+  max-width: 110px;
+
+}

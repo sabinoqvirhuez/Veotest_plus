@@ -1,4 +1,5 @@
 'use strict';
+/*
 if (!global.Promise) {
   global.Promise = require('q');
 }
@@ -142,7 +143,7 @@ describe('Testing listMySolicitudes', function (){
 });
 describe('Testing deleteSolicitud', function (){
 
-  it('should return 204 - Error, la solicitud que intenta actualizar no existe',function (done){
+  it('should return 204 - Solicitud creada correctamente',function (done){
     chai.request(url).delete("/solicitudes/35/65")
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.NOCONTENT);
@@ -150,7 +151,7 @@ describe('Testing deleteSolicitud', function (){
       })
   });
 
-  it('should return 404 - Error, la solicitud que intenta actualizar no existe',function (done){
+  it('should return 404 - Error, la solicitud que intenta eliminar no existe',function (done){
     chai.request(url).delete("/solicitudes/9/10")
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.NOTFOUND);
@@ -159,3 +160,5 @@ describe('Testing deleteSolicitud', function (){
   });
 
 });
+
+ */

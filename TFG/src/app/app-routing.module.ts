@@ -5,7 +5,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import {AppComponent} from "./app.component";
 import {AuthGuard} from "./services/auth.guard";
 
-import {ErrorComponent} from "./components/error/error.component";
+
 import {CreateUserComponent} from "./components/usuarios/create-user/create-user.component";
 import {ProfileUserComponent} from "./components/usuarios/profile-user/profile-user.component";
 import{CambiarApellidoComponent} from "./components/usuarios/cambiar-apellido/cambiar-apellido.component";
@@ -21,9 +21,11 @@ import {CreateKeyComponent} from "./components/clave/create-key/create-key.compo
 import {SolicitudesComponent} from "./components/solicitudes/solicitudes.component";
 import {CreateSolicitudComponent} from "./components/solicitudes/create-solicitud/create-solicitud.component";
 import {IncidenciasComponent} from "./components/incidencias/incidencias.component";
+import {CreateIncidenciaComponent} from "./components/incidencias/create-incidencia/create-incidencia.component";
+import {ProfileIncidenciaComponent} from "./components/incidencias/profile-incidencia/profile-incidencia.component";
 
 const routes: Routes = [
-  {path:'',redirectTo:'app',pathMatch:'full'},
+  {path:'',redirectTo:'usuarios',pathMatch:'full'},
   {path:'usuarios', component:UsuariosComponent,canActivate:[AuthGuard]},
   {path:'deleteAdmin',component:DeleteAdminComponent,canActivate:[AuthGuard]},
   {path:'profile-user',component:ProfileUserComponent,canActivate:[AuthGuard]},
@@ -40,13 +42,15 @@ const routes: Routes = [
   {path:'solicitudes',component:SolicitudesComponent,canActivate:[AuthGuard]},
   {path:'create-solicitud',component:CreateSolicitudComponent,canActivate:[AuthGuard]},
   {path:'incidencias',component:IncidenciasComponent,canActivate:[AuthGuard]},
-
-  {path:'**',component:ErrorComponent}
+  {path:'create-incidencia',component:CreateIncidenciaComponent,canActivate:[AuthGuard]},
+  {path:'profile-incidencia/:aux/:IdUser',component:ProfileIncidenciaComponent,canActivate:[AuthGuard]}
 
 ];
 /*
 Para proteger un path con el authguard tengo que hacer
 {
+{path:'**',component:ErrorComponent}
+
 path:'X',
 component:XComponent,
 canActivate:[AuthGuard]}
