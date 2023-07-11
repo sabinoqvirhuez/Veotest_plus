@@ -25,7 +25,7 @@ app.listen(PORT,function(){
 
 //Peticiones de Usuario
 app.get('/usuario',tokenV.verifyToken,usuario.listUsers);
-app.post('/usuario',tokenV.verifyToken,usuario.createNewUser);
+app.post('/usuario',usuario.createNewUser);
 app.delete('/eliminarUsuario/:email',usuario.deleteUser);
 app.put('/usuarioNameUpdate',tokenV.verifyToken,usuario.updateNameUser);
 app.put('/usuarioSurnameUpdate',tokenV.verifyToken,usuario.updateSurnameUser);
@@ -61,8 +61,8 @@ app.delete('/solicitudes/:Robotid/:Userid',solicitud.deleteSolicitud);
 app.put('/solicitudes',solicitud.updateEstadoSolicitud);
 app.get('/solicitudes/:Userid',solicitud.listMySolicitudes);
 app.get('/solicitudes',solicitud.listSolicitudes);
-app.post('/acceso',tokenV.verifyToken,solicitud.darAcceso);
-app.post('/noacceso',tokenV.verifyToken,solicitud.quitarAcceso);
+app.post('/acceso',solicitud.darAcceso);
+app.post('/noacceso',solicitud.quitarAcceso);
 
 //Peticiones de Incidencias
 

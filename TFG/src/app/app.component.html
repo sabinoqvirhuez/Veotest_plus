@@ -12,14 +12,14 @@
 <body class="text-center gradient-background">
 
 <ng-container *ngIf="!loggedIn(); else elseBlock">
-<div class="container" >
-  <nav class="navbar navbar-dark ">
-    <a class="navbar-brand">
-      <strong> VeoTest plus</strong>
-    </a>
-  </nav>
-</div>
-<div class="container">
+  <div class="container" id="aux3" >
+    <nav class="navbar navbar-dark ">
+      <a class="navbar-brand">
+        <strong id="aux2"> VeoTest plus</strong>
+      </a>
+    </nav>
+  </div>
+<div class="container" id="aux">
 
   <div class ="message failed" *ngIf="status == 'failed'">
     Error, datos introducidos erróneos
@@ -81,7 +81,7 @@
         </button>
         <button type="button" class="btn btn-secondary">
 
-          <a class="nav-link" aria-current="page" (click)="deleteToken();">Cerrar sesión</a>
+          <a class="nav-link" aria-current="page" routerLink="/app" (click)="deleteToken();">Cerrar sesión</a>
         </button>
       </div>
     </header>

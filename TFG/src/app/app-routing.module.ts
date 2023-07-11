@@ -4,8 +4,6 @@ import {ModuleWithProviders} from "@angular/core";
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import {AppComponent} from "./app.component";
 import {AuthGuard} from "./services/auth.guard";
-
-
 import {CreateUserComponent} from "./components/usuarios/create-user/create-user.component";
 import {ProfileUserComponent} from "./components/usuarios/profile-user/profile-user.component";
 import{CambiarApellidoComponent} from "./components/usuarios/cambiar-apellido/cambiar-apellido.component";
@@ -23,6 +21,7 @@ import {CreateSolicitudComponent} from "./components/solicitudes/create-solicitu
 import {IncidenciasComponent} from "./components/incidencias/incidencias.component";
 import {CreateIncidenciaComponent} from "./components/incidencias/create-incidencia/create-incidencia.component";
 import {ProfileIncidenciaComponent} from "./components/incidencias/profile-incidencia/profile-incidencia.component";
+import {ErrorComponent} from "./components/error/error.component";
 
 const routes: Routes = [
   {path:'',redirectTo:'usuarios',pathMatch:'full'},
@@ -43,14 +42,14 @@ const routes: Routes = [
   {path:'create-solicitud',component:CreateSolicitudComponent,canActivate:[AuthGuard]},
   {path:'incidencias',component:IncidenciasComponent,canActivate:[AuthGuard]},
   {path:'create-incidencia',component:CreateIncidenciaComponent,canActivate:[AuthGuard]},
-  {path:'profile-incidencia/:aux/:IdUser',component:ProfileIncidenciaComponent,canActivate:[AuthGuard]}
+  {path:'profile-incidencia/:aux/:IdUser',component:ProfileIncidenciaComponent,canActivate:[AuthGuard]},
+  {path:'inicioSesion',component:ErrorComponent},
+  {path:'**',redirectTo:'inicioSesion'}
 
 ];
 /*
 Para proteger un path con el authguard tengo que hacer
 {
-{path:'**',component:ErrorComponent}
-
 path:'X',
 component:XComponent,
 canActivate:[AuthGuard]}

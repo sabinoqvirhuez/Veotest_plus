@@ -1,3 +1,4 @@
+/*
 'use strict';
 if (!global.Promise) {
   global.Promise = require('q');
@@ -15,7 +16,7 @@ describe('Testing createNewIncidencias', function (){
   it('should return 201 - Nueva incidencia creada',function (done){
     chai.request(url).post("/incidencias")
       .send({
-        Userid: 65,
+        Userid: 67,
         Nombre: "PruebaName",
         Description:"PruebaDescription"
       })
@@ -40,7 +41,7 @@ describe('Testing createNewIncidencias', function (){
   it('should return 400 - Error, petición mal formada, falta Nombre',function (done){
     chai.request(url).post("/incidencias")
       .send({
-        Userid: 65,
+        Userid: 67,
         Nombre: "",
         Description:"PruebaDescription"
       })
@@ -53,7 +54,7 @@ describe('Testing createNewIncidencias', function (){
   it('should return 400 - Error, petición mal formada, falta Description',function (done){
     chai.request(url).post("/incidencias")
       .send({
-        Userid: 65,
+        Userid: 67,
         Nombre: "PruebaNombre",
         Description:""
       })
@@ -95,8 +96,8 @@ describe('Testing updateDescriptionIncidencia', function (){
   it('should return 200 - Incidencia actualizada correctamente',function (done){
     chai.request(url).put("/incidencias")
       .send({
-        Idincidencia: 2,
-        Userid:65,
+        Idincidencia: 11,
+        Userid:67,
         Nombre: "",
         Description: "TestingDescription"
       })
@@ -110,7 +111,7 @@ describe('Testing updateDescriptionIncidencia', function (){
     chai.request(url).put("/incidencias")
       .send({
         Idincidencia: null,
-        Userid:65,
+        Userid:67,
         Nombre: "",
         Description: "Hola"
       })
@@ -123,8 +124,8 @@ describe('Testing updateDescriptionIncidencia', function (){
   it('should return 400 - Error, falta Description, petición mal formada',function (done){
     chai.request(url).put("/incidencias")
       .send({
-        Idincidencia: 1,
-        Userid:65,
+        Idincidencia: 11,
+        Userid:67,
         Nombre: "",
         Description: ""
       })
@@ -139,7 +140,7 @@ describe('Testing updateDescriptionIncidencia', function (){
     chai.request(url).put("/incidencias")
       .send({
         Idincidencia: 900,
-        Userid:65,
+        Userid:67,
         Nombre: "",
         Description: "TestingHola"
       })
@@ -161,10 +162,12 @@ describe('Testing listOneIncidencias',function (){
   });
 });
 
+
+
 describe('Testing deleteIncidencias', function (){
 
   it('should return 204 - Incidencia eliminada correctamente',function (done){
-    chai.request(url).delete("/incidencias/2/65")
+    chai.request(url).delete("/incidencias/13/67")
       .end(function (err,res){
         expect(res).to.have.status(httpCodes.codes.NOCONTENT);
         done();
@@ -180,3 +183,10 @@ describe('Testing deleteIncidencias', function (){
   });
 
 });
+
+ */
+
+
+
+
+

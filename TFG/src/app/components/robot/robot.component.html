@@ -1,8 +1,8 @@
 
 <div class="container">
   <h2>Robots registrados</h2>
-
-  <table>
+  <p *ngIf="robots.length==0"> En este momento no hay robots registrados</p>
+  <table *ngIf="robots.length>0">
     <thead>
     <tr>
       <th>Nombre</th>
@@ -15,7 +15,8 @@
     <tbody>
     <tr *ngFor="let user of robots">
       <td>{{ user.name }}</td>
-      <td>{{ user.description }}</td>
+      <td *ngIf="user.description.length >=25">{{ user.description.substring(0,25) + "..." }}</td>
+      <td *ngIf="user.description.length < 25">{{ user.description }}</td>
       <td>{{ user.dispositivo }}</td>
       <td>{{ user.direccion }}</td>
       <td>{{user.disponible}}</td>

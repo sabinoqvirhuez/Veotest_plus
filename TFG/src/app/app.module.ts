@@ -28,6 +28,7 @@ import { CreateSolicitudComponent } from './components/solicitudes/create-solici
 import { IncidenciasComponent } from './components/incidencias/incidencias.component';
 import { CreateIncidenciaComponent } from './components/incidencias/create-incidencia/create-incidencia.component';
 import { ProfileIncidenciaComponent } from './components/incidencias/profile-incidencia/profile-incidencia.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ProfileIncidenciaComponent } from './components/incidencias/profile-inc
     CreateSolicitudComponent,
     IncidenciasComponent,
     CreateIncidenciaComponent,
-    ProfileIncidenciaComponent
+    ProfileIncidenciaComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

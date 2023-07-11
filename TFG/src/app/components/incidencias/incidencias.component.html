@@ -1,14 +1,10 @@
 <div class="container-md">
   <h2>Incidencias</h2>
-  <ng-container *ngIf="incidencias.length === 0 && !admin() ">
-    <p>No hay incidencias en este momento</p>
-    <button>
-      <a class="nav-link" aria-current="page" routerLink="/create-incidencia">Crear incidencia</a>
-    </button>
-  </ng-container>
+
   <ng-container *ngIf="admin(); then adminSolicitudesBlock; else mySolicitudesBlock"></ng-container>
   <ng-template #adminSolicitudesBlock>
-    <table>
+    <p *ngIf="incidencias.length==0"> En este momento no hay incidencias</p>
+    <table *ngIf="incidencias.length>0">
       <thead>
       <tr>
         <th>Creada por</th>
@@ -39,21 +35,24 @@
   </ng-template>
 
   <ng-template #mySolicitudesBlock>
-    <table>
+    <p *ngIf="myIncidencias.length==0">En este momento no tienes ninguna incidencia creada</p>
+    <table *ngIf="myIncidencias.length>0">
       <thead>
       <tr>
 
         <th>Título</th>
-        <th>Descripción</th>
         <th>Fecha</th>
+        <th>Descripción</th>
+
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let aux of myIncidencias">
 
         <td>{{ aux.Nombre}}</td>
-        <td>{{ aux.Description }}</td>
         <td>{{ aux.Fecha | date: 'dd MMMM yyyy, HH:mm' }}</td>
+        <td>{{ aux.Description.substring(0,25) + "..."}}</td>
+        <button type="button" class="btn btn-link">  <a (click)="enviarDatos(aux.Idincidencia,aux.Userid);">Leer más</a></button>
         <td class="hola" >
           <button (click)="borrarIncidencia(aux.Idincidencia, aux.Userid)">Eliminar Solicitud</button>
         </td>

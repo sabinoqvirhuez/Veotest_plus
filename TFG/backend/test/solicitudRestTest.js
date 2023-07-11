@@ -1,5 +1,5 @@
 'use strict';
-/*
+
 if (!global.Promise) {
   global.Promise = require('q');
 }
@@ -11,6 +11,7 @@ var httpCodes=require('../api/http/httpCodes');
 
 chai.use(chaiHttp);
 const url = "http://localhost:3000";
+/*
 
 describe('Testing createNewSolicitud', function (){
   it('should return 201 - Nueva solicitud creada',function (done){
@@ -161,4 +162,60 @@ describe('Testing deleteSolicitud', function (){
 
 });
 
+
  */
+describe('Testing darAcceso', function (){
+
+  it('should return 200 - Permite el acceso del usuario al robot',function (done){
+    chai.request(url).post("/acceso")
+      .send({
+        Robotid: 33,
+        Userid: 67
+      })
+      .end(function (err,res){
+        expect(res).to.have.status(httpCodes.codes.OK);
+        done();
+      })
+  });
+
+  it('should return 400 - Error, Faltan datos',function (done){
+    chai.request(url).post("/acceso")
+      .send({
+        Robotid: 65,
+        Userid: null
+      })
+      .end(function (err,res){
+        expect(res).to.have.status(httpCodes.codes.BADREQUEST);
+        done();
+      })
+  });
+
+});
+
+describe('Testing quitarAcceso', function (){
+
+  it('should return 200 - Revoca el acceso del usuario al robot',function (done){
+    chai.request(url).post("/noacceso")
+      .send({
+        Robotid: 33,
+        Userid: 67
+      })
+      .end(function (err,res){
+        expect(res).to.have.status(httpCodes.codes.OK);
+        done();
+      })
+  });
+
+  it('should return 400 - Error, Faltan datos',function (done){
+    chai.request(url).post("/noacceso")
+      .send({
+        Robotid: 33,
+        Userid: null
+      })
+      .end(function (err,res){
+        expect(res).to.have.status(httpCodes.codes.BADREQUEST);
+        done();
+      })
+  });
+
+});

@@ -18,6 +18,11 @@ export class ClaveComponent implements OnInit{
 
 
   ngOnInit() {
+    this.initComp()
+
+  }
+
+  initComp(){
     const aux = sessionStorage.getItem('Userid');
     let aux2: number;
     if (aux !== null) {
@@ -34,6 +39,7 @@ export class ClaveComponent implements OnInit{
     } else {
       console.log('Fallo al obtener el id del usuario');
     }
+
   }
 
   deleteKey(id:number){

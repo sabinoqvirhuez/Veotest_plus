@@ -194,7 +194,7 @@ function listMySolicitudes(req,res){
   'use strict';
   var Userid = req.params.Userid;
   var mycon = db.doConnection();
-  var sql = "Select name, Fecha, Estado FROM solicitudes Join robots on solicitudes.Robotid= robots.Robotid WHERE Userid ='"+Userid+"'";
+  var sql = "Select solicitudes.Userid, robots.name as name, usuarios.name as uname, usuarios.surname as usurname, solicitudes.Robotid,Fecha, Estado FROM solicitudes Join robots on solicitudes.Robotid= robots.Robotid join usuarios on solicitudes.Userid= usuarios.Userid WHERE usuarios.Userid ='"+Userid+"'";
 
   mycon.query(sql,function(err,result){
     if(err){
@@ -237,7 +237,7 @@ function darAcceso(req, res) {
           })
           .catch(function (err) {
             console.error(err);
-            res.status(httpCodes.codes.CONFLICT).json("Error al conceder acceso");
+            res.status(httpCodes.codes.CONFLICT).json("Error al conceder acceso, error al ejecutar los comandos del cmd");
           });
 
         db.closeConnection(mycon);
@@ -245,7 +245,7 @@ function darAcceso(req, res) {
       .catch(function (error) {
         console.error(error);
         db.closeConnection(mycon);
-        res.status(httpCodes.codes.SERVERERROR).json("Error al obtener acceso");
+        res.status(httpCodes.codes.CONFLICT).json("Error al obtener acceso, el usuario no tiene una clave asociada");
       });
   }
 }
@@ -346,7 +346,7 @@ function quitarAcceso(req, res) {
       .catch(function (error) {
         console.error(error);
         db.closeConnection(mycon);
-        res.status(httpCodes.codes.SERVERERROR).json("Error al revocar acceso");
+        res.status(httpCodes.codes.CONFLICT).json("Error al revocar acceso");
       });
   }
 }

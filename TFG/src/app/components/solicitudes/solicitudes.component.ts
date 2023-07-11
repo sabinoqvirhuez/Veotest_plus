@@ -29,11 +29,12 @@ export class SolicitudesComponent implements OnInit{
   borrarSolicitud(Userid:number,Robotid:number){
     this.service.removeSolicitud(Robotid,Userid).subscribe((response: HttpResponse<any>)=>{
         console.log("La solicitud con Robotid: "+Robotid+" y Userid: "+Userid + "ha sido borrada");
+        this.initVariables();
       },
       (error:any)=>{
         console.log("Error borrando a solicitud con Robotid: "+Robotid+" y Userid: "+Userid);
       });
-    this.initVariables();
+
   }
 
   actualizarEstadoDeSolicitud(Userid:number,Robotid:number,Estado:number,name:string){
@@ -44,11 +45,14 @@ export class SolicitudesComponent implements OnInit{
     {
       console.log("Se cambió el estado de la solicitud correctamente");
       this.initVariables();
+
       if (Estado==3 || Estado ==2){
-        this.actualizarDisponibilidadRobot(false, name);
+        this.actualizarDisponibilidadRobot(true, name);
       }else{
-        this.actualizarDisponibilidadRobot(true,name);
+        this.actualizarDisponibilidadRobot(false,name);
       }
+
+
 
     },error => {
       console.log("Error cambiando el estado de la solicitud");
@@ -107,6 +111,8 @@ export class SolicitudesComponent implements OnInit{
 
 
         this.actualizarEstadoDeSolicitud(aux.Userid, aux.Robotid, 1,aux.name);
+
+
 
       },
       error => {
